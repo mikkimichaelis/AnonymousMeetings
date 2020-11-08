@@ -1,0 +1,49 @@
+import { Injectable } from '@angular/core';
+import { Plugins, GeolocationPosition, GeolocationOptions } from '@capacitor/core';
+const { Geolocation } = Plugins;
+import { AngularFireDatabase } from '@angular/fire/database';
+import * as firebase from 'firebase/app';
+import * as geofirex from 'geofirex';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MeetingsService {
+  public meetings: Observable<any>;
+
+  //geo = geofirex.init(firebase);
+  distance = 20;
+  early = 60;          
+  late = 10;            
+  field = 'point';
+
+  constructor(private db: AngularFireDatabase,) {}
+
+  async updateMeetings(all?: boolean) {
+    var position: GeolocationPosition = await Geolocation.getCurrentPosition();
+    //const center = this.geo.point(position.coords.latitude, position.coords.longitude); 
+    //const center = this.geo.point(39.8249268571429, -84.8946604285714);
+
+    // this.meetings = this.geo.query('meetings').within(center, this.distance, this.field)
+    //   .pipe(
+    //     map(meetings => {
+    //       const date = new Date();
+    //       const time = date.toTimeString();
+    //       const now = Date.parse('01/' + (date.getDay() + 1) + '/1970 ' + time.substring(0, time.indexOf(' ')) + ' UTC');
+    //       const window = this.early * 60 * 1000; // minutes * 60s * 1000ms
+
+    //       const rv = [];
+    //       meetings.forEach(m => {
+    //         // if ((<any>m).schedule.day === 'Monday') { debugger; }
+    //         if (all || 
+    //           now <= (<any>m).schedule.offset + (this.late * 60 * 1000)
+    //           && (now >= (<any>m).schedule.offset - window)) {
+    //           rv.push(m);
+    //         }
+    //       });
+    //       return rv;
+    //     }))
+  }
+}

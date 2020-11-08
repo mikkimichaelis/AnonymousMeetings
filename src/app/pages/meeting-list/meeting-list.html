@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Meetings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Meetings</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12" size-md="6" *ngFor="let meeting of meetingsService.meetings | async">
+        <ion-card class="meeting-card">
+          <ion-card-header>
+            <ion-item>
+              <ion-label style="background-color: lightgreen;">
+                <h2>{{meeting.name}}</h2>
+                <p>{{meeting.schedule.day}} {{meeting.schedule.time}}</p>
+              </ion-label>
+              <ion-avatar slot="end">
+                <img (click)="attend(meeting.id)" src="../../../assets/img/meetings/attend.png">
+              </ion-avatar>
+            </ion-item>
+          </ion-card-header>
+
+          <ion-card-content>
+            <!-- <ion-item detail="false" lines="none" class="meeting-item" routerLink="/app/tabs/meetings/meeting-details/{{meeting.id}}"></ion-item> -->
+            <ion-item detail="false" routerLink="/app/tabs/meetings/meeting-details/{{meeting.id}}">
+              <ion-label>
+                {{ meeting.name }}<br/>
+                {{ meeting.schedule.time }}<br/>
+                {{ meeting.location.name }}<br/>
+                {{ meeting.location.address }} {{ meeting.location.city }}, {{ meeting.location.state }}
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
