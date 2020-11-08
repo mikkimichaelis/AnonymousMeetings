@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MeetingsService } from '../providers/meetings.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  constructor() {}
+  constructor( private meetingService: MeetingsService) {}
+
+  ngOnInit(): void {
+    this.meetingService.updateMeetings(true);
+  }
 
 }

@@ -21,9 +21,11 @@ import { google } from '@google/maps';
 import { AgmCoreModule } from '@agm/core';
 
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
+
+import { MeetingsService } from './providers/meetings.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,7 +49,9 @@ import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/da
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AngularFireDatabase
+    AngularFireDatabase,
+    AngularFirestore,
+    MeetingsService
   ],
   bootstrap: [AppComponent]
 })
