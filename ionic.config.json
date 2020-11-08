@@ -1,0 +1,7 @@
+{
+  "name": "AnonymousMeetings",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

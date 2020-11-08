@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">AnonymousMeetings</string>
+    <string name="title_activity_main">AnonymousMeetings</string>
+    <string name="package_name">us.anonymousmeetings.app</string>
+    <string name="custom_url_scheme">us.anonymousmeetings.app</string>
+</resources>
