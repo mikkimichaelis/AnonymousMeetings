@@ -4,13 +4,13 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "deploy": "ng run app:build"
+    "ng": "npx ng",
+    "start": "npx ng serve",
+    "build": "npx ng build",
+    "test": "npx ng test",
+    "lint": "npx ng lint",
+    "e2e": "npx ng e2e",
+    "deploy": "npx ng run app:build"
   },
   "private": true,
   "dependencies": {
@@ -45,18 +45,17 @@
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
+    "@angular-devkit/architect": "^0.803.23",
     "@angular-devkit/build-angular": "~0.1000.0",
-    "@angular/cli": "~10.0.5",
+    "@angular-devkit/core": "^8.3.23",
+    "@angular-devkit/schematics": "^8.3.23",
+    "@angular/cli": "^10.0.8",
     "@angular/compiler": "~10.0.0",
     "@angular/compiler-cli": "~10.0.0",
     "@angular/language-service": "~10.0.0",
-    "@angular-devkit/architect": "^0.803.23",
-    "@angular-devkit/core": "^8.3.23",
-    "@angular-devkit/schematics": "^8.3.23",
-    "@ionic/lab": "^2.0.19",
-    "puppeteer": "^1.20.0",
     "@capacitor/cli": "2.4.2",
     "@ionic/angular-toolkit": "^2.3.0",
+    "@ionic/lab": "^2.0.19",
     "@types/googlemaps": "3.39.12",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
@@ -70,6 +69,7 @@
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "puppeteer": "^1.20.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
