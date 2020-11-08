@@ -14,6 +14,8 @@ jobs:
         node-version: [12.x]
     steps:
       - uses: actions/checkout@v2
+      - name: Install @angular/cli
+        run: npm i -D -E @angular/cli
       - name: Cache node modules
         uses: actions/cache@v1
         with:
