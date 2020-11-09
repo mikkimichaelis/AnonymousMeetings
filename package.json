@@ -35,6 +35,7 @@
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.3.1",
     "firebase": "^7.21.1",
+    "firebaseui": "^4.7.1",
     "firestore": "^1.1.6",
     "geofirex": "^0.1.0",
     "leaflet": "^1.6.0",
