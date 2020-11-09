@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { AccountPage } from './account';
-import { AccountPageRoutingModule } from './account-routing.module';
+
+import { SignupPageModule } from './signup/signup.module';
+
+import { AccountRoutingModule } from './account-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     IonicModule,
-    AccountPageRoutingModule
+    AccountRoutingModule
   ],
   declarations: [
-    AccountPage,
   ]
 })
 export class AccountModule { }
