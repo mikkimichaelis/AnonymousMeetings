@@ -1,3 +1,7 @@
+import { SharedModule } from './shared.module';
+
+import { TranslateService } from '@ngx-translate/core';
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
@@ -51,8 +55,12 @@ export class AppComponent {
     private storage: Storage,
     private userData: UserData,
     private swUpdate: SwUpdate,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private translate: TranslateService
   ) {
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
+    
     this.initializeApp();
   }
 

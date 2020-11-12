@@ -1,12 +1,16 @@
+import { SharedModule } from './shared.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
+
+import { TranslateModule, TranslateLoader, TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -26,18 +30,25 @@ import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/da
 
 import { MeetingsService } from './providers/meetings.service';
 
+import { TranslateUniversalLoader } from '../shared/classes/translateuniversalloader';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    BrowserModule, 
+    SharedModule,
+    BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     FormsModule,
-    IonicModule.forRoot(), 
+    IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: TranslateUniversalLoader
+      }
+    }),
     AgmCoreModule.forRoot({ apiKey: environment.googleCloudConfig.agmKey }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence(),
@@ -51,8 +62,9 @@ import { MeetingsService } from './providers/meetings.service';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AngularFireDatabase,
     AngularFirestore,
+    TranslateService,
     MeetingsService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

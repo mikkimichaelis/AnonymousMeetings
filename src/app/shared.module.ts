@@ -1,34 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+// import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
-    }),
+    // TranslateModule.forChild()
   ],
   exports: [
     CommonModule,
     FormsModule,
-    TranslateModule,
     IonicModule
+  ],
+  providers: [
   ]
 })
 export class SharedModule { }
