@@ -1,17 +1,22 @@
 import { SharedModule } from './shared.module';
 
-import { TranslateService } from '@ngx-translate/core';
-
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, NgZone, AfterViewInit, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 
 import { MenuController, Platform, ToastController } from '@ionic/angular';
-
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
 import { Storage } from '@ionic/storage';
+
+import { TranslateService } from '@ngx-translate/core';
+
+import firebase from 'firebase/app';
+import 'firebase/auth';
+
+import { environment } from '../environments/environment';
+import { Plugins } from '@capacitor/core';
+const { App } = Plugins;
 
 import { UserData } from './providers/user-data';
 
@@ -22,7 +27,7 @@ declare var navigator: any;
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   appPages = [
     {
       title: 'Attendance',
@@ -49,9 +54,10 @@ export class AppComponent {
   dark = false;
 
   constructor(
+    private router: Router,
+    private zone: NgZone,
     private menu: MenuController,
     private platform: Platform,
-    private router: Router,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
@@ -96,6 +102,12 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
+      firebase.initializeApp(environment.firebaseConfig);
+      firebase.auth().onAuthStateChanged((user) => {
+        console.log("ngAfterViewInit");
+        console.log(user);
+      });
+
       // 'hybrid' detects both Cordova and Capacitor
       if (this.platform.is('hybrid')) {
         // make your native API calls
@@ -103,6 +115,9 @@ export class AppComponent {
         // fallback to browser APIs
       }
     });
+  }
+
+  ngAfterViewInit(): void {
   }
 
   checkLoginStatus() {

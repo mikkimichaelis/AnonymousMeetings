@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FirebaseUIService } from '../../../providers/firebase-ui.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  constructor(private uiService: FirebaseUIService) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewDidEnter() {
+    // The start method will wait until the DOM is loaded.
+    this.uiService.ui.start('#firebaseui-auth-container', FirebaseUIService.getUiConfig());
   }
-
 }
