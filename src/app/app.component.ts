@@ -15,6 +15,8 @@ import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
 
+declare var navigator: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -58,9 +60,9 @@ export class AppComponent {
     private toastCtrl: ToastController,
     private translate: TranslateService
   ) {
-    this.translate.setDefaultLang('en');
-    this.translate.use('en');
-    
+    this.translate.setDefaultLang('en-US');
+    this.translate.use(navigator.language);
+
     this.initializeApp();
   }
 

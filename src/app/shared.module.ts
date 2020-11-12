@@ -9,7 +9,7 @@ import { IonicModule } from '@ionic/angular';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
+    CommonModule
     // TranslateModule.forChild()
   ],
   exports: [
