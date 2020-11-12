@@ -29,6 +29,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 import { FirebaseUIService } from './providers/firebase-ui.service';
 
+import { ErrorService } from './providers/error.service';
+import { LogService } from './providers/log.service';
+
 import { MeetingsService } from './providers/meetings.service';
 
 import { TranslateUniversalLoader } from '../shared/classes/translateuniversalloader';
@@ -65,6 +68,8 @@ import { TranslateUniversalLoader } from '../shared/classes/translateuniversallo
     AngularFirestore,
     FirebaseUIService,
     TranslateService,
+    ErrorService,
+    LogService,
     MeetingsService
   ],
   bootstrap: [AppComponent]

@@ -5,12 +5,26 @@
 </ion-header>
 
 <ion-content>
-  <p class="signup">
-  Create an account.<br/>
-  <ion-button href="account/signup">Signup</ion-button><br/>
-  </p>
-  <p class="login">
-  Already a user?<br/>
-  <ion-button href="account/login">Login</ion-button><br/>
-  </p>
+  <div class="login">
+    <p>Already a user?  Great!</p>
+    <ion-button href="account/login">Login</ion-button>
+  </div>
+
+  <div class="signup">
+    <p>Create an account using your First L. (no other personal data is ever stored or transmitted!)</p>
+  <ion-button href="account/login?signup=true">Signup</ion-button>
+  </div>
+
+  <div class="login">
+    <p>Full app functionality using a randomly generated anonymous name</p>
+    <ion-button href="account/anonymous">Anonymous</ion-button>
+  </div>
+
+  <div class="login">
+    <p>
+      Prefer to remain completely anonymous?  Some app functionality will be limited.  You may switch account types after you feel more comfortable.
+    </p>
+    <ion-button href="account/anonymous?complete=true">Complete Anonymity</ion-button>
+  </div>
+  
 </ion-content>

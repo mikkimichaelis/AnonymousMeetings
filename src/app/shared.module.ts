@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -9,13 +10,16 @@ import { IonicModule } from '@ionic/angular';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
-    // TranslateModule.forChild()
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    IonicModule,
   ],
   exports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    RouterModule,
+    IonicModule,
   ],
   providers: [
   ]
