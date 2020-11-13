@@ -4,15 +4,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="showLanding">
   <div class="login">
     <p>Already a user?  Great!</p>
-    <ion-button href="login">Sign in</ion-button>
+    <ion-button (click)="doSignIn()">Sign in</ion-button>
   </div>
 
   <div class="signup">
     <p>Create an account using your FirstName LastInitial.</p>
-  <ion-button href="login?signup=true">Sign up</ion-button>
+  <ion-button (click)="doSignUp()">Sign up</ion-button>
   </div>
 
   <div class="login">

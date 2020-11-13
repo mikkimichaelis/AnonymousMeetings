@@ -18,7 +18,6 @@ export class AuthService implements AuthServiceInterface {
 
   authStateUser: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>()
   anonymous = true;
-  valid = false;
 
   private authStateSubscription: Subscription;
   constructor(private logService: LogService, private firebaseAuth: AngularFireAuth) {
@@ -26,7 +25,6 @@ export class AuthService implements AuthServiceInterface {
 
     this.authStateSubscription = firebaseAuth.authState.subscribe((user: firebase.User) => {
       this.anonymous = user !== null ? user.isAnonymous : true;
-      this.valid = user !== null ? true: false;
       this.authStateUser.next(user);
 
       /// TRACE
@@ -42,56 +40,20 @@ export class AuthService implements AuthServiceInterface {
 
     let auth = firebase.auth();
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(function () {
-      })
       .catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        this.logService.error(error);
       });
-
 
     // Initialize the FirebaseUI Widget using Firebase.
     this.firebaseUi = new firebaseui.auth.AuthUI(auth);
   }
 
-  completeAnonymity() {
-    // create random anonymous user and persist
-  }
-
-
-  createAnonymous() {
+  public createAnonymous(complete?: boolean) {
     let error: any;
     let user: firebase.auth.UserCredential;
-    this.firebaseAuth.signInAnonymously().then((u: firebase.auth.UserCredential) => {
-      user = u;
-      // If the signInAnonymously method completes without error, the observer registered in the onAuthStateChanged will trigger
-    }).catch((e: any) => {
-      error = e;
-    }).then(_ => {
-      // log result of createAnonymous()
-    });
-  }
-
-  signup(email: string, password: string) {
-    this.firebaseAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then(value => {
-        console.log('Success!', value);
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
-  }
-
-  login(email: string, password: string) {
-    this.firebaseAuth
-      .signInWithEmailAndPassword(email, password)
-      .then(value => {
-        console.log('Nice, it worked!');
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
+    this.firebaseAuth.signInAnonymously()
+      .catch(error => {
+        this.logService.error(error);
       });
   }
 
