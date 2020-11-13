@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Anonymous Meetings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login">
+    <p>Already a user?  Great!</p>
+    <ion-button href="login">Sign in</ion-button>
+  </div>
+
+  <div class="signup">
+    <p>Create an account using your FirstName LastInitial.</p>
+  <ion-button href="login?signup=true">Sign up</ion-button>
+  </div>
+
+  <div class="login">
+    <p>Create an Anonymous account using random name.</p>
+    <ion-button (click)="doAnonymous()">Anonymous</ion-button>
+  </div>
+
+  <div class="login">
+    <p>
+      Complete anonymity with limited features.
+    </p>
+    <ion-button (click)="doAnonymous(true)">Complete Anonymity</ion-button>
+  </div>
+  
+</ion-content>

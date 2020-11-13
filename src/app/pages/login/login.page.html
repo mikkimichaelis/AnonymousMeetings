@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title *ngIf="signup">Signup</ion-title>
+    <ion-title *ngIf="!signup">Login</ion-title>
   </ion-toolbar>
 </ion-header>
 

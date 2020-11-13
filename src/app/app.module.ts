@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 
-import { TranslateModule, TranslateLoader, TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -33,6 +33,11 @@ import { LogService } from './providers/log.service';
 import { MeetingsService } from './providers/meetings.service';
 
 import { TranslateUniversalLoader } from './classes/translateuniversalloader';
+import { AuthServiceInterface } from './providers/auth.service.interface';
+import { AuthService } from './providers/auth.service';
+import { DalService } from './providers/dal.service';
+import { UserService } from './providers/user.service';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -65,8 +70,12 @@ import { TranslateUniversalLoader } from './classes/translateuniversalloader';
     AngularFireDatabase,
     AngularFirestore,
     TranslateService,
+
+    AuthService,
+    DalService,
     LogService,
-    MeetingsService
+    MeetingsService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

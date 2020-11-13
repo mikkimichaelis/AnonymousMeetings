@@ -4,6 +4,7 @@ import * as firebase from 'firebase/app';
 //import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import { Subscription, ReplaySubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AuthServiceInterface } from './auth.service.interface';
 
 import { LogService } from './log.service';
@@ -17,11 +18,15 @@ export class AuthService implements AuthServiceInterface {
 
   authStateUser: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>()
   anonymous = true;
+  valid = false;
 
   private authStateSubscription: Subscription;
-  constructor(private firebaseAuth: AngularFireAuth, private logService: LogService) {
+  constructor(private logService: LogService, private firebaseAuth: AngularFireAuth) {
+    firebase.initializeApp(environment.firebaseConfig);
+
     this.authStateSubscription = firebaseAuth.authState.subscribe((user: firebase.User) => {
       this.anonymous = user !== null ? user.isAnonymous : true;
+      this.valid = user !== null ? true: false;
       this.authStateUser.next(user);
 
       /// TRACE
@@ -94,6 +99,7 @@ export class AuthService implements AuthServiceInterface {
     this.firebaseAuth.signOut();
   }
 
+  // TODO customize prompts for both "signin" and "signup"
   public static getUiConfig() {
     // FirebaseUI config.
     return {
@@ -140,11 +146,12 @@ export class AuthService implements AuthServiceInterface {
         // firebase.auth.PhoneAuthProvider.PROVIDER_ID // not available for Ionic apps
       ],
       // Terms of service url.
-      tosUrl: '<your-tos-url>',
-      privacyPolicyUrl: '<your-pp-url>'
+      tosUrl: 'tos.html',
+      privacyPolicyUrl: 'privacy.html'
     };
   }
 }
+
 
 
 
