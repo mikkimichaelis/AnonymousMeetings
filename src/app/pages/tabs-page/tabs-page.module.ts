@@ -7,11 +7,8 @@ import { TabsPageRoutingModule } from './tabs-page-routing.module';
 
 import { AboutModule } from '../about/about.module';
 import { MapModule } from '../map/map.module';
-import { MeetingDetailModule } from '../meeting-detail/meeting-detail.module';
 import { MeetingListModule } from '../meeting-list/meeting-list.module';
 
-import { AttendanceModule } from '../attendance/attendance.module';
-import { TestPageModule } from '../test/test.module';
 
 @NgModule({
   imports: [
@@ -19,11 +16,8 @@ import { TestPageModule } from '../test/test.module';
     CommonModule,
     IonicModule,
     MapModule,
-    MeetingDetailModule,
     MeetingListModule,
-    TabsPageRoutingModule,
-    AttendanceModule,
-    TestPageModule,
+    TabsPageRoutingModule
   ],
   declarations: [
     TabsPage,

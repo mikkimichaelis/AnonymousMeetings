@@ -1,8 +1,7 @@
 export interface LogServiceInterface {
-    trace(msg: string, flush?: boolean, ...args: any[]);
-    log(msg: string, flush?: boolean, ...args: any[]);
-    alert(msg: string, flush?: boolean, ...args: any[]);
-    error(msg: string, flush?: boolean, ...args: any[]);
-    fatal(msg: string, flush?: boolean, ...args: any[]);
-    flush();
+    trace(msg: any, ...args: any[]);
+    trace(msg: any, ...args: any[]);
+    message(msg: string, ...args: any[]);
+    error(error: Error, ...args: any[]);
+    exception(e: Error, ...args: any[]);
 }

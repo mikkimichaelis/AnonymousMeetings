@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FirebaseUIService } from './firebase-ui.service';
+import { DalService } from './dal.service';
 
-describe('FirebaseUIService', () => {
-  let service: FirebaseUIService;
+describe('DalService', () => {
+  let service: DalService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FirebaseUIService);
+    service = TestBed.inject(DalService);
   });
 
   it('should be created', () => {

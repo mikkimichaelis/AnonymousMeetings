@@ -18,8 +18,6 @@ import { environment } from '../environments/environment';
 import { Plugins } from '@capacitor/core';
 const { App } = Plugins;
 
-import { UserData } from './providers/user-data';
-
 declare var navigator: any;
 
 @Component({
@@ -61,7 +59,6 @@ export class AppComponent implements AfterViewInit {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
-    private userData: UserData,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
     private translate: TranslateService
@@ -73,8 +70,8 @@ export class AppComponent implements AfterViewInit {
   }
 
   async ngOnInit() {
-    this.checkLoginStatus();
-    this.listenForLoginEvents();
+    //this.checkLoginStatus();
+    //this.listenForLoginEvents();
 
     this.swUpdate.available.subscribe(async res => {
       const toast = await this.toastCtrl.create({
@@ -120,41 +117,41 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit(): void {
   }
 
-  checkLoginStatus() {
-    return this.userData.isLoggedIn().then(loggedIn => {
-      return this.updateLoggedInStatus(loggedIn);
-    });
-  }
+  // checkLoginStatus() {
+  //   return this.userData.isLoggedIn().then(loggedIn => {
+  //     return this.updateLoggedInStatus(loggedIn);
+  //   });
+  // }
 
-  updateLoggedInStatus(loggedIn: boolean) {
-    setTimeout(() => {
-      this.loggedIn = loggedIn;
-    }, 300);
-  }
+  // updateLoggedInStatus(loggedIn: boolean) {
+  //   setTimeout(() => {
+  //     this.loggedIn = loggedIn;
+  //   }, 300);
+  // }
 
-  listenForLoginEvents() {
-    window.addEventListener('user:login', () => {
-      this.updateLoggedInStatus(true);
-    });
+  // listenForLoginEvents() {
+  //   window.addEventListener('user:login', () => {
+  //     this.updateLoggedInStatus(true);
+  //   });
 
-    window.addEventListener('user:signup', () => {
-      this.updateLoggedInStatus(true);
-    });
+  //   window.addEventListener('user:signup', () => {
+  //     this.updateLoggedInStatus(true);
+  //   });
 
-    window.addEventListener('user:logout', () => {
-      this.updateLoggedInStatus(false);
-    });
-  }
+  //   window.addEventListener('user:logout', () => {
+  //     this.updateLoggedInStatus(false);
+  //   });
+  // }
 
-  logout() {
-    this.userData.logout().then(() => {
-      return this.router.navigateByUrl('/app/tabs/attendance');
-    });
-  }
+  // logout() {
+  //   this.userData.logout().then(() => {
+  //     return this.router.navigateByUrl('/app/tabs/attendance');
+  //   });
+  // }
 
-  openTutorial() {
-    this.menu.enable(false);
-    this.storage.set('ion_did_tutorial', false);
-    this.router.navigateByUrl('/tutorial');
-  }
+  // openTutorial() {
+  //   this.menu.enable(false);
+  //   this.storage.set('ion_did_tutorial', false);
+  //   this.router.navigateByUrl('/tutorial');
+  // }
 }

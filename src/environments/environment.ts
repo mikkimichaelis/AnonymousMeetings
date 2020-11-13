@@ -16,6 +16,11 @@ export const environment = {
   },
   googleCloudConfig: {
     agmKey: 'AIzaSyAvpI4Ej5P2bwN04Zq2dsLVIh5AS-auaMo'
+  },
+  logRocketConfig: {
+    appID: 'tdzfnj/anonymous-meetings',
+    options: {}
+
   }
 };
 
