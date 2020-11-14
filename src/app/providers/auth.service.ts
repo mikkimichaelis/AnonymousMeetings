@@ -49,12 +49,12 @@ export class AuthService implements AuthServiceInterface {
   }
 
   public createAnonymous(complete?: boolean) {
-    let error: any;
-    let user: firebase.auth.UserCredential;
+    // all anonymous users have an anonymous firebase account
+    // complete anonymity will be indicated with a scope or flag for Business Logic
     this.firebaseAuth.signInAnonymously()
-      .catch(error => {
-        this.logService.error(error);
-      });
+        .catch(error => {
+          this.logService.error(error);
+        });
   }
 
   logout() {

@@ -1,30 +1,27 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Anonymous Meetings</ion-title>
+    <ion-title translate>TITLE</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="showLanding">
+<ion-content *ngIf="showSign">
   <div class="login">
-    <p>Already a user?  Great!</p>
-    <ion-button (click)="doSignIn()">Sign in</ion-button>
+    <p translate>LANDING.SIGNIN.TXT</p>
+    <ion-button (click)="doSign(false)" translate>LANDING.SIGNIN</ion-button>
   </div>
 
   <div class="signup">
-    <p>Create an account using your FirstName LastInitial.</p>
-  <ion-button (click)="doSignUp()">Sign up</ion-button>
+    <p translate>LANDING.SIGNUP.TXT</p>
+  <ion-button (click)="doSign(true)" translate>LANDING.SIGNUP</ion-button>
   </div>
 
   <div class="login">
-    <p>Create an Anonymous account using random name.</p>
-    <ion-button (click)="doAnonymous()">Anonymous</ion-button>
+    <p translate>LANDING.ANONYMOUS.TXT</p>
+    <ion-button (click)="doSign(false, true)" translate>LANDING.ANONYMOUS</ion-button>
   </div>
 
   <div class="login">
-    <p>
-      Complete anonymity with limited features.
-    </p>
-    <ion-button (click)="doAnonymous(true)">Complete Anonymity</ion-button>
+    <p translate>LANDING.ANONYMOUS.COMPLETE.TXT</p>
+    <ion-button (click)="doSign(false, true, true)" translate>LANDING.ANONYMOUS.COMPLETE</ion-button>
   </div>
-  
 </ion-content>

@@ -1,3 +1,12 @@
 {
-    "HOME": "Home"
+    "TITLE": "Anonymous Meetings",
+    "HOME": "Home",
+    "LANDING.SIGNIN.TXT": "Already a user?  Great!",
+    "LANDING.SIGNIN": "Sign In",
+    "LANDING.SIGNUP.TXT": "Create an account using your FirstName LastInitial.",
+    "LANDING.SIGNUP": "Sign Up",
+    "LANDING.ANONYMOUS.TXT": "Create an Anonymous account using random name.",
+    "LANDING.ANONYMOUS": "Anonymous",
+    "LANDING.ANONYMOUS.COMPLETE.TXT": "Complete anonymity with limited features.",
+    "LANDING.ANONYMOUS.COMPLETE": "Complete Anonymity"
   }
