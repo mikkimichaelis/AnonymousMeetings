@@ -1,21 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/providers/auth.service';
-import { MeetingsService } from '../../providers/meetings.service';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { LoadingService } from '../../services/loading.service';
+import { UserService } from '../../services/user.service';
+import { MeetingsService } from '../../services/meetings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
 
-  constructor( private authService: AuthService, private meetingService: MeetingsService ) {}
+  constructor(private router: Router, private loading: LoadingService, private userService: UserService, private meetingService: MeetingsService ) {
+    
+  }
 
   ngOnInit(): void {
     this.meetingService.updateMeetings(true);
   }
 
-  logout() {
-    this.authService.logout();
+  ngAfterViewInit(): void {}
+
+  async ionViewDidEnter() {
+    await this.loading.present('Loading....');
+    await this.userService.user$.subscribe(user => {
+      if( user ) this.loading.dismiss();
+    })
+  }
+
+  ionViewWillLeave(): void {
+    this.loading.dismiss();
+  }
+
+  async logout() {
+    this.router.navigate(['/landing'], { queryParams: { logout: true }});
   }
 }

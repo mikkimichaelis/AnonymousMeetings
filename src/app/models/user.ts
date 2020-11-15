@@ -1,5 +1,5 @@
 import { Base } from './base';
-import { Attend } from './attend';
+// import { Attend } from './attend';
 
 export class User extends Base {
     anonymous: boolean;
@@ -7,14 +7,14 @@ export class User extends Base {
     firstName: string;
     lastInitial: string;
     name: string;
-    dates: string [];   // of Dates
-    doc: string [];
-    meetingTags: string []; // closed, gay, na, etc.
-    
-    homeGroupId: string;
-    favGroups: string [];
+    dates: string[];   // of Dates
+    doc: string[];
+    meetingTags: string[]; // closed, gay, na, etc.
 
-    attendance: Attend [];
+    homeGroupId: string;
+    favGroups: string[];
+
+    //attendance: Attend [];
 
     lastActivity: string;   //  Date
 
@@ -22,22 +22,32 @@ export class User extends Base {
         super();
         this.anonymous = userRecord.isAnonymous;
         this.complete = false;
-        let names = this.anonymous ? ['Person'] : userRecord.displayName.split(' ');
-        this.firstName = names[0] ? names[0] : 'Person';
-        this.lastInitial = names[1] ? names[1][0] : this.randomLetter();
-        this.name = `${this.firstName} ${this.lastInitial}.`;
         this.dates = [];
         this.doc = [];
         this.meetingTags = [];
         this.homeGroupId = '';
         this.favGroups = [];
-        this.attendance = []
+        //this.attendance = []
         this.lastActivity = new Date().toUTCString();
+        this.firstName = '';
+        this.lastInitial = '';
+        this.name = '';
+        this.setNames(userRecord.displayName, userRecord.isAnonymous);
     }
 
-randomLetter() {
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        return alphabet[Math.floor(Math.random() * alphabet.length)]
-      }
-      
+    setNames(name: string, anonymous: boolean) {
+        if (anonymous
+            || !name
+            || !name.includes(' ')
+            || name.length < 3
+            || name.split(' ').length < 2) {
+                this.firstName = 'ANONYMOUS';
+                this.lastInitial = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random() * 26)];
+        } else {
+            let names = name.split(' ');
+            this.firstName = names[0];
+            this.lastInitial = names[1][0].toUpperCase();
+        }
+        this.name = `${this.firstName} ${this.lastInitial}.`;
+    }
 }

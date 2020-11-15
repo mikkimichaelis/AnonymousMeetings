@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title translate>
-      HOME
+      WELCOME <span>{{(this.userService.user$ | async)?.name}}</span>
     </ion-title>
   </ion-toolbar>
 </ion-header>

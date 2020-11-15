@@ -10,7 +10,7 @@ export const environment = {
     databaseURL: "https://anonymousmeetings.firebaseio.com",
     projectId: "anonymousmeetings",
     storageBucket: "anonymousmeetings.appspot.com",
-    essagingSenderId: "743896601158",
+    messagingSenderId: "743896601158",
     appId: "1:743896601158:web:460244580c9f6cdaaab047",
     measurementId: "G-KJRD16EWZ5"
   },
@@ -20,7 +20,6 @@ export const environment = {
   logRocketConfig: {
     appID: 'tdzfnj/anonymous-meetings',
     options: {}
-
   }
 };
 

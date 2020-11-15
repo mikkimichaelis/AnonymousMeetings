@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import { AuthService } from './providers/auth.service';
+import { AuthService } from './services/auth.service';
 
 import { environment } from '../environments/environment';
 import { Plugins } from '@capacitor/core';

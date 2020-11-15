@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { MeetingsService } from '../../providers/meetings.service';
+import { MeetingsService } from '../../services/meetings.service';
 
 @Component({
   selector: 'page-meeting-list',
@@ -10,7 +10,7 @@ import { MeetingsService } from '../../providers/meetings.service';
 export class MeetingListPage {
 
   constructor(public platform: Platform,
-    private meetingsService: MeetingsService) { }
+    public meetingsService: MeetingsService) { }
 
   ionViewDidEnter() {
     this.meetingsService.updateMeetings();

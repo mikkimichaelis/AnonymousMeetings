@@ -14,17 +14,20 @@ import { LogService } from './log.service';
 })
 export class AuthService implements AuthServiceInterface {
 
+  authUser: firebase.User = null;
+
   firebaseUi: any;
 
   authStateUser: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>()
-  anonymous = true;
+  isAnonymous: boolean = true;
 
   private authStateSubscription: Subscription;
   constructor(private logService: LogService, private firebaseAuth: AngularFireAuth) {
     firebase.initializeApp(environment.firebaseConfig);
 
     this.authStateSubscription = firebaseAuth.authState.subscribe((user: firebase.User) => {
-      this.anonymous = user !== null ? user.isAnonymous : true;
+      this.isAnonymous = user !== null ? user.isAnonymous : true;
+      this.authUser = user;
       this.authStateUser.next(user);
 
       /// TRACE
@@ -48,17 +51,21 @@ export class AuthService implements AuthServiceInterface {
     this.firebaseUi = new firebaseui.auth.AuthUI(auth);
   }
 
-  public createAnonymous(complete?: boolean) {
+  isAuthenticated(): boolean {
+    return this.authUser !== null ? true : false;
+  }
+
+  public async createAnonymous(complete?: boolean) {
     // all anonymous users have an anonymous firebase account
     // complete anonymity will be indicated with a scope or flag for Business Logic
-    this.firebaseAuth.signInAnonymously()
+    await this.firebaseAuth.signInAnonymously()
         .catch(error => {
           this.logService.error(error);
         });
   }
 
-  logout() {
-    this.firebaseAuth.signOut();
+  async logout() {
+    await this.firebaseAuth.signOut();
   }
 
   // TODO customize prompts for both "signin" and "signup"
@@ -73,12 +80,12 @@ export class AuthService implements AuthServiceInterface {
           // initialize new user
           if (isNewUser) {
             // do initialization stuff here (ex. create profile)
-            return false;
+            return true;
           }
 
           // Return type determines whether we continue the redirect automatically
           // or whether we leave that to developer to handle.
-          return false;
+          return true;
         }
       },
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
@@ -104,12 +111,14 @@ export class AuthService implements AuthServiceInterface {
         'yahoo.com',
         // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
         // firebase.auth.GithubAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
         // firebase.auth.PhoneAuthProvider.PROVIDER_ID // not available for Ionic apps
       ],
       // Terms of service url.
       tosUrl: 'tos.html',
-      privacyPolicyUrl: 'privacy.html'
+      privacyPolicyUrl: 'privacy.html',
+      //enableRedirectHandling: false,
+      signInSuccessUrl: '/landing'
     };
   }
 }

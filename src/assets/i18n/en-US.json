@@ -1,6 +1,8 @@
 {
+    "ANONYMOUS": "Anonymous",
     "TITLE": "Anonymous Meetings",
     "HOME": "Home",
+    "WELCOME": "Welcome",
     "LANDING.SIGNIN.TXT": "Already a user?  Great!",
     "LANDING.SIGNIN": "Sign In",
     "LANDING.SIGNUP.TXT": "Create an account using your FirstName LastInitial.",

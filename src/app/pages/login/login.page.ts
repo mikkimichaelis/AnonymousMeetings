@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../providers/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginPage implements OnInit {
 
   signup: boolean;
 
-  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService) { 
+  constructor(private route: ActivatedRoute, private loading: LoadingService, private authService: AuthService) { 
     this.signup = this.route.snapshot.queryParamMap.get('signup') === 'true' ? true: false; 
   }
 

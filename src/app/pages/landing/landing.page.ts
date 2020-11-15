@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../providers/auth.service';
+import { LoadingController } from '@ionic/angular';
+import { LoadingService } from 'src/app/services/loading.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -11,8 +13,7 @@ export class LandingPage {
 
   showSign = false;
 
-  constructor(private router: Router, private authService: AuthService) {
-    debugger;
+  constructor(private router: Router, private route: ActivatedRoute, private loading: LoadingService, private authService: AuthService) {
     let authStateUserSubscription = this.authService.authStateUser.subscribe(user => {
       if( user ) {
         this.router.navigateByUrl('/home');
@@ -23,11 +24,28 @@ export class LandingPage {
     })
   }
 
-  doSign(signup: boolean, anonymous?: boolean, complete?: boolean) {
+  async ionViewDidEnter() {
+    this.loading.dismiss();
+    if( this.route.snapshot.queryParamMap.get('logout') === 'true' ) {
+      // this.loading.present();
+      await this.authService.logout()
+      this.showSign = true;
+      // this.loading.dismiss();
+    }
+    
+  }
+
+  ionViewWillLeave() {
+    this.loading.dismiss();
+  }
+  
+  async doSign(signup: boolean, anonymous?: boolean, complete?: boolean) {
     if( anonymous === undefined ) {
       this.router.navigate(['/login'], { queryParams: { signup: signup }});
     } else {
-      this.authService.createAnonymous(complete);
+      this.loading.present();
+      await this.authService.createAnonymous(complete);
+      this.loading.dismiss();
     }
   }
 }

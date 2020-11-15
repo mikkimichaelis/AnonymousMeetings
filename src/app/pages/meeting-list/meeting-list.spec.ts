@@ -5,7 +5,7 @@ import { ActionSheetController } from '@ionic/angular';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { MeetingListPage } from './meeting-list';
-import { MeetingsData } from '../../providers/meetings-data';
+import { MeetingsData } from '../../services/meetings-data';
 
 const confDataSub = {};
 

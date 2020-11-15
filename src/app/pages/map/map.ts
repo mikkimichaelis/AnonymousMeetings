@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { darkStyle } from './map-dark-style';
 import { Observable } from 'rxjs';
-import { MeetingsService } from '../../providers/meetings.service';
+import { MeetingsService } from '../../services/meetings.service';
 
 @Component({
   selector: 'page-map',

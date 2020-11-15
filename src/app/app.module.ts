@@ -28,16 +28,20 @@ import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestor
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 
-import { LogService } from './providers/log.service';
-
-import { MeetingsService } from './providers/meetings.service';
-
 import { TranslateUniversalLoader } from './classes/translateuniversalloader';
-import { AuthServiceInterface } from './providers/auth.service.interface';
-import { AuthService } from './providers/auth.service';
-import { DalService } from './providers/dal.service';
-import { UserService } from './providers/user.service';
+import { AuthServiceInterface } from './services/auth.service.interface';
+import { AuthService } from './services/auth.service';
+import { DalService } from './services/dal.service';
+import { UserService } from './services/user.service';
+import { LogService } from './services/log.service';
+import { MeetingsService } from './services/meetings.service';
+import { LoadingService } from './services/loading.service';
 
+import { AuthUserGuard } from './classes/authUser.guard';
+
+import { LandingPageModule } from './pages/landing/landing.module';
+import { LoginPageModule } from './pages/login/login.module';
+import { HomePageModule } from './pages/home/home.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -60,7 +64,10 @@ import { UserService } from './providers/user.service';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    LandingPageModule,
+    LoginPageModule,
+    HomePageModule
   ],
   providers: [
     InAppBrowser,
@@ -75,7 +82,10 @@ import { UserService } from './providers/user.service';
     DalService,
     LogService,
     MeetingsService,
-    UserService
+    UserService,
+    LoadingService,
+
+    AuthUserGuard
   ],
   bootstrap: [AppComponent]
 })
