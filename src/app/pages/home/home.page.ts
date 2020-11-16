@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit, AfterViewInit {
 
-  constructor(private router: Router, private loading: LoadingService, private userService: UserService, private meetingService: MeetingsService ) {
+  constructor(private router: Router, private loading: LoadingService, public userService: UserService, private meetingService: MeetingsService ) {
     
   }
 

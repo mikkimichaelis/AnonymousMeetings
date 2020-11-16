@@ -29,9 +29,11 @@ export class UserService implements UserServiceInterface {
         afs.collection('users').doc(user.uid).get().subscribe(async user => {
           this.user = <User>user.data();
 
-          // translate new ANONYMOUS users firstName 
+          // translate new ANONYMOUS user names into local language
           if( this.user.firstName === 'ANONYMOUS' ) {
             this.user.firstName = <string> await this.translate.get('ANONYMOUS').toPromise();
+            let alphabet = <string> await this.translate.get('ALPHABET').toPromise();
+            this.user.lastInitial = alphabet[Math.floor(Math.random() * alphabet.length)];
             this.user.name = `${this.user.firstName} ${this.user.lastInitial}.`;
             await this.saveUserAsync();
           }
