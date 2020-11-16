@@ -25,15 +25,12 @@ export class AuthService implements AuthServiceInterface {
   constructor(private logService: LogService, private firebaseAuth: AngularFireAuth) {
     firebase.initializeApp(environment.firebaseConfig);
 
-    this.authStateSubscription = firebaseAuth.authState.subscribe((user: firebase.User) => {
-      this.isAnonymous = user !== null ? user.isAnonymous : true;
-      this.authUser = user;
-      this.authStateUser.next(user);
-
-      /// TRACE
-      if (user) this.logService.trace(JSON.stringify({user: user.uid, anonymous: user.isAnonymous}))
-      else this.logService.trace(JSON.stringify({ user: null }));
-    },
+    this.authStateSubscription = firebaseAuth.authState.subscribe(
+      (user: firebase.User) => {
+        this.isAnonymous = user !== null ? user.isAnonymous : true;
+        this.authUser = user;
+        this.authStateUser.next(user);
+      },
       (error: any) => {
         this.logService.error(error);
       },
@@ -59,9 +56,9 @@ export class AuthService implements AuthServiceInterface {
     // all anonymous users have an anonymous firebase account
     // complete anonymity will be indicated with a scope or flag for Business Logic
     await this.firebaseAuth.signInAnonymously()
-        .catch(error => {
-          this.logService.error(error);
-        });
+      .catch(error => {
+        this.logService.error(error);
+      });
   }
 
   async logout() {
@@ -99,14 +96,13 @@ export class AuthService implements AuthServiceInterface {
             // is available.
             prompt: 'select_account'
           }
-        }, 
+        },
         {
           provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
           scopes: [
             'public_profile',
-            'email'
           ]
-        }, 
+        },
         'microsoft.com',
         'yahoo.com',
         // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
@@ -115,8 +111,8 @@ export class AuthService implements AuthServiceInterface {
         // firebase.auth.PhoneAuthProvider.PROVIDER_ID // not available for Ionic apps
       ],
       // Terms of service url.
-      tosUrl: 'tos.html',
-      privacyPolicyUrl: 'privacy.html',
+      tosUrl: 'https://anonymousmeetings.us/assets/pages/tos.html',
+      privacyPolicyUrl: 'https://anonymousmeetings.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
       signInSuccessUrl: '/landing'
     };
