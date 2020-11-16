@@ -9,17 +9,9 @@ import { Router } from '@angular/router';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, AfterViewInit {
+export class HomePage {
 
-  constructor(private router: Router, private loading: LoadingService, public userService: UserService, private meetingService: MeetingsService ) {
-    
-  }
-
-  ngOnInit(): void {
-    this.meetingService.updateMeetings(true);
-  }
-
-  ngAfterViewInit(): void {}
+  constructor(private router: Router, private loading: LoadingService, public userService: UserService) {}
 
   async ionViewDidEnter() {
     await this.loading.present('Loading....');

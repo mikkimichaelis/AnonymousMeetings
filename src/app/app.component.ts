@@ -1,7 +1,6 @@
 import { SharedModule } from './shared.module';
 
-import { Component, NgZone, AfterViewInit, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 
 import { MenuController, Platform, ToastController } from '@ionic/angular';
@@ -26,16 +25,37 @@ declare var navigator: any;
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
-  
+export class AppComponent {
+  appPages = [
+    {
+      title: 'Home',  // Home, Home Group, Favorites, Profile
+      url: '/home-tab',
+      icon: 'home'
+    },
+    {
+      title: 'Meetings', // List, Map, Favorites
+      url: '/meetings',
+      icon: 'calendar'
+    },
+    {
+      title: 'Social',  //  News Feed, Ride Sharing
+      url: '/social',
+      icon: 'people'
+    },
+    {
+      title: 'About',
+      url: '/about',
+      icon: 'information-circle'
+    }
+  ];
+  loggedIn = false;
+  dark = false;
+
   constructor(
-    private router: Router,
-    private zone: NgZone,
     private menu: MenuController,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private storage: Storage,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
     private translate: TranslateService
@@ -79,8 +99,5 @@ export class AppComponent implements AfterViewInit {
         .then(() => this.swUpdate.activateUpdate())
         .then(() => window.location.reload());
     });
-  }
-
-  ngAfterViewInit(): void {
   }
 }

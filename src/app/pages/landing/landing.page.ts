@@ -16,7 +16,7 @@ export class LandingPage {
   constructor(private router: Router, private route: ActivatedRoute, private loading: LoadingService, private authService: AuthService) {
     let authStateUserSubscription = this.authService.authStateUser.subscribe(user => {
       if( user ) {
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/home/tab/group');
       } else {
         this.showSign = true;
         this.router.navigateByUrl('/landing');
