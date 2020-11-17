@@ -10,13 +10,14 @@ import { UserServiceInterface } from './user.service.interface';
 import { User } from '../models/user';
 import { TranslateService } from '@ngx-translate/core';
 import { LogService } from './log.service';
+import { Feature } from '../enums/feature.enum';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService implements UserServiceInterface {
-
+  
   user$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
   public user: User;
@@ -64,5 +65,9 @@ export class UserService implements UserServiceInterface {
     if (this.user) {
       await this.afs.collection('users').doc(this._user.uid).update(this.user);
     }
+  }
+
+  hasFeature(HomeGroup: Feature) {
+    return true;
   }
 }

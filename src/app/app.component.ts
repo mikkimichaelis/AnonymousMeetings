@@ -26,28 +26,7 @@ declare var navigator: any;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  appPages = [
-    {
-      title: 'Home',  // Home, Home Group, Favorites, Profile
-      url: '/home-tab',
-      icon: 'home'
-    },
-    {
-      title: 'Meetings', // List, Map, Favorites
-      url: '/meetings',
-      icon: 'calendar'
-    },
-    {
-      title: 'Social',  //  News Feed, Ride Sharing
-      url: '/social',
-      icon: 'people'
-    },
-    {
-      title: 'About',
-      url: '/about',
-      icon: 'information-circle'
-    }
-  ];
+  
   loggedIn = false;
   dark = false;
 

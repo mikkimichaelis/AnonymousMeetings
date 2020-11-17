@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { HomeTabPageRoutingModule } from './home-tab-routing.module';
 
 import { HomeTabPage } from './home-tab.page';
-import { HomeGroupPageModule } from '../home-group/home-group.module';
 import { FavoritesPageModule } from '../favorites/favorites.module';
 import { ProfilePageModule } from '../profile/profile.module';
 
@@ -17,7 +16,6 @@ import { ProfilePageModule } from '../profile/profile.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomeGroupPageModule,
     FavoritesPageModule,
     ProfilePageModule,
     HomeTabPageRoutingModule

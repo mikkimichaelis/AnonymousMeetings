@@ -3,20 +3,26 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeTabPage } from './home-tab.page';
 import { HomePage } from '../home/home.page';
-import { HomeGroupPage } from '../home-group/home-group.page';
+import { MessagesPage } from '../messages/messages.page';
 import { FavoritesPage } from '../favorites/favorites.page';
 import { ProfilePage } from '../profile/profile.page';
+import { AttendancePage } from '../attendance/attendance.page';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'home/tab',
+    path: '/home',
+    redirectTo: '/home/tab',
     pathMatch: 'full'
   },
   {
     path: 'tab',
     component: HomeTabPage,
     children: [
+      {
+        path: '/home/tab',
+        redirectTo: '/home/tab/home',
+        pathMatch: 'full'
+      },
       {
         path: 'home',
         children: [
@@ -27,11 +33,20 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'group',
+        path: 'messages',
         children: [
           {
             path: '',
-            component: HomeGroupPage
+            component: MessagesPage
+          }
+        ]
+      },
+      {
+        path: 'attendance',
+        children: [
+          {
+            path: '',
+            component: AttendancePage
           }
         ]
       },
@@ -52,11 +67,6 @@ const routes: Routes = [
             component: ProfilePage
           }
         ]
-      },
-      {
-        path: '',
-        redirectTo: 'home/tab/group',
-        pathMatch: 'full'
       }
     ]
   }

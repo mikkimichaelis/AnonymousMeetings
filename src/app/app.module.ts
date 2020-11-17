@@ -42,6 +42,8 @@ import { AuthUserGuard } from './classes/authUser.guard';
 import { LandingPageModule } from './pages/landing/landing.module';
 import { LoginPageModule } from './pages/login/login.module';
 import { HomePageModule } from './pages/home/home.module';
+import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
+import { FeatureGuard } from './classes/feature.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -66,6 +68,7 @@ import { HomePageModule } from './pages/home/home.module';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     LandingPageModule,
+    GroupTabPageModule,
     LoginPageModule,
     HomePageModule
   ],
@@ -85,7 +88,8 @@ import { HomePageModule } from './pages/home/home.module';
     UserService,
     LoadingService,
 
-    AuthUserGuard
+    AuthUserGuard,
+    FeatureGuard
   ],
   bootstrap: [AppComponent]
 })
