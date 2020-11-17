@@ -7,6 +7,7 @@ import { MessagesPage } from '../messages/messages.page';
 import { FavoritesPage } from '../favorites/favorites.page';
 import { ProfilePage } from '../profile/profile.page';
 import { AttendancePage } from '../attendance/attendance.page';
+import { FriendsPage } from '../friends/friends.page';
 
 const routes: Routes = [
   {
@@ -60,11 +61,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'profile',
+        path: 'friends',
         children: [
           {
             path: '',
-            component: ProfilePage
+            component: FriendsPage
           }
         ]
       }
