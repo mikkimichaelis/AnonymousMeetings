@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { LoadingService } from '../../services/loading.service';
-import { UserService } from '../../services/user.service';
-import { MeetingsService } from '../../services/meetings.service';
+import { LoadingService } from '../../../services/loading.service';
+import { UserService } from '../../../services/user.service';
+import { MeetingsService } from '../../../services/meetings.service';
 import { Router } from '@angular/router';
 
 @Component({

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { GroupTabPageRoutingModule } from './group-tab-routing.module';
+import { MeetingTabPageRoutingModule } from './meeting-tab-routing.module';
 
-import { GroupTabPage } from './group-tab.page';
+import { MeetingTabPage } from './meeting-tab.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    GroupTabPageRoutingModule
+    MeetingTabPageRoutingModule
   ],
-  declarations: [GroupTabPage]
+  declarations: [MeetingTabPage]
 })
-export class GroupTabPageModule {}
+export class MeetingTabPageModule {}

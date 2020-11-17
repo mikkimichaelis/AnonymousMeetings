@@ -39,10 +39,10 @@ import { LoadingService } from './services/loading.service';
 
 import { AuthUserGuard } from './classes/authUser.guard';
 
-import { LandingPageModule } from './pages/landing/landing.module';
-import { LoginPageModule } from './pages/login/login.module';
-import { HomePageModule } from './pages/home/home.module';
-import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
+import { LandingPageModule } from './pages/core/landing/landing.module';
+import { LoginPageModule } from './pages/core/login/login.module';
+import { HomePageModule } from './pages/home-tab/home/home.module';
+import { MeetingTabPageModule } from './pages/meeting-tab/meeting-tab.module';
 import { FeatureGuard } from './classes/feature.guard';
 
 @NgModule({
@@ -68,7 +68,7 @@ import { FeatureGuard } from './classes/feature.guard';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     LandingPageModule,
-    GroupTabPageModule,
+    MeetingTabPageModule,
     LoginPageModule,
     HomePageModule
   ],

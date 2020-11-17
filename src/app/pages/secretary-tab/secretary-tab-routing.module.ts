@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdminPage } from '../admin/admin.page';
-import { MinutesPage } from '../minutes/minutes.page';
+import { CalendarPage } from '../common/calendar/calendar.page';
+import { MessagesPage } from '../common/messages/messages.page';
+import { AdminPage } from './admin/admin.page';
+import { MinutesPage } from './minutes/minutes.page';
 
 import { SecretaryTabPage } from './secretary-tab.page';
 
@@ -35,6 +37,24 @@ const routes: Routes = [
           {
             path: '',
             component: MinutesPage
+          }
+        ]
+      },
+      {
+        path: 'messages',
+        children: [
+          {
+            path: '',
+            component: MessagesPage
+          }
+        ]
+      },
+      {
+        path: 'calendar',
+        children: [
+          {
+            path: '',
+            component: CalendarPage
           }
         ]
       }

@@ -7,17 +7,12 @@ import { IonicModule } from '@ionic/angular';
 import { HomeTabPageRoutingModule } from './home-tab-routing.module';
 
 import { HomeTabPage } from './home-tab.page';
-import { FavoritesPageModule } from '../favorites/favorites.module';
-import { ProfilePageModule } from '../profile/profile.module';
-
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FavoritesPageModule,
-    ProfilePageModule,
     HomeTabPageRoutingModule
   ],
   declarations: [HomeTabPage]

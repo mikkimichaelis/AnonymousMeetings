@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthUserGuard } from './classes/authUser.guard';
 import { FeatureGuard } from './classes/feature.guard';
-import { HomeTabPage } from './pages/home-tab/home-tab.page';
-import { LandingPage } from './pages/landing/landing.page';
-import { LoginPage } from './pages/login/login.page';
+import { LandingPage } from './pages/core/landing/landing.page';
+import { LoginPage } from './pages/core/login/login.page';
 
 const routes: Routes = [
   {
@@ -28,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'group', canActivate: [AuthUserGuard, FeatureGuard],
-    loadChildren: () => import('./pages/group-tab/group-tab.module').then( m => m.GroupTabPageModule)
+    loadChildren: () => import('./pages/meeting-tab/meeting-tab.module').then( m => m.MeetingTabPageModule)
   },
   {
     path: 'meetings', canActivate: [AuthUserGuard],
@@ -36,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'messages',
-    loadChildren: () => import('./pages/messages/messages.module').then( m => m.MessagesPageModule)
+    loadChildren: () => import('./pages/common/messages/messages.module').then( m => m.MessagesPageModule)
   },
   {
     path: 'secretary',
@@ -44,83 +43,75 @@ const routes: Routes = [
   },
   {
     path: 'meeting',
-    loadChildren: () => import('./pages/meeting/meeting.module').then( m => m.MeetingPageModule)
+    loadChildren: () => import('./pages/meeting-tab/meeting/meeting.module').then( m => m.MeetingPageModule)
   },
   {
     path: 'feed',
-    loadChildren: () => import('./pages/feed/feed.module').then( m => m.FeedPageModule)
+    loadChildren: () => import('./pages/common/feed/feed.module').then( m => m.FeedPageModule)
   },
   {
     path: 'calendar',
-    loadChildren: () => import('./pages/calendar/calendar.module').then( m => m.CalendarPageModule)
-  },
-  {
-    path: 'meeting-info',
-    loadChildren: () => import('./pages/meeting-info/meeting-info.module').then( m => m.MeetingInfoPageModule)
-  },
-  {
-    path: 'sponsors',
-    loadChildren: () => import('./pages/sponsors/sponsors.module').then( m => m.SponsorsPageModule)
-  },
-  {
-    path: 'sponsor',
-    loadChildren: () => import('./pages/sponsor/sponsor.module').then( m => m.SponsorPageModule)
+    loadChildren: () => import('./pages/common/calendar/calendar.module').then( m => m.CalendarPageModule)
   },
   {
     path: 'attendance',
-    loadChildren: () => import('./pages/attendance/attendance.module').then( m => m.AttendancePageModule)
+    loadChildren: () => import('./pages/home-tab/attendance/attendance.module').then( m => m.AttendancePageModule)
   },
-  {
-    path: 'search',
-    loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
-  },
-  {
-    path: 'map',
-    loadChildren: () => import('./pages/map/map.module').then( m => m.MapPageModule)
-  },
+  // {
+  //   path: 'search',
+  //   loadChildren: () => import('./pages/meetsearch/search.module').then( m => m.SearchPageModule)
+  // },
+  // {
+  //   path: 'map',
+  //   loadChildren: () => import('./pages/map/map.module').then( m => m.MapPageModule)
+  // },
   {
     path: 'admin',
-    loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
+    loadChildren: () => import('./pages/secretary-tab/admin/admin.module').then( m => m.AdminPageModule)
   },
   {
     path: 'minutes',
-    loadChildren: () => import('./pages/minutes/minutes.module').then( m => m.MinutesPageModule)
+    loadChildren: () => import('./pages/secretary-tab/minutes/minutes.module').then( m => m.MinutesPageModule)
   },
   {
     path: 'settings',
-    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+    loadChildren: () => import('./pages/core/settings/settings.module').then( m => m.SettingsPageModule)
   },
   {
     path: 'friends',
-    loadChildren: () => import('./pages/friends/friends.module').then( m => m.FriendsPageModule)
+    loadChildren: () => import('./pages/home-tab/friends/friends.module').then( m => m.FriendsPageModule)
   },
   {
     path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./pages/core/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
     path: 'account',
-    loadChildren: () => import('./pages/account/account.module').then( m => m.AccountPageModule)
+    loadChildren: () => import('./pages/core/account/account.module').then( m => m.AccountPageModule)
   },
   {
     path: 'logout',
-    loadChildren: () => import('./pages/logout/logout.module').then( m => m.LogoutPageModule)
+    loadChildren: () => import('./pages/core/logout/logout.module').then( m => m.LogoutPageModule)
   },
   {
     path: 'signup',
-    loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
+    loadChildren: () => import('./pages/core/signup/signup.module').then( m => m.SignupPageModule)
   },
   {
     path: 'support',
-    loadChildren: () => import('./pages/support/support.module').then( m => m.SupportPageModule)
+    loadChildren: () => import('./pages/core/support/support.module').then( m => m.SupportPageModule)
   },
   {
     path: 'about',
-    loadChildren: () => import('./pages/about/about.module').then( m => m.AboutPageModule)
+    loadChildren: () => import('./pages/core/about/about.module').then( m => m.AboutPageModule)
   },
   {
     path: 'tutorial',
-    loadChildren: () => import('./pages/tutorial/tutorial.module').then( m => m.TutorialPageModule)
+    loadChildren: () => import('./pages/core/tutorial/tutorial.module').then( m => m.TutorialPageModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./pages/common/chat/chat.module').then( m => m.ChatPageModule)
   },
 ];
 

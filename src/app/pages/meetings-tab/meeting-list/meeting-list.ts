@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { MeetingsService } from '../../services/meetings.service';
+import { MeetingsService } from '../../../services/meetings.service';
 
 @Component({
   selector: 'page-meeting-list',

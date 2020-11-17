@@ -2,12 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeTabPage } from './home-tab.page';
-import { HomePage } from '../home/home.page';
-import { MessagesPage } from '../messages/messages.page';
-import { FavoritesPage } from '../favorites/favorites.page';
-import { ProfilePage } from '../profile/profile.page';
-import { AttendancePage } from '../attendance/attendance.page';
-import { FriendsPage } from '../friends/friends.page';
+import { HomePage } from './home/home.page';
+import { MessagesPage } from '../common/messages/messages.page';
+import { AttendancePage } from './attendance/attendance.page';
+import { FriendsPage } from './friends/friends.page';
 
 const routes: Routes = [
   {
@@ -48,15 +46,6 @@ const routes: Routes = [
           {
             path: '',
             component: AttendancePage
-          }
-        ]
-      },
-      {
-        path: 'favorites',
-        children: [
-          {
-            path: '',
-            component: FavoritesPage
           }
         ]
       },
