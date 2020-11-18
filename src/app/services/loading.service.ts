@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
+import { LoadingServiceInterface } from './loading.service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoadingService {
-
+export class LoadingService implements LoadingServiceInterface {
   loader: any;
 
   constructor(private loadingController: LoadingController) { }
+
+  async initialize() {}
 
   async present(content?: string) {
     this.dismiss();

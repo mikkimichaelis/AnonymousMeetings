@@ -9,4 +9,22 @@
 
 <ion-content>
 
+  <ion-list>
+    <ion-radio-group [(ngModel)]="darkTheme">
+      <ion-list-header>
+        <ion-label>Theme</ion-label>
+      </ion-list-header>
+  
+      <ion-item>
+        <ion-label>Light</ion-label>
+        <ion-radio slot="start" value="false"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>Dark</ion-label>
+        <ion-radio slot="start" value="true"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+
 </ion-content>

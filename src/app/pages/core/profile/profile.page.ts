@@ -11,13 +11,12 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfilePage implements OnInit {
 
   userForm: FormGroup;
-  submitAttempt = false;
   user: any
 
   constructor( private formBuilder: FormBuilder, private location: Location, private userService: UserService) {
     this.user = Object.assign({}, this.userService.user);
     this.userForm = this.formBuilder.group({
-      "firstName": [this.user.firstName, [Validators.required, Validators.minLength(2)]],
+      "firstName": [this.user.firstName, [Validators.required, Validators.minLength(3)]],
       "lastInitial": [this.user.lastInitial, [Validators.required, Validators.maxLength(1)]],
     })
    }
@@ -30,9 +29,7 @@ export class ProfilePage implements OnInit {
   }
 
   async submitForm() {
-    this.submitAttempt = true;
     if( this.userForm.valid) {
-
       await this.userService.saveUserAsync(this.userForm.value);
       this.location.back();
     }

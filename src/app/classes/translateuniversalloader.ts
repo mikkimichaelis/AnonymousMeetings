@@ -11,6 +11,7 @@ const TRANSLATIONS = {
 
 export class TranslateUniversalLoader implements TranslateLoader {
   getTranslation(lang: string): Observable<any> {
+    console.log(TRANSLATIONS[lang].default);
     return of(TRANSLATIONS[lang].default);
   }
 }

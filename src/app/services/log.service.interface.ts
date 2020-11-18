@@ -1,4 +1,5 @@
 export interface LogServiceInterface {
+    initialize();
     trace(msg: any, ...args: any[]);
     trace(msg: any, ...args: any[]);
     message(msg: string, ...args: any[]);

@@ -20,6 +20,9 @@ export const environment = {
   logRocketConfig: {
     appID: 'tdzfnj/anonymous-meetings',
     options: {}
+  },
+  settings: {
+    _darkTheme: false,
   }
 };
 

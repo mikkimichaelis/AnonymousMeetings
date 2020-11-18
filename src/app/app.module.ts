@@ -29,13 +29,12 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 
 import { TranslateUniversalLoader } from './classes/translateuniversalloader';
-import { AuthServiceInterface } from './services/auth.service.interface';
 import { AuthService } from './services/auth.service';
-import { DalService } from './services/dal.service';
 import { UserService } from './services/user.service';
 import { LogService } from './services/log.service';
 import { MeetingsService } from './services/meetings.service';
 import { LoadingService } from './services/loading.service';
+import { SettingsService } from './services/settings.service';
 
 import { AuthGuard } from './classes/auth.guard';
 
@@ -81,11 +80,12 @@ import { FeatureGuard } from './classes/feature.guard';
     TranslateService,
 
     AuthService,
-    DalService,
     LogService,
     MeetingsService,
     UserService,
     LoadingService,
+    SettingsService,
+
 
     AuthGuard,
     FeatureGuard

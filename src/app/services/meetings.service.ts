@@ -7,20 +7,26 @@ import * as firebase from 'firebase/app';
 import * as geofirex from 'geofirex';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { MeetingServiceInterface } from './meeting.service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MeetingsService {
+export class MeetingsService implements MeetingServiceInterface {
+  
   public meetings: Observable<any>;
 
-  geo = geofirex.init(firebase);
+  private geo: geofirex.GeoFireClient;
   distance = 20;
   early = 60;          
   late = 10;            
   field = 'point';
 
   constructor(private db: AngularFireDatabase, private firestore: AngularFirestore) {}
+
+  initialize() {
+    this.geo = geofirex.init(firebase);
+  }
 
   async updateMeetings(all?: boolean) {
     var position: GeolocationPosition = await Geolocation.getCurrentPosition();

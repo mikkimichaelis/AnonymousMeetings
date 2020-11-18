@@ -6,17 +6,11 @@ import { SwUpdate } from '@angular/service-worker';
 import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Storage } from '@ionic/storage';
 
-import { TranslateService } from '@ngx-translate/core';
+import { InitializeService } from './services/initialize.service';
 
-import firebase from 'firebase/app';
-import 'firebase/auth';
-
-import { AuthService } from './services/auth.service';
-
-import { environment } from '../environments/environment';
 import { Plugins } from '@capacitor/core';
+import { SettingsService } from './services/settings.service';
 const { App } = Plugins;
 declare var navigator: any;
 
@@ -37,15 +31,16 @@ export class AppComponent {
     private statusBar: StatusBar,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
-    private translate: TranslateService
+    private initializeService: InitializeService,
+    private settings: SettingsService
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
-      this.translate.setDefaultLang('en-US');
-      this.translate.use(navigator.language);
+    this.platform.ready().then(async () => {
+
+      await this.initializeService.initializeServices();
 
       this.statusBar.styleDefault();
       this.splashScreen.hide();

@@ -1,4 +1,4 @@
-<ion-app [class.dark-theme]="dark">
+<ion-app [class.dark-theme]="settings.darkTheme">
   <ion-split-pane contentId="main-content">
 
     <ion-menu contentId="main-content">
@@ -18,12 +18,12 @@
             </ion-item>
 
             <!-- Meeting, Feed, Calendar, Chat, Discussion, Notices, Sponsors -->
-            <ion-item routerLink="/group/tab/meeting" routerLinkActive="active" routerDirection="root" detail="false">
+            <!-- <ion-item routerLink="/group/tab/meeting" routerLinkActive="active" routerDirection="root" detail="false">
               <ion-icon slot="start" name="people-circle-outline"></ion-icon>
               <ion-label>
                 Home Group
               </ion-label>
-            </ion-item>
+            </ion-item> -->
 
             <!-- Host  -->
             <ion-item routerLink="/secretary/tab/admin" routerLinkActive="active" routerDirection="root" detail="false">

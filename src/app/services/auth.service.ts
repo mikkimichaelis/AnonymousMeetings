@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
-//import firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 import { Subscription, ReplaySubject } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { AuthServiceInterface } from './auth.service.interface';
 
 import { LogService } from './log.service';
@@ -14,22 +12,21 @@ import { LogService } from './log.service';
 })
 export class AuthService implements AuthServiceInterface {
 
-  authUser: firebase.User = null;
-
   firebaseUi: any;
 
-  authStateUser: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>()
+  authUser: firebase.User = null;
+  authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>()
   isAnonymous: boolean = true;
 
   private authStateSubscription: Subscription;
-  constructor(private logService: LogService, private firebaseAuth: AngularFireAuth) {
-    firebase.initializeApp(environment.firebaseConfig);
+  constructor(private logService: LogService, private firebaseAuth: AngularFireAuth) {}
 
-    this.authStateSubscription = firebaseAuth.authState.subscribe(
+  async initialize() {
+    this.authStateSubscription = this.firebaseAuth.authState.subscribe(
       (user: firebase.User) => {
         this.isAnonymous = user !== null ? user.isAnonymous : true;
         this.authUser = user;
-        this.authStateUser.next(user);
+        this.authUser$.next(user);
       },
       (error: any) => {
         this.logService.error(error);

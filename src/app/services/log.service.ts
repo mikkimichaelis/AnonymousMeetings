@@ -9,12 +9,17 @@ import { environment } from '../../environments/environment';
 export class LogService implements LogServiceInterface {
 
   constructor() {
+    
+  }
+
+  async initialize() {
     //this.authService.authStateUser
     // check for anonymity first!
     if (environment.production) {
       LogRocket.init(environment.logRocketConfig.appID, environment.logRocketConfig.options);
     }
   }
+
   trace(msg: any, ...args: any[]) {
     if (!environment.production) {
       LogRocket.captureMessage(this.stringify(msg), {});

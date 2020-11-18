@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { AuthService } from './auth.service';
 
@@ -21,39 +21,39 @@ export class UserService implements UserServiceInterface {
   user$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
   public user: any;
-  private _user: firebase.User;
+  private userDocPath: string;
+  private userValueChanges: Observable<User>;
 
   private authStateSubscription: Subscription;
-  constructor(private logService: LogService, private afs: AngularFirestore, private translate: TranslateService, private authService: AuthService) { 
-    this.authStateSubscription = this.authService.authStateUser.subscribe(
-      user => {
-        this._user = user;
-        if (user) {
-          afs.collection('users').doc(user.uid).get().subscribe(
-            async user => {
-              if (user.data() === undefined) {
-                // create user
-                this.user = new User(this._user).export();
-                await this.afs.collection('users').doc(this._user.uid).set(this.user);
-              } else {
-                this.user = <User>user.data();
-              }
+  constructor(private logService: LogService, private afs: AngularFirestore, private translate: TranslateService, private authService: AuthService) {}
 
-              // translate new ANONYMOUS user names into local language
-              if (this.user.firstName === 'ANONYMOUS') {
-                this.user.firstName = <string>await this.translate.get('ANONYMOUS').toPromise();
-                let alphabet = <string>await this.translate.get('ALPHABET').toPromise();
-                this.user.lastInitial = alphabet[Math.floor(Math.random() * alphabet.length)];
-                this.user.name = `${this.user.firstName} ${this.user.lastInitial}.`;
-                await this.saveUserAsync(this.user);
-              }
+  async initialize() {
+    this.authStateSubscription = this.authService.authUser$.subscribe(
+      async authUser => {
+        if( this.authService.authUser ) {
+          this.userDocPath = `users/${this.authService.authUser.uid}`
+          try {
+            this.user = (await this.afs.doc<User>(this.userDocPath).get().toPromise()).data();
+          } catch(error) {
+            this.logService.error(error);
+            this.user = null;
+          }
 
+          if( !this.user ) {
+            this.user = new User(this.authService.authUser).export();
+            await this.afs.doc<User>(this.userDocPath).set(this.user);
+          }
+
+          this.userValueChanges = this.afs.doc<User>(this.userDocPath).valueChanges();
+          this.userValueChanges.subscribe( {
+            next: async (user) => {
+              this.user = user;
               this.user$.next(this.user);
             },
-            async error => {
+            error: async (error) => {
               this.logService.error(error);
-              await this.authService.logout();
-            })
+             },
+          });
         } else {
           this.user = null;
           this.user$.next(null);
@@ -64,12 +64,23 @@ export class UserService implements UserServiceInterface {
   async saveUserAsync(user: any) {
     if (user) {
       user.name = `${user.firstName} ${user.lastInitial}.`;
-      await this.afs.collection('users').doc(this._user.uid).update(user);
+      await this.afs.doc(this.userDocPath).update(user);
     }
   }
 
   hasFeature( features: string[] ) {
     // TODO
     return true;
+  }
+
+  translateName() {
+    // translate new ANONYMOUS user names into local language
+              // if (this.user.firstName === 'ANONYMOUS') {
+              //   this.user.firstName = <string>await this.translate.get('ANONYMOUS').toPromise();
+              //   let alphabet = <string>await this.translate.get('ALPHABET').toPromise();
+              //   this.user.lastInitial = alphabet[Math.floor(Math.random() * alphabet.length)];
+              //   this.user.name = `${this.user.firstName} ${this.user.lastInitial}.`;
+              //   await this.saveUserAsync(this.user);
+              // }
   }
 }
