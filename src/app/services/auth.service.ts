@@ -114,7 +114,7 @@ export class AuthService implements AuthServiceInterface {
       tosUrl: 'https://anonymousmeetings.us/assets/pages/tos.html',
       privacyPolicyUrl: 'https://anonymousmeetings.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
-      signInSuccessUrl: '/landing'
+      signInSuccessUrl: '/core/landing'
     };
   }
 }

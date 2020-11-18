@@ -19,7 +19,7 @@ export class LandingPage {
         this.router.navigateByUrl('/home/tab/home');
       } else {
         this.showSign = true;
-        this.router.navigateByUrl('/landing');
+        this.router.navigateByUrl('/core/landing');
       }
     })
   }

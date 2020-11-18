@@ -9,6 +9,7 @@ export class FeatureGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    let roles = route.data.roles as Array<string>;
     if( this.userService.hasFeature(Feature.HomeGroup) ) {
       return true;
     } else {

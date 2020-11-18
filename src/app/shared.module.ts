@@ -5,21 +5,23 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-// import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    FormsModule,
     RouterModule,
+    FormsModule,
     IonicModule,
+    TranslateModule.forChild()
   ],
   exports: [
     CommonModule,
-    FormsModule,
     RouterModule,
+    FormsModule,
     IonicModule,
+    TranslateModule
   ],
   providers: [
   ]

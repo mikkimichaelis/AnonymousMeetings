@@ -23,8 +23,4 @@ export class HomePage {
   ionViewWillLeave(): void {
     this.loading.dismiss();
   }
-
-  async logout() {
-    this.router.navigate(['/landing'], { queryParams: { logout: true }});
-  }
 }

@@ -39,9 +39,9 @@ import { LoadingService } from './services/loading.service';
 
 import { AuthUserGuard } from './classes/authUser.guard';
 
-import { LandingPageModule } from './pages/core/landing/landing.module';
-import { LoginPageModule } from './pages/core/login/login.module';
-import { HomePageModule } from './pages/home-tab/home/home.module';
+import { CoreModule } from './pages/core/core.module';
+
+import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
 import { MeetingTabPageModule } from './pages/meeting-tab/meeting-tab.module';
 import { FeatureGuard } from './classes/feature.guard';
 
@@ -67,10 +67,9 @@ import { FeatureGuard } from './classes/feature.guard';
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    LandingPageModule,
+    CoreModule,
     MeetingTabPageModule,
-    LoginPageModule,
-    HomePageModule
+    HomeTabPageModule
   ],
   providers: [
     InAppBrowser,

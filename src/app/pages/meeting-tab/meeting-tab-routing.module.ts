@@ -10,7 +10,7 @@ import { ChatPage } from '../common/chat/chat.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'group',
     redirectTo: 'group/tab',
     pathMatch: 'full'
   },
@@ -18,6 +18,11 @@ const routes: Routes = [
     path: 'tab',
     component: MeetingTabPage,
     children: [
+      {
+        path: 'group/tab',
+        redirectTo: 'group/tab/meeting',
+        pathMatch: 'full'
+      },
       {
         path: 'meeting',
         children: [
@@ -71,11 +76,6 @@ const routes: Routes = [
             component: MeetingPage
           }
         ]
-      },
-      {
-        path: '',
-        redirectTo: 'group/tab/meeting',
-        pathMatch: 'full'
       }
     ]
   },

@@ -9,14 +9,19 @@ import { MeetingsTabPage } from './meetings-tab.page';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'meetings/tab/search',
+    path: 'meetings',
+    redirectTo: 'meetings/tab',
     pathMatch: 'full'
   },
   {
     path: 'tab',
     component: MeetingsTabPage,
     children: [
+      {
+        path: '',
+        redirectTo: 'meetings/tab/search',
+        pathMatch: 'full'
+      },
       {
         path: 'search',
         children: [
@@ -52,11 +57,6 @@ const routes: Routes = [
             component: CalendarPage
           }
         ]
-      },
-      {
-        path: '',
-        redirectTo: 'meetings/tab/search',
-        pathMatch: 'full'
       }
     ]
   }

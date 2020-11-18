@@ -8,20 +8,20 @@ import { AttendancePage } from './attendance/attendance.page';
 import { FriendsPage } from './friends/friends.page';
 
 const routes: Routes = [
-  {
-    path: '/home',
-    redirectTo: '/home/tab',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: 'home',
+  //   redirectTo: 'home/tab',
+  //   pathMatch: 'full'
+  // },
   {
     path: 'tab',
     component: HomeTabPage,
     children: [
-      {
-        path: '/home/tab',
-        redirectTo: '/home/tab/home',
-        pathMatch: 'full'
-      },
+      // {
+      //   path: 'home/tab',
+      //   redirectTo: 'home/tab/home',
+      //   pathMatch: 'full'
+      // },
       {
         path: 'home',
         children: [

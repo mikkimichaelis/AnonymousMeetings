@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { HomeTabPageRoutingModule } from './home-tab-routing.module';
 
 import { HomeTabPage } from './home-tab.page';
+import { HomePage } from './home/home.page';
+import { FriendsPage } from './friends/friends.page';
+import { AttendancePage } from './attendance/attendance.page';
 
 @NgModule({
   imports: [
@@ -15,6 +18,11 @@ import { HomeTabPage } from './home-tab.page';
     IonicModule,
     HomeTabPageRoutingModule
   ],
-  declarations: [HomeTabPage]
+  declarations: [
+    HomeTabPage, 
+    HomePage, 
+    FriendsPage, 
+    AttendancePage
+  ]
 })
 export class HomeTabPageModule {}
