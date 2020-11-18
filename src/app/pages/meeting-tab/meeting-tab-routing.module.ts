@@ -67,21 +67,8 @@ const routes: Routes = [
             component: SponsorsPage
           }
         ]
-      },
-      {
-        path: 'host',
-        children: [
-          {
-            path: '',
-            component: MeetingPage
-          }
-        ]
       }
     ]
-  },
-  {
-    path: 'meeting',
-    loadChildren: () => import('./meeting/meeting.module').then( m => m.MeetingPageModule)
   }
 ];
 @NgModule({

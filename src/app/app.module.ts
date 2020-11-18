@@ -37,7 +37,7 @@ import { LogService } from './services/log.service';
 import { MeetingsService } from './services/meetings.service';
 import { LoadingService } from './services/loading.service';
 
-import { AuthUserGuard } from './classes/authUser.guard';
+import { AuthGuard } from './classes/auth.guard';
 
 import { CoreModule } from './pages/core/core.module';
 
@@ -87,7 +87,7 @@ import { FeatureGuard } from './classes/feature.guard';
     UserService,
     LoadingService,
 
-    AuthUserGuard,
+    AuthGuard,
     FeatureGuard
   ],
   bootstrap: [AppComponent]

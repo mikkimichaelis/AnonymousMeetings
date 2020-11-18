@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-import { IonicModule } from '@ionic/angular';
+import { SharedModule } from '../../shared.module';
 
 import { MeetingTabPageRoutingModule } from './meeting-tab-routing.module';
 
 import { MeetingTabPage } from './meeting-tab.page';
+import { MeetingPage } from './meeting/meeting.page';
+import { SponsorsPage } from './sponsors/sponsors.page';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
+    SharedModule,
     MeetingTabPageRoutingModule
   ],
-  declarations: [MeetingTabPage]
+  declarations: [
+    MeetingTabPage,
+    MeetingPage,
+    SponsorsPage]
 })
 export class MeetingTabPageModule {}

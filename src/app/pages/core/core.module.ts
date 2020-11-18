@@ -12,6 +12,7 @@ import { ProfilePage } from './profile/profile.page';
 import { SettingsPage } from './settings/settings.page';
 import { SignupPage } from './signup/signup.page';
 import { TutorialPage } from './tutorial/tutorial.page';
+import { SupportPage } from './support/support.page';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { TutorialPage } from './tutorial/tutorial.page';
     ProfilePage,
     SettingsPage,
     SignupPage,
-    TutorialPage
+    TutorialPage,
+    SupportPage
   ]
 })
 export class CoreModule { }

@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-import { IonicModule } from '@ionic/angular';
+import { SharedModule } from '../../shared.module';
 
 import { SecretaryTabPageRoutingModule } from './secretary-tab-routing.module';
 
 import { SecretaryTabPage } from './secretary-tab.page';
+import { AdminPage } from './admin/admin.page';
+import { MinutesPage } from './minutes/minutes.page';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
+    SharedModule,
     SecretaryTabPageRoutingModule
   ],
-  declarations: [SecretaryTabPage]
+  declarations: [
+    SecretaryTabPage,
+    AdminPage,
+    MinutesPage
+  ]
 })
 export class SecretaryTabPageModule {}

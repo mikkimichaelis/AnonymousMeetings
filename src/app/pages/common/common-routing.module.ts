@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthUserGuard } from '../../classes/authUser.guard';
+import { AuthGuard } from '../../classes/auth.guard';
 import { FeatureGuard } from '../../classes/feature.guard';
 
 import { CalendarPage } from './calendar/calendar.page';
@@ -12,23 +12,25 @@ import { SponsorPage } from './sponsor/sponsor.page';
 import { UserPage } from './user/user.page';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: '/',
-  //   pathMatch: 'full',
-  //   canActivate: [AuthUserGuard]
-  // },
+  {
+    path: '',
+    redirectTo: '/core/landing',
+    pathMatch: 'full',
+  },
   {
     path: 'calendar',
-    component: CalendarPage
+    component: CalendarPage,
+    canActivate: [AuthGuard]
   },
   {
     path: 'feed',
-    component: FeedPage
+    component: FeedPage,
+    canActivate: [AuthGuard]
   },
   {
     path: 'user',
-    component: UserPage
+    component: UserPage,
+    canActivate: [AuthGuard]
   },
   {
     path: 'chat',

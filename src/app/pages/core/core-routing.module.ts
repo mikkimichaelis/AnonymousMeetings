@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthUserGuard } from '../../classes/authUser.guard';
+import { AuthGuard } from '../../classes/auth.guard';
 import { FeatureGuard } from '../../classes/feature.guard';
 
 import { AboutPage } from './about/about.page';
@@ -43,11 +43,13 @@ const routes: Routes = [
   },
   {
     path: 'profile',
-    component: ProfilePage
+    component: ProfilePage,
+    canActivate: [AuthGuard]
   },
   {
     path: 'settings',
-    component: SettingsPage
+    component: SettingsPage,
+    canActivate: [AuthGuard]
   },
   {
     path: 'signup',

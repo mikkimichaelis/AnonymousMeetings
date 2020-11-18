@@ -1,9 +1,38 @@
 {
+  "TITLE": {
     "ALPHABET": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     "ANONYMOUS": "Anonymous",
-    "TITLE": "Anonymous Meetings",
+    "ANONYMOUS.MEETINGS": "Anonymous Meetings",
+    "ABOUT": "About Anonymous Meetings",
     "HOME": "Home",
     "WELCOME": "Welcome",
+    "MESSAGES": "Messages",
+    "SPONSOR": "Sponsor",
+    "USER": "User",
+    "ACCOUNT": "Account",
+    "LOGOUT": "Logout",
+    "PROFILE": "Profile",
+    "SETTINGS": "Settings",
+    "SINGUP": "Sign Up",
+    "SUPPORT": "Support",
+    "TUTORIAL": "Tutorial",
+    "ATTENDANCE": "Meeting Attendance",
+    "SIGNUP.NEW": "Sign Up New Account",
+    "SIGNIN.EXISTING": "Sign In Existing Account",
+    "FRIENDS": "Friends",
+    "CHAT": "Chat",
+    "FAVORITES": "Favorite Meetings",
+    "SEARCH": "Search Meetings",
+    "MAP": "Meeting Map",
+    "ADMIN": "Meeting Administration",
+    "MINUTES": "Meeting Minutes",
+    "MEETING": {
+      "INFO": "Meeting Information",
+      "SPONSORS": "Meeting Sponsors",
+      "CALENDAR": "Meeting Calendar",
+      "FEED": "Meeting Feed"
+    }
+  },
     "LANDING.SIGNIN.TXT": "Already a user?  Great!",
     "LANDING.SIGNIN": "Sign In",
     "LANDING.SIGNUP.TXT": "Create an account using your FirstName LastInitial.",
@@ -11,6 +40,6 @@
     "LANDING.ANONYMOUS.TXT": "Create an Anonymous account using random name.",
     "LANDING.ANONYMOUS": "Anonymous",
     "LANDING.ANONYMOUS.COMPLETE.TXT": "Complete anonymity with limited features.",
-    "LANDING.ANONYMOUS.COMPLETE": "Complete Anonymity",
-    "MEETING.ATTENDANCE": "Meeting Attendance"
+    "LANDING.ANONYMOUS.COMPLETE": "Complete Anonymity"
+
   }

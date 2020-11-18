@@ -67,7 +67,8 @@ export class UserService implements UserServiceInterface {
     }
   }
 
-  hasFeature(HomeGroup: Feature) {
+  hasFeature( features: string[] ) {
+    // TODO
     return true;
   }
 }
