@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import * as firestore from 'firebase/firestore'
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -10,7 +9,8 @@ import { UserServiceInterface } from './user.service.interface';
 import { User } from '../models/user';
 import { TranslateService } from '@ngx-translate/core';
 import { LogService } from './log.service';
-import { Feature } from '../enums/feature.enum';
+
+
 
 
 @Injectable({
@@ -20,11 +20,11 @@ export class UserService implements UserServiceInterface {
   
   user$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
-  public user: User;
+  public user: any;
   private _user: firebase.User;
 
   private authStateSubscription: Subscription;
-  constructor(private logService: LogService, private afs: AngularFirestore, private translate: TranslateService, private authService: AuthService) { //}, private firestore: AngularFirestore) {
+  constructor(private logService: LogService, private afs: AngularFirestore, private translate: TranslateService, private authService: AuthService) { 
     this.authStateSubscription = this.authService.authStateUser.subscribe(
       user => {
         this._user = user;
@@ -45,7 +45,7 @@ export class UserService implements UserServiceInterface {
                 let alphabet = <string>await this.translate.get('ALPHABET').toPromise();
                 this.user.lastInitial = alphabet[Math.floor(Math.random() * alphabet.length)];
                 this.user.name = `${this.user.firstName} ${this.user.lastInitial}.`;
-                await this.saveUserAsync();
+                await this.saveUserAsync(this.user);
               }
 
               this.user$.next(this.user);
@@ -61,9 +61,10 @@ export class UserService implements UserServiceInterface {
       })
   }
 
-  async saveUserAsync() {
-    if (this.user) {
-      await this.afs.collection('users').doc(this._user.uid).update(this.user);
+  async saveUserAsync(user: any) {
+    if (user) {
+      user.name = `${user.firstName} ${user.lastInitial}.`;
+      await this.afs.collection('users').doc(this._user.uid).update(user);
     }
   }
 

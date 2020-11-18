@@ -2,6 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user';
 
 export interface UserServiceInterface {
-    user$: BehaviorSubject<User>;
-    saveUserAsync();
+    user: any;
+    user$: BehaviorSubject<any>;
+    saveUserAsync(user: any);
 }

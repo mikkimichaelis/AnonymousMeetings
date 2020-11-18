@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared.module';
 
 import { CoreRoutingModule } from './core-routing.module';
@@ -14,10 +15,12 @@ import { SignupPage } from './signup/signup.page';
 import { TutorialPage } from './tutorial/tutorial.page';
 import { SupportPage } from './support/support.page';
 
+
 @NgModule({
   imports: [
     SharedModule,
-    CoreRoutingModule
+    CoreRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AboutPage,
