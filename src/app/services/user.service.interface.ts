@@ -1,9 +1,9 @@
 import { BehaviorSubject } from 'rxjs';
-import { User } from '../models/user';
+import { IUser } from '../models/user';
 
 export interface UserServiceInterface {
     initialize();
-    user: any;
-    user$: BehaviorSubject<any>;
-    saveUserAsync(user: any);
+    user: IUser;
+    user$: BehaviorSubject<IUser>;
+    saveUserAsync(user: IUser);
 }

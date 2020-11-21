@@ -1,15 +1,7 @@
-import { Base } from './base';
-//import { Point } from './point'
+import { IPoint } from './point'
 
-export class Attend extends Base{
+export interface IAttend {
     uid: string;
-    meeting: string;
-    //point: Point;
-
-    constructor() {
-        super();
-        this.uid = '';
-        this.meeting = '';
-        //this.point = new Point();
-    }
+    mid: string;
+    point: IPoint;
 }

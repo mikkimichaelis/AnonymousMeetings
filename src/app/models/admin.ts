@@ -1,15 +1,5 @@
-import { Base } from './base';
-
-export class Admin extends Base {
-    meetingId: string;
+export interface IAdmin {
+    groupId: string;
     userId: string;
     perms: string [];
-
-    constructor() {
-        super();
-        this.meetingId = '';
-        this.userId = '';
-        this.perms = [];
-
-    }
 }

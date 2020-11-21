@@ -6,9 +6,10 @@ import { AuthService } from './auth.service';
 
 import { UserServiceInterface } from './user.service.interface';
 
-import { User } from '../models/user';
+import { IUser } from '../models/user';
 import { TranslateService } from '@ngx-translate/core';
 import { LogService } from './log.service';
+import { User } from '../classes/user';
 
 
 
@@ -18,11 +19,11 @@ import { LogService } from './log.service';
 })
 export class UserService implements UserServiceInterface {
   
-  user$: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  user$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
 
-  public user: any;
+  public user: IUser;
   private userDocPath: string;
-  private userValueChanges: Observable<User>;
+  private userValueChanges: Observable<IUser>;
 
   private authStateSubscription: Subscription;
   constructor(private logService: LogService, private afs: AngularFirestore, private translate: TranslateService, private authService: AuthService) {}
@@ -33,7 +34,7 @@ export class UserService implements UserServiceInterface {
         if( this.authService.authUser ) {
           this.userDocPath = `users/${this.authService.authUser.uid}`
           try {
-            this.user = (await this.afs.doc<User>(this.userDocPath).get().toPromise()).data();
+            this.user = <IUser>(await this.afs.doc<IUser>(this.userDocPath).get().toPromise()).data();
           } catch(error) {
             this.logService.error(error);
             this.user = null;
@@ -41,10 +42,10 @@ export class UserService implements UserServiceInterface {
 
           if( !this.user ) {
             this.user = new User(this.authService.authUser).export();
-            await this.afs.doc<User>(this.userDocPath).set(this.user);
+            await this.afs.doc<IUser>(this.userDocPath).set(this.user);
           }
 
-          this.userValueChanges = this.afs.doc<User>(this.userDocPath).valueChanges();
+          this.userValueChanges = this.afs.doc<IUser>(this.userDocPath).valueChanges();
           this.userValueChanges.subscribe( {
             next: async (user) => {
               this.user = user;
@@ -61,10 +62,10 @@ export class UserService implements UserServiceInterface {
       })
   }
 
-  async saveUserAsync(user: any) {
+  async saveUserAsync(user: IUser) {
     if (user) {
       user.name = `${user.firstName} ${user.lastInitial}.`;
-      await this.afs.doc(this.userDocPath).update(user);
+      await this.afs.doc<IUser>(this.userDocPath).update(user);
     }
   }
 
