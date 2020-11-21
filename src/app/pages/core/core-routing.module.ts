@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from '../../classes/auth.guard';
-import { FeatureGuard } from '../../classes/feature.guard';
+import { AuthGuard } from '../../guards/auth.guard';
+import { FeatureGuard } from '../../guards/feature.guard';
 
 import { AboutPage } from './about/about.page';
 import { AccountPage } from './account/account.page';

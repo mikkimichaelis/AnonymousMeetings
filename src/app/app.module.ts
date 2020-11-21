@@ -28,7 +28,7 @@ import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestor
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 
-import { TranslateUniversalLoader } from './classes/translateuniversalloader';
+import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { LogService } from './services/log.service';
@@ -36,13 +36,13 @@ import { GroupsService } from './services/groups.service';
 import { LoadingService } from './services/loading.service';
 import { SettingsService } from './services/settings.service';
 
-import { AuthGuard } from './classes/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 import { CoreModule } from './pages/core/core.module';
 
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
 import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
-import { FeatureGuard } from './classes/feature.guard';
+import { FeatureGuard } from './guards/feature.guard';
 
 @NgModule({
   declarations: [AppComponent],

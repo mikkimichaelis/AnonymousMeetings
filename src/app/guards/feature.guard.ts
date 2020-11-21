@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { Feature } from '../enums/feature.enum';
-import { TranslateUniversalLoader } from './translateuniversalloader';
+import { TranslateUniversalLoader } from '../utils/translateuniversalloader';
 
 @Injectable()
 export class FeatureGuard implements CanActivate {
