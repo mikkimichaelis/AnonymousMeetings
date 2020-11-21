@@ -32,7 +32,7 @@ import { TranslateUniversalLoader } from './classes/translateuniversalloader';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { LogService } from './services/log.service';
-import { MeetingsService } from './services/meetings.service';
+import { GroupsService } from './services/groups.service';
 import { LoadingService } from './services/loading.service';
 import { SettingsService } from './services/settings.service';
 
@@ -41,7 +41,7 @@ import { AuthGuard } from './classes/auth.guard';
 import { CoreModule } from './pages/core/core.module';
 
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
-import { MeetingTabPageModule } from './pages/meeting-tab/meeting-tab.module';
+import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
 import { FeatureGuard } from './classes/feature.guard';
 
 @NgModule({
@@ -67,7 +67,7 @@ import { FeatureGuard } from './classes/feature.guard';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     CoreModule,
-    MeetingTabPageModule,
+    GroupTabPageModule,
     HomeTabPageModule
   ],
   providers: [
@@ -81,7 +81,7 @@ import { FeatureGuard } from './classes/feature.guard';
 
     AuthService,
     LogService,
-    MeetingsService,
+    GroupsService,
     UserService,
     LoadingService,
     SettingsService,

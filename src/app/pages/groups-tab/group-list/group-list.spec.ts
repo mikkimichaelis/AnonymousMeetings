@@ -4,11 +4,11 @@ import { TestBed, async } from '@angular/core/testing';
 import { ActionSheetController } from '@ionic/angular';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { MeetingListPage } from './meeting-list';
+import { GroupListPage } from './group-list';
 
 const confDataSub = {};
 
-describe('MeetingListPage', () => {
+describe('GroupListPage', () => {
   let fixture, app;
   beforeEach(async(() => {
     const actionSheetSpy = jasmine.createSpyObj('ActionSheetController', [
@@ -18,7 +18,7 @@ describe('MeetingListPage', () => {
     const iabSpy = jasmine.createSpyObj('InAppBrowser', ['create']);
 
     TestBed.configureTestingModule({
-      declarations: [MeetingListPage],
+      declarations: [GroupListPage],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ActionSheetController, useValue: actionSheetSpy },
@@ -28,10 +28,10 @@ describe('MeetingListPage', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(MeetingListPage);
+    fixture = TestBed.createComponent(GroupListPage);
     app = fixture.debugElement.componentInstance;
   });
-  it('should create the meeting list page', () => {
+  it('should create the group list page', () => {
     expect(app).toBeTruthy();
   });
 });

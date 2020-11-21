@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CalendarPage } from '../common/calendar/calendar.page';
 import { FeedPage } from '../common/feed/feed.page';
-import { MeetingPage } from './meeting/meeting.page';
+import { GroupPage } from './group/group.page';
 import { SponsorsPage } from './sponsors/sponsors.page';
 
-import { MeetingTabPage } from './meeting-tab.page';
+import { GroupTabPage } from './group-tab.page';
 import { ChatPage } from '../common/chat/chat.page';
 
 const routes: Routes = [
@@ -16,19 +16,19 @@ const routes: Routes = [
   },
   {
     path: 'tab',
-    component: MeetingTabPage,
+    component: GroupTabPage,
     children: [
       {
         path: 'group/tab',
-        redirectTo: 'group/tab/meeting',
+        redirectTo: 'group/tab/group',
         pathMatch: 'full'
       },
       {
-        path: 'meeting',
+        path: 'group',
         children: [
           {
             path: '',
-            component: MeetingPage
+            component: GroupPage
           }
         ]
       },
@@ -75,4 +75,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MeetingTabPageRoutingModule {}
+export class GroupTabPageRoutingModule {}

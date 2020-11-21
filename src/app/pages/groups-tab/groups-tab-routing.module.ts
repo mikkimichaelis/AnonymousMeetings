@@ -5,21 +5,21 @@ import { FavoritesPage } from './favorites/favorites.page';
 import { MapPage } from './map/map.page';
 import { SearchPage } from './search/search.page';
 
-import { MeetingsTabPage } from './meetings-tab.page';
+import { GroupsTabPage } from './groups-tab.page';
 
 const routes: Routes = [
   {
-    path: 'meetings',
-    redirectTo: 'meetings/tab',
+    path: 'groups',
+    redirectTo: 'groups/tab',
     pathMatch: 'full'
   },
   {
     path: 'tab',
-    component: MeetingsTabPage,
+    component: GroupsTabPage,
     children: [
       {
         path: '',
-        redirectTo: 'meetings/tab/search',
+        redirectTo: 'groups/tab/search',
         pathMatch: 'full'
       },
       {
@@ -66,4 +66,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MeetingsTabPageRoutingModule {}
+export class GroupsTabPageRoutingModule {}

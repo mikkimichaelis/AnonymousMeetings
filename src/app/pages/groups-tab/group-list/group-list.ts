@@ -1,19 +1,19 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { MeetingsService } from '../../../services/meetings.service';
+import { GroupsService } from '../../../services/groups.service';
 
 @Component({
-  selector: 'page-meeting-list',
-  templateUrl: 'meeting-list.html',
-  styleUrls: ['./meeting-list.scss'],
+  selector: 'page-group-list',
+  templateUrl: 'group-list.html',
+  styleUrls: ['./group-list.scss'],
 })
-export class MeetingListPage {
+export class GroupListPage {
 
   constructor(public platform: Platform,
-    public meetingsService: MeetingsService) { }
+    public groupsService: GroupsService) { }
 
   ionViewDidEnter() {
-    // this.meetingsService.updateMeetings();
+    // this.groupsService.updateGroups();
   };
 
   attend(id: number) {

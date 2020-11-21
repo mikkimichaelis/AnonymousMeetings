@@ -5,17 +5,16 @@ import * as firebase from 'firebase/app';
 import * as geofirex from 'geofirex';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Meeting } from '../models/meeting';
-import { MeetingInterface } from '../models/meeting.interface';
+import { Group } from '../models/group';
 
-import { MeetingServiceInterface } from './meeting.service.interface';
+import { GroupsServiceInterface } from './groups.service.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MeetingsService implements MeetingServiceInterface {
+export class GroupsService implements GroupsServiceInterface {
 
-  public meetings: BehaviorSubject<Meeting> = new BehaviorSubject<Meeting>(<any>[]);
+  public groups: BehaviorSubject<Group> = new BehaviorSubject<Group>(<any>[]);
 
   private geo: geofirex.GeoFireClient;
   early = 60;
@@ -28,24 +27,24 @@ export class MeetingsService implements MeetingServiceInterface {
     this.geo = geofirex.init(firebase);
   }
 
-  async getMeetings(lat: number, lon: number, radius: number, byTime?: string, byWindow?: { early: number, late: number }, byDay?: string) {
+  async getGroups(lat: number, lon: number, radius: number, byTime?: string, byWindow?: { early: number, late: number }, byDay?: string) {
     //var position: GeolocationPosition = await Geolocation.getCurrentPosition();
     //const center = this.geo.point(position.coords.latitude, position.coords.longitude); 
     //const center = this.geo.point(39.8249268571429, -84.8946604285714);
     const center = this.geo.point(lat, lon);
 
-    let query = this.geo.query('meetings').within(center, radius, this.field);
+    let query = this.geo.query('groups').within(center, radius, this.field);
 
     if (byWindow) {
       query = query.pipe(
-        map(meetings => {
+        map(groups => {
           const date = new Date();
           const time = date.toTimeString();
           const now = Date.parse('01/' + (date.getDay() + 1) + '/1970 ' + time.substring(0, time.indexOf(' ')) + ' UTC');
           const window = byWindow.early * 60 * 1000;
 
           const rv = [];
-          meetings.forEach(m => {
+          groups.forEach(m => {
             if (
               now <= (<any>m).schedule.offset + (byWindow.late * 60 * 1000)
               && (now >= (<any>m).schedule.offset - window)) {
@@ -59,9 +58,9 @@ export class MeetingsService implements MeetingServiceInterface {
 
     if (byTime) {
       query = query.pipe(
-        map(meetings => {
+        map(groups => {
           const rv = [];
-          meetings.forEach(m => {
+          groups.forEach(m => {
             if ( (<any>m).schedule.time === byTime ) {
               rv.push(m);
             }
@@ -73,9 +72,9 @@ export class MeetingsService implements MeetingServiceInterface {
 
     if (byDay) {
       query = query.pipe(
-        map(meetings => {
+        map(groups => {
           const rv = [];
-          meetings.forEach(m => {
+          groups.forEach(m => {
             if ( (<any>m).schedule.day === byDay ) {
               rv.push(m);
             }
@@ -85,8 +84,8 @@ export class MeetingsService implements MeetingServiceInterface {
       )
     }
 
-    query.subscribe(meetings => {
-      this.meetings.next(<Meeting>(<any>meetings));
+    query.subscribe(groups => {
+      this.groups.next(<Group>(<any>groups));
     });
   }
 }

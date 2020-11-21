@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MeetingsService } from 'src/app/services/meetings.service';
+import { GroupsService } from 'src/app/services/groups.service';
 
 @Component({
   selector: 'app-search',
@@ -8,13 +8,13 @@ import { MeetingsService } from 'src/app/services/meetings.service';
 })
 export class SearchPage implements OnInit {
 
-  constructor(private meetingsService: MeetingsService ) { }
+  constructor(private groupsService: GroupsService ) { }
 
   ngOnInit() {
   }
 
   ionViewDidEnter() {
-    // this.meetingsService.updateMeetings();
+    // this.groupsService.updateGroups();
   };
 
 }

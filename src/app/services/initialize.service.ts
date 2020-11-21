@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 import { LoadingService } from './loading.service'
 import { LogService } from './log.service';
-import { MeetingsService } from './meetings.service';
+import { GroupsService } from './groups.service';
 import { SettingsService } from './settings.service';
 import { UserService } from './user.service';
 
@@ -23,7 +23,7 @@ export class InitializeService {
     private authService: AuthService,
     private loadingService: LoadingService,
     private logService: LogService,
-    private meetingService: MeetingsService,
+    private groupService: GroupsService,
     private userService: UserService
     ) { }
 
@@ -38,7 +38,7 @@ export class InitializeService {
     // firebase.initializeApp(environment.firebaseConfig);
     await this.authService.initialize();
     await this.logService.initialize();
-    await this.meetingService.initialize();
+    await this.groupService.initialize();
     await this.userService.initialize();
 
     //this.loadingService.dismiss();

@@ -108,8 +108,8 @@ export class AuthService implements AuthServiceInterface {
         // firebase.auth.PhoneAuthProvider.PROVIDER_ID // not available for Ionic apps
       ],
       // Terms of service url.
-      tosUrl: 'https://anonymousmeetings.us/assets/pages/tos.html',
-      privacyPolicyUrl: 'https://anonymousmeetings.us/assets/pages/privacy.html',
+      tosUrl: 'https://anonymousgroups.us/assets/pages/tos.html',
+      privacyPolicyUrl: 'https://anonymousgroups.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
       signInSuccessUrl: '/core/landing'
     };

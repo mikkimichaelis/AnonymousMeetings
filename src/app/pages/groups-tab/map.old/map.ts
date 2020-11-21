@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { darkStyle } from './map-dark-style';
 import { Observable } from 'rxjs';
-import { MeetingsService } from '../../../services/meetings.service';
+import { GroupsService } from '../../../services/groups.service';
 
 @Component({
   selector: 'page-map',
@@ -12,10 +12,10 @@ import { MeetingsService } from '../../../services/meetings.service';
 export class MapPage {
 
   constructor(public platform: Platform,
-    public meetingsService: MeetingsService) { }
+    public groupsService: GroupsService) { }
 
   ionViewDidEnter() {
-    // this.meetingsService.getMeetings();
+    // this.groupsService.getGroups();
   };
 
   mapClicked($event: MouseEvent) { 
