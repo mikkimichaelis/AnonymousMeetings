@@ -9,10 +9,11 @@ export class Meeting extends Base {
     url: string;
     active: boolean;
     zoom: string;
+    pw: string;
     notes: string;
     admins: string [];
     location: Location;
-    schedule: Schedule;
+    schedule: Schedule [];
     boundingbox: BoundingBox;
     point: Point;
     tags: string [];
@@ -26,7 +27,7 @@ export class Meeting extends Base {
         this.notes = '';
         this.admins = [];
         this.location = new Location();
-        this.schedule = new Schedule();
+        this.schedule = [];
         this.boundingbox = new BoundingBox();
         this.point = new Point();
         this.tags = [];

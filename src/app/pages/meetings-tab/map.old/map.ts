@@ -15,7 +15,7 @@ export class MapPage {
     public meetingsService: MeetingsService) { }
 
   ionViewDidEnter() {
-    this.meetingsService.updateMeetings();
+    // this.meetingsService.getMeetings();
   };
 
   mapClicked($event: MouseEvent) { 

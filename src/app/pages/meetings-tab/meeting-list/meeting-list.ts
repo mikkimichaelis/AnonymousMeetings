@@ -13,7 +13,7 @@ export class MeetingListPage {
     public meetingsService: MeetingsService) { }
 
   ionViewDidEnter() {
-    this.meetingsService.updateMeetings();
+    // this.meetingsService.updateMeetings();
   };
 
   attend(id: number) {

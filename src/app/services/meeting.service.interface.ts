@@ -1,12 +1,7 @@
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export interface MeetingServiceInterface {
     initialize();
-    meetings: Observable<any>;
-    distance: number;
-    early: number;          
-    late: number;            
-    field: string;
-
-    updateMeetings(all?: boolean);
+    meetings: BehaviorSubject<any>;
+    getMeetings(lat: number, lon: number, radius: number, byTime?: string, byWindow?: { early: number, late: number }, byDay?: string);
 }

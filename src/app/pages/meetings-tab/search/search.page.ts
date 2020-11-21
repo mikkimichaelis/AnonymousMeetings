@@ -14,7 +14,7 @@ export class SearchPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.meetingsService.updateMeetings();
+    // this.meetingsService.updateMeetings();
   };
 
 }

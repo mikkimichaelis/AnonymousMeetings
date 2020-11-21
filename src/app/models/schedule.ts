@@ -1,6 +1,6 @@
 export class Schedule {
     day: string;        // UI string representing dow when meeting occurs ie Monday
-    time: string;       // UI string representing time when meeting occurs ie T7:00:00-04:00
+    time: string;       // UI string representing time when meeting occurs ie 7:00 pm
     offset: number;     // Millisecond time offset from day @ midnight when meeting starts for easy comparison
     // offset includes dow + time in ms
     // NOTE: Timezone and UTC offset are irrelevant because the phones time will 
