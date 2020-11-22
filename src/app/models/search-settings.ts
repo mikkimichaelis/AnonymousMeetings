@@ -10,9 +10,8 @@ export interface ISearchSettings {
 
   bySpecificTime: boolean,
   bySpecific: {
-    start: number,     // null = past current time or Time string
-    end: number,
-    range: number,  // hours past byTime
+    start: string,     // null = past current time or Time string
+    end: string
   },
 
   // or

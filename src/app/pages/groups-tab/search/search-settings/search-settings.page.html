@@ -84,7 +84,7 @@
 
       <ion-item>
         <ion-radio slot="start" value="specific"></ion-radio>
-        <ion-label slot="start" translate>From</ion-label>
+        <ion-label slot="start" translate>FROM</ion-label>
         
         <ion-datetime #timePickerStart 
           slot="start"
@@ -102,7 +102,7 @@
 
       <ion-item>
         <ion-radio slot="start" value="relative"></ion-radio>
-        <ion-label slot="start" translate>Starts within</ion-label>
+        <ion-label slot="start" translate>STARTS.WITHIN</ion-label>
         <ion-input slot="end" type="number" [(ngModel)]="settings.byRelative.early" *ngIf="settings.byRelativeTime"></ion-input>
         <ion-label slot="end" translate>HOURS</ion-label>
       </ion-item>

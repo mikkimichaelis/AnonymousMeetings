@@ -34,6 +34,7 @@
     "MAP": "Meeting Map",
     "ADMIN": "Meeting Administration",
     "MINUTES": "Meeting Minutes",
+    "MEETINGS": "Meetings",
     "MEETINGS.SEARCH": "Search Meetings",
     "MEETINGS.SEARCH.SETTINGS": "Search Settings",
     "MEETING": {
@@ -55,6 +56,7 @@
     "SAVE": "Save",
     "LOCATION": "Search Location",
     "GPS": "GPS",
+    "CURRENT.GPS": "Current GPS",
     "POSTCODE": "Zip Code",
     "SEARCHRADIUS": "Search Radius",
     "BYDAY": "Search by Day",
@@ -66,6 +68,15 @@
     "SPECIFIC": "Specific",
     "RELATIVE": "Relative",
     "STARTS.WITHIN": "starts within",
-    "HOURS": "hour(s)"
+    "HOURS": "hour(s)",
+    "FROM": "From",
+    "SEARCH": "Search",
+    "MAP": "Map",
+    "FAVORITES": "Favorites",
+    "CALENDAR": "Calendar",
+    "ON": "on",
+    "WITHIN": "within",
+    "BETWEEN": "between",
+    "RADIUS": "radius"
 
   }

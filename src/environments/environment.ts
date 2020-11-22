@@ -31,7 +31,7 @@ export const environment = {
       radius: 16,       // 16km (10 miles)
   
       byAnyDay: true,
-      byDay: null,      // null = today or dow
+      byDay: 'today',      // today or dow
       
       // specify specific time
       bySpecificTime: false,

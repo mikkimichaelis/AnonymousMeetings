@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Plugins, GeolocationPosition } from '@capacitor/core';
+import { ILocationService } from './location.service.interface';
 const { Geolocation } = Plugins;
 
 
@@ -7,7 +8,7 @@ const { Geolocation } = Plugins;
 @Injectable({
   providedIn: 'root'
 })
-export class LocationService {
+export class LocationService implements ILocationService {
 
   constructor() { }
 

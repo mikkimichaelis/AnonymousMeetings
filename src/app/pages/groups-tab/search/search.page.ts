@@ -44,6 +44,7 @@ export class SearchPage implements OnInit {
     }
 
     await this.groupsSvc.getGroups(s);
+
   }
 
   async presentSettings() {
@@ -59,6 +60,7 @@ export class SearchPage implements OnInit {
     if( settings.data ) {
       this.settingsSvc.settings.searchSettings = <any>settings.data;
       await this.settingsSvc.save()
+      await this.refresh();
     }
   }
 }

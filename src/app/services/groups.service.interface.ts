@@ -4,5 +4,6 @@ import { ISearchSettings } from '../models/search-settings';
 export interface IGroupsService {
     initialize();
     groups: BehaviorSubject<any>;
+    verbose: string;
     getGroups(search: ISearchSettings);
 }
