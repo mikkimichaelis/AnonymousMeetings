@@ -7,6 +7,7 @@ import { GroupsTabPage } from './groups-tab.page';
 import { FavoritesPage } from './favorites/favorites.page';
 import { MapPage } from './map/map.page';
 import { SearchPage } from './search/search.page';
+import { SearchSettingsPage } from './search/search-settings/search-settings.page';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { SearchPage } from './search/search.page';
     GroupsTabPage,
     FavoritesPage,
     MapPage,
-    SearchPage
+    SearchPage,
+    SearchSettingsPage
   ]
 })
 export class GroupsTabPageModule {}

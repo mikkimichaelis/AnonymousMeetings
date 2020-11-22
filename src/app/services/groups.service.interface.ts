@@ -1,7 +1,8 @@
 import { BehaviorSubject } from 'rxjs';
+import { ISearchSettings } from '../models/search-settings';
 
-export interface GroupsServiceInterface {
+export interface IGroupsService {
     initialize();
     groups: BehaviorSubject<any>;
-    getGroups(lat: number, lon: number, radius: number, byTime?: string, byWindow?: { early: number, late: number }, byDay?: string);
+    getGroups(search: ISearchSettings);
 }

@@ -8,12 +8,19 @@
 </ion-header>
 
 <ion-content>
+  
   <form [formGroup]="userForm" (ngSubmit)="submitForm()" novalidate>
     <ion-row>
       <ion-col>
         <ion-button type="submit" expand="full">Submit</ion-button>
       </ion-col>
     </ion-row>
+
+    <ion-item>
+      <ion-avitar>
+        <img src="https://gravatar.com/avatar/00000000000000000000001111155555?d=identicon&f=y">
+      </ion-avitar>
+    </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">First Name</ion-label>

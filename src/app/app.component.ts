@@ -34,6 +34,7 @@ export class AppComponent {
     private initializeService: InitializeService,
     private settings: SettingsService
   ) {
+    settings.initialize();
     this.initializeApp();
   }
 

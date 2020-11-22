@@ -1,4 +1,12 @@
 {
+  "SUNDAY": "Sunday",
+  "MONDAY": "Monday",
+  "TUESDAY": "Tuesday",
+  "WEDNESDAY": "Wednesday",
+  "THURSDAY": "Thursday",
+  "FRIDAY": "Friday",
+  "SATURDAY": "Saturday",
+
   "TITLE": {
     "ALPHABET": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     "ANONYMOUS": "Anonymous",
@@ -26,6 +34,8 @@
     "MAP": "Meeting Map",
     "ADMIN": "Meeting Administration",
     "MINUTES": "Meeting Minutes",
+    "MEETINGS.SEARCH": "Search Meetings",
+    "MEETINGS.SEARCH.SETTINGS": "Search Settings",
     "MEETING": {
       "INFO": "Meeting Information",
       "SPONSORS": "Meeting Sponsors",
@@ -40,6 +50,22 @@
     "LANDING.ANONYMOUS.TXT": "Create an Anonymous account using random name.",
     "LANDING.ANONYMOUS": "Anonymous",
     "LANDING.ANONYMOUS.COMPLETE.TXT": "Complete anonymity with limited features.",
-    "LANDING.ANONYMOUS.COMPLETE": "Complete Anonymity"
+    "LANDING.ANONYMOUS.COMPLETE": "Complete Anonymity",
+    "CANCEL": "Cancel",
+    "SAVE": "Save",
+    "LOCATION": "Search Location",
+    "GPS": "GPS",
+    "POSTCODE": "Zip Code",
+    "SEARCHRADIUS": "Search Radius",
+    "BYDAY": "Search by Day",
+    "ANYDAY": "Any Day",
+    "TODAY": "Today",
+    "SPECIFIC.DAY": "Specific Day",
+    "BYTIME": "Search by Time",
+    "ANYTIME": "Any Time",
+    "SPECIFIC": "Specific",
+    "RELATIVE": "Relative",
+    "STARTS.WITHIN": "starts within",
+    "HOURS": "hour(s)"
 
   }

@@ -8,20 +8,20 @@ import { SearchPage } from './search/search.page';
 import { GroupsTabPage } from './groups-tab.page';
 
 const routes: Routes = [
-  {
-    path: 'groups',
-    redirectTo: 'groups/tab',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: 'groups',
+  //   redirectTo: 'groups/tab',
+  //   pathMatch: 'full'
+  // },
   {
     path: 'tab',
     component: GroupsTabPage,
     children: [
-      {
-        path: '',
-        redirectTo: 'groups/tab/search',
-        pathMatch: 'full'
-      },
+      // {
+      //   path: '',
+      //   redirectTo: 'groups/tab/search',
+      //   pathMatch: 'full'
+      // },
       {
         path: 'search',
         children: [

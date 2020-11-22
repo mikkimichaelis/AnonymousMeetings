@@ -19,6 +19,7 @@ declare var navigator: any;
 export class InitializeService {
 
   constructor(
+    private settingsService: SettingsService,
     private translate: TranslateService,
     private authService: AuthService,
     private loadingService: LoadingService,
@@ -36,6 +37,7 @@ export class InitializeService {
     //this.loadingService.present();
 
     // firebase.initializeApp(environment.firebaseConfig);
+    // await this.settingsService.initialize();
     await this.authService.initialize();
     await this.logService.initialize();
     await this.groupService.initialize();

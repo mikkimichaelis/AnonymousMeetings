@@ -17,7 +17,35 @@ export const environment = {
     appID: 'tdzfnj/anonymous-meetings',
     options: {}
   },
-  settings: {
-    _darkTheme: false,
+  defaultSettings: {
+    darkTheme: false,
+    searchSettings: {
+      zipcode: null,    // zip -> gps
+      gps: true,
+      lat: null,
+      lon: null,
+      radius: 16,       // 16km (10 miles)
+  
+      byAnyDay: true,
+      byDay: null,      // null = today or dow
+      
+      // specify specific time
+      bySpecificTime: false,
+      bySpecific: {
+        time: null,     // null = past current time or Time string
+        range: null,    // hours past byTime
+      },
+
+      // or
+      // (bySpecific & byRelative are mutually exclusive)
+  
+      // relative to current time
+      // use current time window range
+      byRelativeTime: false,
+      byRelative: { 
+        early: null, 
+        late: null 
+      }   
+    }
   }
 };

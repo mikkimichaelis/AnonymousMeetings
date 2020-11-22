@@ -9,20 +9,20 @@ import { GroupTabPage } from './group-tab.page';
 import { ChatPage } from '../common/chat/chat.page';
 
 const routes: Routes = [
-  {
-    path: 'group',
-    redirectTo: 'group/tab',
-    pathMatch: 'full'
-  },
+  // {
+  //   path: 'group',
+  //   redirectTo: 'group/tab',
+  //   pathMatch: 'full'
+  // },
   {
     path: 'tab',
     component: GroupTabPage,
     children: [
-      {
-        path: 'group/tab',
-        redirectTo: 'group/tab/group',
-        pathMatch: 'full'
-      },
+      // {
+      //   path: 'group',
+      //   redirectTo: 'group/tab/group',
+      //   pathMatch: 'full'
+      // },
       {
         path: 'group',
         children: [
