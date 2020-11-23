@@ -39,17 +39,25 @@ export class GroupsService implements IGroupsService {
     this.verbose = search.gps ? `${await this.transSvc.get('CURRENT.GPS').toPromise()}` : `${search.zipcode}`
     //this.verbose = `${this.verbose} ${await this.transSvc.get('RADIUS').toPromise()} ${search.radius}m`;
 
-    let query = this.geo.query('groups').within(center, search.radius, this.field);
+    //const active; = .collection('users').where('status', '==', 'active');
+    //const q = this.db.list('/meetings').snapshotChanges();
+    
+    let query = this.geo.query('meetings').within(center, search.radius, this.field);
 
     if (!search.byAnyDay) {
-      const day = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay
-        : await this.transSvc.get(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]);
+      const dayVerbose = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay
+        : await this.transSvc.get(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]).toPromise();
 
         // ${await this.transSvc.get('ON').toPromise()}
-      this.verbose = `${this.verbose} ${day}`;
+      this.verbose = `${this.verbose} ${dayVerbose}`;
+
+      // `${await this.transSvc.get('TODAY').toPromise()}`
+      const day = search.byDay !== 'today' ? search.byDay
+      : await this.transSvc.get(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]).toPromise();
 
       query = query.pipe(
         map(groups => {
+          
           const rv = [];
           groups.forEach(m => {
             if ((<any>m).schedule.day === day) {
@@ -88,12 +96,32 @@ export class GroupsService implements IGroupsService {
     } else if (search.bySpecificTime) {
       const between = `${await this.transSvc.get('BETWEEN').toPromise()}`;
       this.verbose = `${this.verbose} ${between} ${luxon.DateTime.fromISO(search.bySpecific.start).toLocaleString(luxon.DateTime.TIME_SIMPLE)} - ${luxon.DateTime.fromISO(search.bySpecific.end).toLocaleString(luxon.DateTime.TIME_SIMPLE)}`;
+      
+      let today = luxon.DateTime.local();
+      let start = luxon.DateTime.fromISO(search.bySpecific.start);
+      start = luxon.DateTime.fromObject({
+        year: today.year,
+        month: today.month,
+        day: today.day,
+        hour: start.hour,
+        minute: start.minute
+      })
+
+      let end = luxon.DateTime.fromISO(search.bySpecific.end);
+      end = luxon.DateTime.fromObject({
+        year: today.year,
+        month: today.month,
+        day: today.day,
+        hour: end.hour,
+        minute: end.minute
+      })
+      
       query = query.pipe(
         map(groups => {
           const rv = [];
           groups.forEach(m => {
-            // TODO add range
-            if ((<any>m).schedule.time === search.bySpecific.start) {
+            let time = luxon.DateTime.fromFormat((<any>m).schedule.time, 't');
+            if( time >= start && time <= end) {
               rv.push(m);
             }
           });
