@@ -9,8 +9,9 @@ import { map } from 'rxjs/operators';
 import { Group } from '../models/group';
 import { ISearchSettings } from '../models/search-settings';
 import * as luxon from 'luxon';
-
+import LogRocket from 'logrocket';
 import { IGroupsService } from './groups.service.interface';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,18 @@ export class GroupsService implements IGroupsService {
   private geo: geofirex.GeoFireClient;
   field = 'point';
 
-  constructor(private db: AngularFireDatabase, private firestore: AngularFirestore, private transSvc: TranslateService) { }
+  constructor(
+    private db: AngularFireDatabase, 
+    private firestore: AngularFirestore, 
+    private transSvc: TranslateService,
+    private loadingService: LoadingService) { }
 
   initialize() {
     this.geo = geofirex.init(firebase);
   }
 
   async getGroups(search: ISearchSettings) {
+    await this.loadingService.present();
     //var position: GeolocationPosition = await Geolocation.getCurrentPosition();
     //const center = this.geo.point(position.coords.latitude, position.coords.longitude); 
     //const center = this.geo.point(39.8249268571429, -84.8946604285714);
@@ -132,8 +138,13 @@ export class GroupsService implements IGroupsService {
       this.verbose = `${this.verbose} ${(await this.transSvc.get('ANYTIME').toPromise()).toLowerCase()}`;
     }
 
-    query.subscribe(groups => {
+    query.subscribe(async groups => {
       this.groups.next(<Group>(<any>groups));
+      await this.loadingService.dismiss();
+    },
+    async error => {
+      LogRocket.error(error);
+      await this.loadingService.dismiss();
     });
   }
 }

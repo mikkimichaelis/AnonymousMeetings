@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { GroupsService } from 'src/app/services/groups.service';
 import { LocationService } from 'src/app/services/location.service';
@@ -13,11 +14,11 @@ import { SearchSettingsPage } from './search-settings/search-settings.page';
 export class SearchPage implements OnInit {
 
   constructor( 
-    private routerOutlet: IonRouterOutlet, 
+    public routerOutlet: IonRouterOutlet, 
     public modalCtrl: ModalController, 
-    private groupsSvc: GroupsService, 
-    private locSvc: LocationService,
-    private settingsSvc: SettingsService 
+    public groupsSvc: GroupsService, 
+    public locSvc: LocationService,
+    public settingsSvc: SettingsService
     ) { }
 
   ngOnInit() {
@@ -28,7 +29,6 @@ export class SearchPage implements OnInit {
   };
 
   async refresh() {
-
     const s = this.settingsSvc.settings.searchSettings
 
     if( s.zipcode ) {
@@ -44,7 +44,6 @@ export class SearchPage implements OnInit {
     }
 
     await this.groupsSvc.getGroups(s);
-
   }
 
   async presentSettings() {

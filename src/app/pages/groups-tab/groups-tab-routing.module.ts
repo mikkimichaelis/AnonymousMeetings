@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CalendarPage } from '../common/calendar/calendar.page';
 import { FavoritesPage } from './favorites/favorites.page';
-import { MapPage } from './map/map.page';
+import { MapPage } from './search/map/map.page';
 import { SearchPage } from './search/search.page';
 
 import { GroupsTabPage } from './groups-tab.page';

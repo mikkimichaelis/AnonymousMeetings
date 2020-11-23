@@ -5,20 +5,22 @@ import { GroupsTabPageRoutingModule } from './groups-tab-routing.module';
 
 import { GroupsTabPage } from './groups-tab.page';
 import { FavoritesPage } from './favorites/favorites.page';
-import { MapPage } from './map/map.page';
 import { SearchPage } from './search/search.page';
+import { MapPage } from './search/map/map.page';
 import { SearchSettingsPage } from './search/search-settings/search-settings.page';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   imports: [
     SharedModule,
-    GroupsTabPageRoutingModule
+    GroupsTabPageRoutingModule,
+    AgmCoreModule
   ],
   declarations: [
     GroupsTabPage,
     FavoritesPage,
-    MapPage,
     SearchPage,
+    MapPage,
     SearchSettingsPage
   ]
 })
