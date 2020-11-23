@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content>
-  <agm-map [latitude]="39.84086025" [longitude]="-86.1388816672577">
+  <agm-map [latitude]="latitude" [longitude]="longitude">
     <agm-marker *ngFor="let group of groupsSvc.groups | async" 
       [latitude]="group.point.geopoint.latitude" 
       [longitude]="group.point.geopoint.longitude"
@@ -24,7 +24,9 @@
         {{group.location.name}}<br/>
         {{group.location.address}}<br/>
         {{group.location.city}}, {{group.location.state}}<br/>
-        {{group.schedule.time}} {{group.schedule.day}}
+        {{group.hitMetadata.distance}}<br/>
+        {{group.schedule.time}} {{group.schedule.day}}<br/>
+        <ion-button (click)="details(group)">details</ion-button>
       </agm-info-window>
     </agm-marker>
   </agm-map>
