@@ -9,5 +9,210 @@
 </ion-header>
 
 <ion-content>
+  <!-- title card / about / member count / online count / date last updated / favorite / home group
+    background / group colors 
+    group fav sayings
+  tags (open/gay/smoking/handicapped/discussion/round robin/study/etc)
+  phone/address/directions
+  zoom meeting card
+  schedule card/add push reminder/add to phone calendar
+  attendance history card
+  topics history card
+  notes
+  request ride / call -->
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="share"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Group Name</ion-card-title>
+      <ion-card-subtitle>AA/NA/CA/HA/MA/GA/SA/Alanon tags: open smoking handicapped discussion round robin study
+        women/men only lgbtq etc.</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-item>
+      <ion-icon slot="start" name="calendar-outline"></ion-icon>
+      <ion-label>group started</ion-label>
+      <ion-text>8/10/1990</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="arrow-up-circle-outline"></ion-icon>
+      <ion-label>last activity</ion-label>
+      <ion-text>11/1/2020</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="people-outline"></ion-icon>
+      <ion-label>members</ion-label>
+      <ion-text>20</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="calendar-outline"></ion-icon>
+      <ion-label>members years sobriety</ion-label>
+      <ion-text>64 combined</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="people-circle-outline"></ion-icon>
+      <ion-label>members online</ion-label>
+      <ion-text>5</ion-text>
+    </ion-item>
+
+    <ion-card-content>
+      <ion-item>
+      about this group......
+    </ion-item>
+    <ion-item>
+      NOTES: Please use side entrance. Do not leave cigrette butts on the ground. etc.
+    </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Meeting Schedule</ion-card-title>
+      <ion-card-subtitle>last updated 1/1/2099</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-text>Wednesday at 7:00 pm</ion-text>
+        <ion-button fill="outline" slot="end">Add to Calendar</ion-button>
+        <ion-button fill="outline" slot="end">Set Reminder</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Zoom Meeting</ion-card-title>
+      <ion-card-subtitle>starts Monday at 6:30 PM EST</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-button fill="outline" slot="end">Join Zoom Meeting</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Ride Request</ion-card-title>
+      <ion-card-subtitle></ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Phone Number</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button fill="outline" slot="end">Request Ride at current GPS location</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-card-header>
+        <ion-card-title>Send Group Secretary a Message</ion-card-title>
+        <ion-card-subtitle></ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-item>
+        <ion-textarea placeholder="Enter your message here..."></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-button fill="outline" slot="end">Send</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Contact Card</ion-card-title>
+      <ion-card-subtitle></ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-icon slot="start" name="call-outline"></ion-icon>
+        <ion-label>telephone</ion-label>
+        <ion-text>+1 (417) 555-1212</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" name="copy-outline"></ion-icon>
+        <ion-label>fax</ion-label>
+        <ion-text>+1 (417) 555-1212</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" name="mail-outline"></ion-icon>
+        <ion-label>email</ion-label>
+        <ion-text>info@somegrouop.com</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" name="planet-outline"></ion-icon>
+        <ion-label>www</ion-label>
+        <ion-text>www.somegroup.com</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" name="home-outline"></ion-icon>
+        <ion-label>address</ion-label>
+        <ion-text>12950 W Farmroad 156<br />Republic, MO 65738<br />USA</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-button fill="outline" slot="end">Save as Contact</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Previous Meeting Topics</ion-card-title>
+      <ion-card-subtitle></ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Pokémon Yellow</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Mega Man X</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>The Legend of Zelda</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Pac-Man</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label>Super Mario World</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Attendance Card</ion-card-title>
+      <ion-card-subtitle></ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-img src="assets/images/attendance.png"></ion-img>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

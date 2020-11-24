@@ -10,6 +10,7 @@ import { LogService } from './log.service';
 import { GroupsService } from './groups.service';
 import { SettingsService } from './settings.service';
 import { UserService } from './user.service';
+import { GroupService } from './group.service';
 
 declare var navigator: any;
 
@@ -24,7 +25,8 @@ export class InitializeService {
     private authService: AuthService,
     private loadingService: LoadingService,
     private logService: LogService,
-    private groupService: GroupsService,
+    private groupsService: GroupsService,
+    private groupService: GroupService,
     private userService: UserService
     ) { }
 
@@ -40,6 +42,7 @@ export class InitializeService {
     // await this.settingsService.initialize();
     await this.authService.initialize();
     await this.logService.initialize();
+    await this.groupsService.initialize();
     await this.groupService.initialize();
     await this.userService.initialize();
 

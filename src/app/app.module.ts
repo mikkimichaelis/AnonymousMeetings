@@ -26,7 +26,8 @@ import { AgmCoreModule } from '@agm/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
+
+import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { AuthService } from './services/auth.service';
@@ -65,7 +66,7 @@ import { FeatureGuard } from './guards/feature.guard';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
-    AngularFireDatabaseModule,
+    NgCalendarModule,
     CoreModule,
     GroupTabPageModule,
     HomeTabPageModule
@@ -75,7 +76,6 @@ import { FeatureGuard } from './guards/feature.guard';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    AngularFireDatabase,
     AngularFirestore,
     TranslateService,
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { TranslateService } from '@ngx-translate/core';
 import * as firebase from 'firebase/app';
@@ -25,7 +24,6 @@ export class GroupsService implements IGroupsService {
   field = 'point';
 
   constructor(
-    private db: AngularFireDatabase, 
     private firestore: AngularFirestore, 
     private transSvc: TranslateService,
     private loadingService: LoadingService) { }

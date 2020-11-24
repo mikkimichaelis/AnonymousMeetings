@@ -28,7 +28,6 @@
     "SIGNUP.NEW": "Sign Up New Account",
     "SIGNIN.EXISTING": "Sign In Existing Account",
     "FRIENDS": "Friends",
-    "CHAT": "Chat",
     "FAVORITES": "Favorite Meetings",
     "SEARCH": "Search Meetings",
     "MAP": "Meeting Map",
@@ -38,6 +37,7 @@
     "MEETINGS.SEARCH": "Search Meetings",
     "MEETINGS.SEARCH.SETTINGS": "Search Settings",
     "MEETING": {
+      "CHAT": "Meeting Chat",
       "INFO": "Meeting Information",
       "SPONSORS": "Meeting Sponsors",
       "CALENDAR": "Meeting Calendar",

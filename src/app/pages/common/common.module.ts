@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared.module';
 
+import { NgCalendarModule  } from 'ionic2-calendar';
+
 import { CommonRoutingModule } from './common-routing.module';
 
 import { CalendarPage } from './calendar/calendar.page';
@@ -13,6 +15,7 @@ import { UserPage } from './user/user.page';
 @NgModule({
   imports: [
     SharedModule,
+    NgCalendarModule,
     CommonRoutingModule
   ],
   declarations: [
