@@ -1,5 +1,6 @@
 import { IAttend } from './attend';
-import { IFavGroup } from './group';
+import { IGroupFavorite } from './group-favorite';
+import { IUserFriend } from './user-friend';
 
 export interface IUser {
     anonymous: boolean;
@@ -8,20 +9,11 @@ export interface IUser {
     name: string;
     bday: string;
     homeGroupId: string;
-    favGroups: IFavGroup[];
+    favGroups: IGroupFavorite[];
     attendance: IAttend [];
     lastActivity: string;   //  Date
-    friends: IFriendUser[];
+    friends: IUserFriend[];
 }
 
-export interface IFriendUser {
-    uid: string;
-    name: string;
-    lastActivity: string;
-}
 
-export interface IMemberUser {
-    uid: string;
-    name: string;
-    lastActivity: string;
-}
+

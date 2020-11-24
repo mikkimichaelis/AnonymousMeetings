@@ -1,13 +1,13 @@
 export interface IMessage {
-    id: string;
-    rid: string; // reply message id
+    gid: string
+    gname: string;
+    fuid: string;
+    fname: string;
+    tuid: string;
+    tname: string;
+
+    replyMid: string;
     
-    fromId: string;
-    fromName: string;
-
-    toId: string;
-    toName: string;
-
     date: string;
     read: string;
 

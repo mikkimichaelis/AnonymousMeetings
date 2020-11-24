@@ -2,30 +2,42 @@ import { ILocation } from './location';
 import { ISchedule } from './schedule';
 import { IBoundingBox } from './bounding-box';
 import { IPoint } from './point';
-import { IMemberUser } from './user';
+import { IRideRequest } from './ride-request';
+import { IAddress } from './address';
+import { IUserMember } from './user-member';
 
-export interface Group {
-    name: string;
-    url: string;
+export interface IGroup {
     active: boolean;
+    name: string;
+    type: string;
+    tags: string [];
+    started: string;
+    lastActivity: string;
+    monthsSobriety: number;
+    about: string;
+    notes: string;
+
+    schedule: ISchedule[];
+
     zoom: string;
     pw: string;
-    notes: string;
+
+    rideRequests: IRideRequest[];
+
+    telephone: string;
+    email: string;
+    url: string;
+    
+    mailAddress: IAddress;
+    
     admins: string [];
     location: ILocation;
     timezone: number;
     daylightsavings: boolean;
-    schedule: ISchedule;
+    
     boundingbox: IBoundingBox;
     point: IPoint;
-    tags: string [];
-    members: IMemberUser[];
-}
-
-export interface IFavGroup {
-    id: string;
-    name: string;
-    active: boolean;
-    zoom: string;
-    schedule: string;
+    
+    membersOnline: number;
+    members: IUserMember[];
 }

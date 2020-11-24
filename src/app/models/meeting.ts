@@ -1,7 +1,10 @@
+import { IPoint } from './point';
+
 export interface IMeeting {
     gid: string;    // group id
+    sid: string;    // schedule
     date: string;
-    sid: string;    // secretary uid
+    uid: string;    // secretary uid
     secretary: string;
     speaker: string;
     attendance: number;
@@ -11,4 +14,5 @@ export interface IMeeting {
     visitors: string[];
     topic: string;
     notes: string;
+    point: IPoint;
 }

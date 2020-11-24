@@ -34,6 +34,7 @@ import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { LogService } from './services/log.service';
 import { GroupsService } from './services/groups.service';
+import { GroupService, GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE } from './services/group.service';
 import { LoadingService } from './services/loading.service';
 import { SettingsService } from './services/settings.service';
 
@@ -82,6 +83,8 @@ import { FeatureGuard } from './guards/feature.guard';
     AuthService,
     LogService,
     GroupsService,
+    { provide: GROUP_SERVICE, useExisting: GroupService },
+    { provide: GROUP_BLL_SERVICE, useExisting: GroupBLLService },
     UserService,
     LoadingService,
     SettingsService,

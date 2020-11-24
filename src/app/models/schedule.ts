@@ -1,7 +1,10 @@
+import { ILocation } from './location';
+
 export interface ISchedule {
+    gid: string;
     day: string;        // UI string representing dow when group occurs ie Monday
     time: string;       // UI string representing time when group occurs ie 7:00 pm
-    offset: number;     // Millisecond time offset from day @ midnight when group starts for easy comparison
+    offset: number;     // Millisecond time offset of day @ midnight from 1/1/1970 when group starts for easy comparison
     // offset includes dow + time in ms
     // NOTE: Timezone and UTC offset are irrelevant because the phones time will 
     // be in the ame tz/utc offset as the group.  Therefore they can be ignored
@@ -12,4 +15,8 @@ export interface ISchedule {
     // wrong, and that would cause problems, but thats a user error for which I'll not write code to handle.
     // I'll assume if a person is standing at a group their phone is in the same tz as the group itself.
     duration: number;   // minute duration of group
+    location: ILocation;
+    recurring: boolean;
+    updated: string;
+    active: boolean;
 };

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { GroupService } from 'src/app/services/group.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { GroupService, GROUP_SERVICE, IGroupService } from 'src/app/services/group.service';
 
 @Component({
   selector: 'app-group',
@@ -8,7 +9,7 @@ import { GroupService } from 'src/app/services/group.service';
 })
 export class GroupPage implements OnInit {
 
-  constructor( private groupSvc: GroupService ) { }
+  constructor( @Inject(GROUP_SERVICE) private groupSvc: IGroupService ) { }
 
   ngOnInit() {
   }

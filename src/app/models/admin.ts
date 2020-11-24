@@ -1,5 +1,5 @@
 export interface IAdmin {
-    groupId: string;
+    gid: string;
     userId: string;
     perms: string [];
 }

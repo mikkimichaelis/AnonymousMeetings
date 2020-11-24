@@ -5,7 +5,7 @@ import * as firebase from 'firebase/app';
 import * as geofirex from 'geofirex';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Group } from '../models/group';
+import { IGroup } from '../models/group';
 import { ISearchSettings } from '../models/search-settings';
 import * as luxon from 'luxon';
 import LogRocket from 'logrocket';
@@ -17,7 +17,7 @@ import { LoadingService } from './loading.service';
 })
 export class GroupsService implements IGroupsService {
 
-  public groups: BehaviorSubject<Group> = new BehaviorSubject<Group>(<any>[]);
+  public groups: BehaviorSubject<IGroup> = new BehaviorSubject<IGroup>(<any>[]);
   public verbose: string;
 
   private geo: geofirex.GeoFireClient;
@@ -137,7 +137,7 @@ export class GroupsService implements IGroupsService {
     }
 
     query.subscribe(async groups => {
-      this.groups.next(<Group>(<any>groups));
+      this.groups.next(<IGroup>(<any>groups));
       await this.loadingService.dismiss();
     },
     async error => {

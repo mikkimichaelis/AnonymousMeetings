@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as firebase from 'firebase/app';
@@ -10,7 +10,7 @@ import { LogService } from './log.service';
 import { GroupsService } from './groups.service';
 import { SettingsService } from './settings.service';
 import { UserService } from './user.service';
-import { GroupService } from './group.service';
+import { GroupService, GROUP_SERVICE, IGroupService } from './group.service';
 
 declare var navigator: any;
 
@@ -26,7 +26,7 @@ export class InitializeService {
     private loadingService: LoadingService,
     private logService: LogService,
     private groupsService: GroupsService,
-    private groupService: GroupService,
+    @Inject(GROUP_SERVICE) private groupService: IGroupService,
     private userService: UserService
     ) { }
 

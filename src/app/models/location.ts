@@ -1,8 +1,6 @@
-export interface ILocation {
+import { IAddress } from './address';
+
+export interface ILocation extends IAddress {
     name: string; // location -> name
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    zip: string;
+    notes: string; // use side entrance, park in back, etc.
 };

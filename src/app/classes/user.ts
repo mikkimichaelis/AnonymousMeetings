@@ -1,8 +1,9 @@
 import { Base } from './base';
 import { IAttend } from '../models/attend';
-import { IFriendUser, IUser } from '../models/user';
-import { IFavGroup } from '../models/group';
+import { IUser } from '../models/user';
 import { IMessage } from '../models/message';
+import { IGroupFavorite } from '../models/group-favorite';
+import { IUserFriend } from '../models/user-friend';
 
 export class User extends Base implements IUser  {
     anonymous: boolean = true;
@@ -11,10 +12,10 @@ export class User extends Base implements IUser  {
     name: string = '';
     bday: string = '';
     homeGroupId: string = '';
-    favGroups: IFavGroup[] = [];
+    favGroups: IGroupFavorite[] = [];
     attendance: IAttend[] = [];
     lastActivity: string = '';
-    friends: IFriendUser[];
+    friends: IUserFriend[];
     messages: IMessage[]
 
     constructor(userRecord: any) {

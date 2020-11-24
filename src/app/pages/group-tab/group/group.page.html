@@ -8,18 +8,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <!-- title card / about / member count / online count / date last updated / favorite / home group
-    background / group colors 
-    group fav sayings
-  tags (open/gay/smoking/handicapped/discussion/round robin/study/etc)
-  phone/address/directions
-  zoom meeting card
-  schedule card/add push reminder/add to phone calendar
-  attendance history card
-  topics history card
-  notes
-  request ride / call -->
+<ion-content *ngIf="groupSvc.group$ | async; let group">
   <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button>
       <ion-icon name="share"></ion-icon>
@@ -27,15 +16,15 @@
   </ion-fab>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Group Name</ion-card-title>
-      <ion-card-subtitle>AA/NA/CA/HA/MA/GA/SA/Alanon tags: open smoking handicapped discussion round robin study
-        women/men only lgbtq etc.</ion-card-subtitle>
+      <ion-card-title>{{group.name}} ({{group.type}})</ion-card-title>
+      <!-- TODO translate tags -->
+      <ion-card-subtitle>{{group.tags.join(' ')}}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-item>
       <ion-icon slot="start" name="calendar-outline"></ion-icon>
-      <ion-label>group started</ion-label>
-      <ion-text>8/10/1990</ion-text>
+      <ion-label translate>GROUP.STARTED</ion-label>
+      <ion-text>{{group.started}}</ion-text>
     </ion-item>
 
     <ion-item>
@@ -64,24 +53,32 @@
 
     <ion-card-content>
       <ion-item>
-      about this group......
-    </ion-item>
-    <ion-item>
-      NOTES: Please use side entrance. Do not leave cigrette butts on the ground. etc.
-    </ion-item>
+        about this group......
+      </ion-item>
+      <ion-item>
+        NOTES: Please use side entrance. Do not leave cigrette butts on the ground. etc.
+      </ion-item>
     </ion-card-content>
   </ion-card>
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Meeting Schedule</ion-card-title>
-      <ion-card-subtitle>last updated 1/1/2099</ion-card-subtitle>
+      <ion-card-title>Next Scheduled Meeting</ion-card-title>
+      <ion-icon slot="end" name="share-outline"></ion-icon>
+      <!-- <ion-card-subtitle></ion-card-subtitle> -->
     </ion-card-header>
 
     <ion-card-content>
       <ion-item>
+        <ion-label>When</ion-label>
         <ion-text>Wednesday at 7:00 pm</ion-text>
-        <ion-button fill="outline" slot="end">Add to Calendar</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Location</ion-label>
+        <ion-text>12950 W Farmroad 156<br />Republic, MO 65738<br />USA</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-button fill="outline" slot="start">Add to Calendar</ion-button>
         <ion-button fill="outline" slot="end">Set Reminder</ion-button>
       </ion-item>
     </ion-card-content>
@@ -89,13 +86,15 @@
 
   <ion-card>
     <ion-card-header>
+      <!-- <ion-icon style="float: right;" name="share-outline"></ion-icon> -->
       <ion-card-title>Zoom Meeting</ion-card-title>
       <ion-card-subtitle>starts Monday at 6:30 PM EST</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
       <ion-item>
-        <ion-button fill="outline" slot="end">Join Zoom Meeting</ion-button>
+        <!-- <ion-icon slot="end" name="share-outline"></ion-icon> -->
+        <ion-button fill="outline" slot="start">Join Zoom Meeting</ion-button>
       </ion-item>
     </ion-card-content>
   </ion-card>
