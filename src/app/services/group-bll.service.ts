@@ -1,13 +1,9 @@
-import { InjectionToken } from '@angular/core';
-export const GROUP_BLL_SERVICE = new InjectionToken<string>('GroupBLLService');
-export * from './group-bll.service.interface';
+import { Injectable, InjectionToken } from '@angular/core';
 
-import { Injectable } from '@angular/core';
-import { IGroup } from 'src/app/models/group';
-import { GroupService } from 'src/app/services/group.service';
-import { IGroupBLLService } from './group-bll.service.interface';
 import * as luxon from 'luxon';
-import { ISchedule } from 'src/app/models/schedule';
+
+import { IGroup, ISchedule } from '../models';
+import { IGroupBLLService } from './';
 
 @Injectable({
   providedIn: 'root'

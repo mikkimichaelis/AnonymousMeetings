@@ -1,23 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
-import { AuthService } from './auth.service';
-
-import { UserServiceInterface } from './user.service.interface';
-
-import { IUser } from '../models/user';
 import { TranslateService } from '@ngx-translate/core';
-import { LogService } from './log.service';
-import { User } from '../classes/user';
 
+import { IUser } from '../models';
+import { User } from '../classes';
 
-
+import { IAuthService, IUserService, ILogService } from './';
+import { LOG_SERVICE, AUTH_SERVICE } from './injection-tokens';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService implements UserServiceInterface {
+export class UserService implements IUserService {
   
   user$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
 
@@ -26,7 +22,12 @@ export class UserService implements UserServiceInterface {
   private userValueChanges: Observable<IUser>;
 
   private authStateSubscription: Subscription;
-  constructor(private logService: LogService, private afs: AngularFirestore, private translate: TranslateService, private authService: AuthService) {}
+  constructor(
+    private afs: AngularFirestore, 
+    private translate: TranslateService, 
+    @Inject(LOG_SERVICE) private logService: ILogService, 
+    
+    @Inject(AUTH_SERVICE) private authService: IAuthService) {}
 
   async initialize() {
     this.authStateSubscription = this.authService.authUser$.subscribe(

@@ -1,9 +1,5 @@
 import { Base } from './base';
-import { IAttend } from '../models/attend';
-import { IUser } from '../models/user';
-import { IMessage } from '../models/message';
-import { IGroupFavorite } from '../models/group-favorite';
-import { IUserFriend } from '../models/user-friend';
+import { IAttend, IUser, IMessage, IGroupFavorite, IUserFriend } from '../models';
 
 export class User extends Base implements IUser  {
     anonymous: boolean = true;

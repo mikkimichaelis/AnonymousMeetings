@@ -1,9 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { IGroup } from '../models/group';
-import { ISchedule } from '../models/schedule';
-import { ISearchSettings } from '../models/search-settings';
-
-
+import { IGroup, ISchedule } from '../models';
 
 export interface IGroupService {
     initialize();

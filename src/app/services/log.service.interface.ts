@@ -1,4 +1,4 @@
-export interface LogServiceInterface {
+export interface ILogService {
     initialize();
     trace(msg: any, ...args: any[]);
     trace(msg: any, ...args: any[]);

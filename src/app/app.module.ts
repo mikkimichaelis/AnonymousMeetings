@@ -25,7 +25,7 @@ import { AgmCoreModule } from '@agm/core';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
@@ -34,7 +34,7 @@ import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { LogService } from './services/log.service';
 import { GroupsService } from './services/groups.service';
-import { GroupService, GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE } from './services/group.service';
+import { GroupService, GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, LOADING_SERVICE, USER_SERVICE, GROUPS_SERVICE, LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH } from './services';
 import { LoadingService } from './services/loading.service';
 import { SettingsService } from './services/settings.service';
 
@@ -79,16 +79,17 @@ import { FeatureGuard } from './guards/feature.guard';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AngularFirestore,
     TranslateService,
+    AngularFireAuth,
 
-    AuthService,
-    LogService,
-    GroupsService,
+    //{ provide: ANGULAR_FIRE_AUTH, useExisting: AngularFireAuth },
+    { provide: AUTH_SERVICE, useExisting: AuthService },
+    { provide: LOG_SERVICE, useExisting: LogService },
+    { provide: GROUPS_SERVICE, useExisting: GroupsService },
     { provide: GROUP_SERVICE, useExisting: GroupService },
     { provide: GROUP_BLL_SERVICE, useExisting: GroupBLLService },
-    UserService,
-    LoadingService,
-    SettingsService,
-
+    { provide: USER_SERVICE, useExisting: UserService },
+    { provide: LOADING_SERVICE, useExisting: LoadingService },
+    { provide: SETTINGS_SERVICE, useExisting: SettingsService },
 
     AuthGuard,
     FeatureGuard

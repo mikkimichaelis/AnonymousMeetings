@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Plugins } from '@capacitor/core';
 import { environment } from '../../environments/environment';
-import { IUserSettings } from '../models/user-settings';
-import { ISettingsService } from './settings.service.interface';
-
+import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
+
+import { IUserSettings } from '../models';
+import { ISettingsService } from './';
 
 @Injectable({
   providedIn: 'root'

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { LogServiceInterface } from './log.service.interface';
 import LogRocket from 'logrocket';
 import { environment } from '../../environments/environment';
+
+import { ILogService } from './';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LogService implements LogServiceInterface {
+export class LogService implements ILogService {
 
   constructor() {
     

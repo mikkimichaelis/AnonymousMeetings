@@ -1,5 +1,4 @@
-import { ISearchSettings } from '../models/search-settings';
-import { IUserSettings } from '../models/user-settings';
+import { IUserSettings, ISearchSettings} from '../models';
 
 export interface ISettingsService {
     settings: IUserSettings;

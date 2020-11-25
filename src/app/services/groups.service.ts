@@ -1,16 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { TranslateService } from '@ngx-translate/core';
 import * as firebase from 'firebase/app';
 import * as geofirex from 'geofirex';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { IGroup } from '../models/group';
-import { ISearchSettings } from '../models/search-settings';
 import * as luxon from 'luxon';
 import LogRocket from 'logrocket';
-import { IGroupsService } from './groups.service.interface';
-import { LoadingService } from './loading.service';
+
+import { IGroup, ISearchSettings } from '../models';
+import { IGroupsService, ILoadingService } from './';
+import { LOADING_SERVICE } from './injection-tokens'
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class GroupsService implements IGroupsService {
   constructor(
     private firestore: AngularFirestore, 
     private transSvc: TranslateService,
-    private loadingService: LoadingService) { }
+    @Inject(LOADING_SERVICE) private loadingService: ILoadingService) { }
 
   initialize() {
     this.geo = geofirex.init(firebase);

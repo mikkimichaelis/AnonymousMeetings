@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
-import { LoadingServiceInterface } from './loading.service.interface';
+import { ILoadingService } from './';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoadingService implements LoadingServiceInterface {
+export class LoadingService implements ILoadingService {
   loader: any;
 
   constructor(private loadingController: LoadingController) { }

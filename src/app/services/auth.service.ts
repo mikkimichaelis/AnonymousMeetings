@@ -1,25 +1,31 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+
 import * as firebase from 'firebase/app';
 import * as firebaseui from 'firebaseui';
-import { Subscription, ReplaySubject } from 'rxjs';
-import { AuthServiceInterface } from './auth.service.interface';
 
-import { LogService } from './log.service';
+import { Subscription, BehaviorSubject } from 'rxjs';
+
+import { IAngularFireAuth, IAuthService, ILogService } from './';
+import { LOG_SERVICE, ANGULAR_FIRE_AUTH } from './injection-tokens';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements AuthServiceInterface {
+export class AuthService implements IAuthService {
 
   firebaseUi: any;
 
   authUser: firebase.User = null;
-  authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>()
+  authUser$: BehaviorSubject<firebase.User> = new BehaviorSubject<firebase.User>(null)
   isAnonymous: boolean = true;
 
   private authStateSubscription: Subscription;
-  constructor(private logService: LogService, private firebaseAuth: AngularFireAuth) {}
+  constructor(
+    @Inject(LOG_SERVICE) private logService: ILogService, 
+    private firebaseAuth: AngularFireAuth) 
+    // @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth) 
+    {}
 
   async initialize() {
     this.authStateSubscription = this.firebaseAuth.authState.subscribe(
