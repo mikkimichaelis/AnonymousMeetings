@@ -30,21 +30,14 @@ import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
-import { AuthService } from './services/auth.service';
-import { UserService } from './services/user.service';
-import { LogService } from './services/log.service';
-import { GroupsService } from './services/groups.service';
-import { GroupService, GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, LOADING_SERVICE, USER_SERVICE, GROUPS_SERVICE, LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH } from './services';
-import { LoadingService } from './services/loading.service';
-import { SettingsService } from './services/settings.service';
-
-import { AuthGuard } from './guards/auth.guard';
+import { GroupService, GroupsService, LogService, UserService, AuthService, LoadingService, SettingsService,
+  GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, LOADING_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
+  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE } from './services';
 
 import { CoreModule } from './pages/core/core.module';
-
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
 import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
-import { FeatureGuard } from './guards/feature.guard';
+import { AuthGuard, FeatureGuard } from './guards';
 
 @NgModule({
   declarations: [AppComponent],
@@ -81,7 +74,9 @@ import { FeatureGuard } from './guards/feature.guard';
     TranslateService,
     AngularFireAuth,
 
-    //{ provide: ANGULAR_FIRE_AUTH, useExisting: AngularFireAuth },
+    { provide: ANGULAR_FIRESTORE, useExisting: AngularFirestore},
+    { provide: ANGULAR_FIRE_AUTH, useExisting: AngularFireAuth },
+    { provide: TRANSLATE_SERVICE, useExisting: TranslateService},
     { provide: AUTH_SERVICE, useExisting: AuthService },
     { provide: LOG_SERVICE, useExisting: LogService },
     { provide: GROUPS_SERVICE, useExisting: GroupsService },

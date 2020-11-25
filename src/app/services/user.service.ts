@@ -7,8 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { IUser } from '../models';
 import { User } from '../classes';
 
-import { IAuthService, IUserService, ILogService } from './';
-import { LOG_SERVICE, AUTH_SERVICE } from './injection-tokens';
+import { IAuthService, IUserService, ILogService, ITranslateService } from './';
+import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE } from './injection-tokens';
+import { IAngularFirestore } from './angular-firestore.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +24,9 @@ export class UserService implements IUserService {
 
   private authStateSubscription: Subscription;
   constructor(
-    private afs: AngularFirestore, 
-    private translate: TranslateService, 
+    @Inject(ANGULAR_FIRESTORE) private afs: IAngularFirestore, 
+    @Inject(TRANSLATE_SERVICE) private translate: ITranslateService, 
     @Inject(LOG_SERVICE) private logService: ILogService, 
-    
     @Inject(AUTH_SERVICE) private authService: IAuthService) {}
 
   async initialize() {

@@ -1,4 +1,5 @@
 export * from './angular-fire-auth.interface';
+export * from './translate.service.interface';
 
 export * from './auth-bll.service.interface';
 export * from './auth-bll.service';

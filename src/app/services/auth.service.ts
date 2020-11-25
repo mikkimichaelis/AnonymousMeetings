@@ -23,8 +23,7 @@ export class AuthService implements IAuthService {
   private authStateSubscription: Subscription;
   constructor(
     @Inject(LOG_SERVICE) private logService: ILogService, 
-    private firebaseAuth: AngularFireAuth) 
-    // @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth) 
+    @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth) 
     {}
 
   async initialize() {
