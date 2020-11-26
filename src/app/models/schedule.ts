@@ -1,7 +1,14 @@
-import { ILocation } from './location';
+import { ILocation } from '.';
+
+export interface IZoomSchedule extends ISchedule {
+    aid: string;    // user id of Zoom account admin
+    zid: string;
+    zpw: string;
+}
 
 export interface ISchedule {
     gid: string;
+    zoom: boolean;
     day: string;        // UI string representing dow when group occurs ie Monday
     time: string;       // UI string representing time when group occurs ie 7:00 pm
     offset: number;     // Millisecond time offset of day @ midnight from 1/1/1970 when group starts for easy comparison

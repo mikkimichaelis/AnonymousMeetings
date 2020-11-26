@@ -1,19 +1,21 @@
 import { Base } from './base';
-import { IAttend, IUser, IMessage, IGroupFavorite, IUserFriend } from '../models';
+import { IUser, IMessage, IUserFriend, IUserFavorite, IUserAttend } from '../models';
 
 export class User extends Base implements IUser  {
+    uid: string;
     anonymous: boolean = true;
     firstName: string = '';
     lastInitial: string = '';
     name: string = '';
     bday: string = '';
     homeGroupId: string = '';
-    favGroups: IGroupFavorite[] = [];
-    attendance: IAttend[] = [];
+    homeGroup: { id: string; name: string; dateJoined: string; };
+    favGroups: IUserFavorite[] = [];
+    attendance: IUserAttend[] = [];
     lastActivity: string = '';
     friends: IUserFriend[];
-    messages: IMessage[]
-
+    messages: IMessage[];
+    
     constructor(userRecord: any) {
         super();
         this.anonymous = userRecord.isAnonymous;

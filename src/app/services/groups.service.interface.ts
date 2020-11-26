@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { ISearchSettings } from '../models';
+import { ISearchSettings } from '../classes';
 
 export interface IGroupsService {
     initialize();

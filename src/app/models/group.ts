@@ -1,43 +1,41 @@
-import { ILocation } from './location';
-import { ISchedule } from './schedule';
-import { IBoundingBox } from './bounding-box';
-import { IPoint } from './point';
-import { IRideRequest } from './ride-request';
-import { IAddress } from './address';
-import { IUserMember } from './user-member';
+import { ILocation, ISchedule, IBoundingBox, IPoint, IRideRequest, IAddress, IUserStub, IUserAdmin } from '.';
+
+export interface IGroupPrivate {
+    gid: string;
+    owner: IUserAdmin;
+    admins: IUserAdmin [];
+}
 
 export interface IGroup {
-    active: boolean;
     name: string;
     type: string;
-    tags: string [];
-    started: string;
-    lastActivity: string;
-    monthsSobriety: number;
-    about: string;
-    notes: string;
+    membersOnline: number;   
+    active: boolean;
 
+    tags: string []; 
+    about: string;
+    point: IPoint;
+
+    monthsSobriety: number;
     schedule: ISchedule[];
 
-    zoom: string;
-    pw: string;
-
-    rideRequests: IRideRequest[];
+    notes: string;
 
     telephone: string;
     email: string;
     url: string;
     
     mailAddress: IAddress;
+
+    started: string;    
     
-    admins: string [];
     location: ILocation;
     timezone: number;
     daylightsavings: boolean;
     
     boundingbox: IBoundingBox;
-    point: IPoint;
-    
-    membersOnline: number;
-    members: IUserMember[];
+
+    members: IUserStub[];
+
+    lastActivity: string;
 }

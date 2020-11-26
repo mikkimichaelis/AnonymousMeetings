@@ -1,10 +1,10 @@
 export interface IReminder {
-    sid: string;
     uid: string;
+    sid: string;
     mid: string;
     created: string;
-    next: string;
     active: boolean;
+    next: string;
     recurring: boolean;
     message: string;
 }

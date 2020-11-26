@@ -1,4 +1,4 @@
-import { IAddress } from './address';
+import { IAddress } from '.';
 
 export interface ILocation extends IAddress {
     name: string; // location -> name

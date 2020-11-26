@@ -3,8 +3,8 @@ import { environment } from '../../environments/environment';
 import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 
-import { IUserSettings } from '../models';
 import { ISettingsService } from './';
+import { IUserSettings } from '../classes';
 
 @Injectable({
   providedIn: 'root'

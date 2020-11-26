@@ -1,12 +1,13 @@
 import { IPoint } from './point';
 
 export interface IRideRequest {
-    gid: string;
-    uid: string;
+    gid: string;    // group id
+    sid: string;    // schedule id
+    mid: string;    // meeting id
+    ruid: string;   // requesting user id
+    puid: string;   // providing user id
     date: string;
     phone: string;
     point: IPoint;
-    accepted: boolean;
-    acceptedDate: string;
-    acceptedUid: string;
+    providedDate: string;
 }
