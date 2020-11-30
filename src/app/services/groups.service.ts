@@ -8,10 +8,10 @@ import { map } from 'rxjs/operators';
 import * as luxon from 'luxon';
 import LogRocket from 'logrocket';
 
-import { IGroup } from '../models';
+import { IGroup } from '../../models';
 import { IGroupsService, ILoadingService } from './';
 import { LOADING_SERVICE } from './injection-tokens'
-import { ISearchSettings } from '../classes';
+import { ISearchSettings } from '../models';
 
 
 @Injectable({

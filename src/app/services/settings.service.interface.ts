@@ -1,4 +1,4 @@
-import { IUserSettings } from '../classes';
+import { IUserSettings } from '../models';
 
 export interface ISettingsService {
     settings: IUserSettings;

@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { IUser } from '../models';
+import { IUser } from '../../models';
 
 export interface IUserService {
     initialize();

@@ -2,7 +2,7 @@ import { Injectable, InjectionToken } from '@angular/core';
 
 import * as luxon from 'luxon';
 
-import { IGroup, ISchedule } from '../models';
+import { IGroup, ISchedule } from '../../models';
 import { IGroupBLLService } from './';
 
 @Injectable({
@@ -23,20 +23,20 @@ export class GroupBLLService implements IGroupBLLService {
       if (s.active) {
         if (!schedule) {
           // special handle first schedule
-          if( s.offset < now ) {
+          if( s.millis < now ) {
             // s happens next week if recurring otherwise ignore
             schedule = s.recurring ? s : null;
           } else {
             // s happens this week
             schedule = s;
           }
-        } else if (s.offset > now) {
+        } else if (s.millis > now) {
           // s happens this week
-          schedule = s.offset < schedule.offset ? s : schedule; // s comes before schedule
+          schedule = s.millis < schedule.millis ? s : schedule; // s comes before schedule
         } else if (s.recurring) {
           // s happens next week
-          if( schedule.offset < now ) { // schedule also happens next week
-            schedule = s.offset < schedule.offset ? s : schedule; // s comes before schedule next week
+          if( schedule.millis < now ) { // schedule also happens next week
+            schedule = s.millis < schedule.millis ? s : schedule; // s comes before schedule next week
           } else {
             // schedule happens this week so keep it
             // schedule = schedule;

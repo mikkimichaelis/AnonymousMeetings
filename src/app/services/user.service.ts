@@ -4,8 +4,8 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { IUser } from '../models';
-import { User } from '../classes';
+import { IUser } from '../../models';
+import { User } from '../../models';
 
 import { IAuthService, IUserService, ILogService, ITranslateService } from './';
 import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE } from './injection-tokens';
@@ -41,10 +41,11 @@ export class UserService implements IUserService {
             this.user = null;
           }
 
-          if( !this.user ) {
-            this.user = new User(this.authService.authUser).export();
-            await this.afs.doc<IUser>(this.userDocPath).set(this.user);
-          }
+          // TODO handle not able to retrieve User
+          // if( !this.user ) {
+          //   this.user = new User(this.authService.authUser).export();
+          //   await this.afs.doc<IUser>(this.userDocPath).set(this.user);
+          // }
 
           this.userValueChanges = this.afs.doc<IUser>(this.userDocPath).valueChanges();
           this.userValueChanges.subscribe( {

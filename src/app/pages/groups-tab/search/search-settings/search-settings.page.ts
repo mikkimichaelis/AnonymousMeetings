@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController, PickerController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { ISearchSettings } from '../../../../classes/search-settings';
+import { ISearchSettings } from '../../../../models/search-settings';
 import * as _ from "lodash";
 
 @Component({

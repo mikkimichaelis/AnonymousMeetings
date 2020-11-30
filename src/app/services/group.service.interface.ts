@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { IGroup, ISchedule } from '../models';
+import { IGroup, ISchedule } from '../../models';
 
 export interface IGroupService {
     initialize();

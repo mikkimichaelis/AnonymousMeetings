@@ -3,7 +3,7 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { BehaviorSubject } from 'rxjs';
 
-import { IGroup, ISchedule } from '../models';
+import { IGroup, ISchedule } from '../../models';
 import { IGroupBLLService, IGroupService } from './';
 import { GROUP_BLL_SERVICE } from './injection-tokens';
 

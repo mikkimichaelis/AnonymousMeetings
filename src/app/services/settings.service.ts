@@ -4,7 +4,7 @@ import { Plugins } from '@capacitor/core';
 const { Storage } = Plugins;
 
 import { ISettingsService } from './';
-import { IUserSettings } from '../classes';
+import { IUserSettings } from '../models';
 
 @Injectable({
   providedIn: 'root'
