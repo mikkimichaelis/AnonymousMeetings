@@ -19,6 +19,6 @@ export class LoginPage implements OnInit {
 
   ionViewDidEnter() {
     // The start method will wait until the DOM is loaded.
-    this.authService.firebaseUi.start('#firebaseui-auth-container', AuthService.getUiConfig());
+    this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig());
   }
 }

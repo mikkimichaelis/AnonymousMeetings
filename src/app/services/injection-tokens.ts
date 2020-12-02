@@ -14,7 +14,7 @@ export const GROUPS_BLL_SERVICE = new InjectionToken<string>('GroupsBLLService')
 export const GROUPS_SERVICE = new InjectionToken<string>('GroupsService');
 
 export const INITIALIZE_SERVICE = new InjectionToken<string>('InitializeService');
-export const LOADING_SERVICE = new InjectionToken<string>('LoadingService');
+export const BUSY_SERVICE = new InjectionToken<string>('BusyService');
 export const LOCATION_SERVICE = new InjectionToken<string>('LocationService');
 export const LOG_SERVICE = new InjectionToken<string>('LogService');
 export const SETTINGS_SERVICE = new InjectionToken<string>('SettingsService');

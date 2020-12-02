@@ -24,8 +24,8 @@ export * from './groups.service';
 export * from './initialize.service.interface';
 export * from './initialize.service';
 
-export * from './loading.service.interface';
-export * from './loading.service';
+export * from './busy.service.interface';
+export * from './busy.service';
 
 export * from './location.service.interface';
 export * from './location.service';

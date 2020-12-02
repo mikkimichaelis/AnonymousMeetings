@@ -1,7 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import { LoadingService } from 'src/app/services/loading.service';
+import { BusyService } from 'src/app/services/busy.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -13,39 +13,50 @@ export class LandingPage {
 
   showSign = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private loading: LoadingService, private authService: AuthService) {
-    let authStateUserSubscription = this.authService.authUser$.subscribe(user => {
-      if( user ) {
-        this.router.navigateByUrl('/home/tab/home');
-      } else {
-        this.showSign = true;
-        this.router.navigateByUrl('/core/landing');
-      }
-    })
+  constructor(private router: Router, private route: ActivatedRoute, private busySvc: BusyService, private authService: AuthService) {
+    // let authStateUserSubscription = this.authService.authUser$.subscribe(user => {
+    //   if( user ) {
+    //     this.router.navigateByUrl('/home/tab/home');
+    //   } else {
+    //     this.doSignup(true);
+    //     // this.showSign = true;
+    //     // this.router.navigateByUrl('/core/landing');
+    //   }
+    // })
   }
 
   async ionViewDidEnter() {
-    this.loading.dismiss();
+    this.busySvc.dismiss();
     if( this.route.snapshot.queryParamMap.get('logout') === 'true' ) {
-      // this.loading.present();
+      // this.busySvc.present();
       await this.authService.logout()
       this.showSign = true;
-      // this.loading.dismiss();
+      // this.busySvc.dismiss();
     }
     
   }
 
   ionViewWillLeave() {
-    this.loading.dismiss();
+    this.busySvc.dismiss();
   }
   
-  async doSign(signup: boolean, anonymous?: boolean, complete?: boolean) {
-    if( anonymous === undefined ) {
-      this.router.navigate(['/login'], { queryParams: { signup: signup }});
+  async doSignup(anonymous: boolean) {
+    if( anonymous === undefined || anonymous === false ) {
+      this.router.navigate(['/login'], { queryParams: { signup: true }});
     } else {
-      this.loading.present();
-      await this.authService.createAnonymous(complete);
-      this.loading.dismiss();
+      this.busySvc.present();
+      await this.authService.createAnonymous();
+      this.busySvc.dismiss();
     }
   }
+
+  // async doSign(signup: boolean, anonymous?: boolean) {
+  //   if( anonymous === undefined || anonymous === false ) {
+  //     this.router.navigate(['/login'], { queryParams: { signup: signup }});
+  //   } else {
+  //     this.busySvc.present();
+  //     await this.authService.createAnonymous();
+  //     this.busySvc.dismiss();
+  //   }
+  // }
 }

@@ -1,4 +1,4 @@
-export interface ILoadingService {
+export interface IBusyService {
     initialize();
     present(content?: string);
     dismiss();

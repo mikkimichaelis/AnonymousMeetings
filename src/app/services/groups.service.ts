@@ -9,8 +9,8 @@ import * as luxon from 'luxon';
 import LogRocket from 'logrocket';
 
 import { IGroup } from '../../models';
-import { IGroupsService, ILoadingService } from './';
-import { LOADING_SERVICE } from './injection-tokens'
+import { IGroupsService, IBusyService } from './';
+import { BUSY_SERVICE } from './injection-tokens'
 import { ISearchSettings } from '../models';
 
 
@@ -28,14 +28,14 @@ export class GroupsService implements IGroupsService {
   constructor(
     private firestore: AngularFirestore, 
     private transSvc: TranslateService,
-    @Inject(LOADING_SERVICE) private loadingService: ILoadingService) { }
+    @Inject(BUSY_SERVICE) private busyService: IBusyService) { }
 
   initialize() {
     this.geo = geofirex.init(firebase);
   }
 
   async getGroups(search: ISearchSettings) {
-    await this.loadingService.present();
+    await this.busyService.present();
     //var position: GeolocationPosition = await Geolocation.getCurrentPosition();
     //const center = this.geo.point(position.coords.latitude, position.coords.longitude); 
     //const center = this.geo.point(39.8249268571429, -84.8946604285714);
@@ -140,11 +140,11 @@ export class GroupsService implements IGroupsService {
 
     query.subscribe(async groups => {
       this.groups.next(<IGroup>(<any>groups));
-      await this.loadingService.dismiss();
+      await this.busyService.dismiss();
     },
     async error => {
       LogRocket.error(error);
-      await this.loadingService.dismiss();
+      await this.busyService.dismiss();
     });
   }
 }

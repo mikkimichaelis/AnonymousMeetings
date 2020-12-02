@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
 import * as firebaseui from 'firebaseui';
 
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';
 
 import { IAngularFireAuth, IAuthService, ILogService } from './';
 import { LOG_SERVICE, ANGULAR_FIRE_AUTH } from './injection-tokens';
@@ -17,14 +17,13 @@ export class AuthService implements IAuthService {
   firebaseUi: any;
 
   authUser: firebase.User = null;
-  authUser$: BehaviorSubject<firebase.User> = new BehaviorSubject<firebase.User>(null)
+  authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>()
   isAnonymous: boolean = true;
 
   private authStateSubscription: Subscription;
   constructor(
-    @Inject(LOG_SERVICE) private logService: ILogService, 
-    @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth) 
-    {}
+    @Inject(LOG_SERVICE) private logService: ILogService,
+    @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth) { }
 
   async initialize() {
     this.authStateSubscription = this.firebaseAuth.authState.subscribe(
@@ -35,9 +34,6 @@ export class AuthService implements IAuthService {
       },
       (error: any) => {
         this.logService.error(error);
-      },
-      () => {
-        this.logService.message('firebaseAuth.authState.complete()');
       });
 
     let auth = firebase.auth();
@@ -54,13 +50,16 @@ export class AuthService implements IAuthService {
     return this.authUser !== null ? true : false;
   }
 
-  public async createAnonymous(complete?: boolean) {
-    // all anonymous users have an anonymous firebase account
-    // complete anonymity will be indicated with a scope or flag for Business Logic
+  public async createAnonymous(): Promise<boolean> {
     await this.firebaseAuth.signInAnonymously()
+      .then(authUser => {
+        return true;
+      })
       .catch(error => {
         this.logService.error(error);
+        return false;
       });
+      return;
   }
 
   async logout() {
@@ -68,7 +67,7 @@ export class AuthService implements IAuthService {
   }
 
   // TODO customize prompts for both "signin" and "signup"
-  public static getUiConfig() {
+  public getUiConfig() {
     // FirebaseUI config.
     return {
       callbacks: {

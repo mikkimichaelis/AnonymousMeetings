@@ -30,8 +30,8 @@ import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
-import { GroupService, GroupsService, LogService, UserService, AuthService, LoadingService, SettingsService,
-  GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, LOADING_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
+import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService,
+  GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
   LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE } from './services';
 
 import { CoreModule } from './pages/core/core.module';
@@ -83,7 +83,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     { provide: GROUP_SERVICE, useExisting: GroupService },
     { provide: GROUP_BLL_SERVICE, useExisting: GroupBLLService },
     { provide: USER_SERVICE, useExisting: UserService },
-    { provide: LOADING_SERVICE, useExisting: LoadingService },
+    { provide: BUSY_SERVICE, useExisting: BusyService },
     { provide: SETTINGS_SERVICE, useExisting: SettingsService },
 
     AuthGuard,

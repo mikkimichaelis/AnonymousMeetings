@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
-import { ILoadingService } from './';
+import { IBusyService } from '.';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoadingService implements ILoadingService {
+export class BusyService implements IBusyService {
   loader: any;
 
   constructor(private loadingController: LoadingController) { }
@@ -26,5 +26,6 @@ export class LoadingService implements ILoadingService {
   dismiss() {
     if (this.loader)
       this.loader.dismiss();
+      this.loader = null;
   }t 
 }

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { LoadingService } from '../../../services/loading.service';
+import { BusyService } from '../../../services/busy.service';
 import { UserService } from '../../../services/user.service';
 import { GroupsService } from '../../../services/groups.service';
 import { Router } from '@angular/router';
@@ -11,16 +11,16 @@ import { Router } from '@angular/router';
 })
 export class HomePage {
 
-  constructor(private router: Router, private loading: LoadingService, public userService: UserService) {}
+  constructor(private router: Router, private busySvc: BusyService, public userService: UserService) {}
 
   async ionViewDidEnter() {
-    await this.loading.present('Loading....');
+    await this.busySvc.present('Loading....');
     await this.userService.user$.subscribe(user => {
-      if( user ) this.loading.dismiss();
+      if( user ) this.busySvc.dismiss();
     })
   }
 
   ionViewWillLeave(): void {
-    this.loading.dismiss();
+    this.busySvc.dismiss();
   }
 }

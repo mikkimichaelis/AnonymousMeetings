@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -10,80 +10,84 @@ import { User } from '../../models';
 import { IAuthService, IUserService, ILogService, ITranslateService } from './';
 import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE } from './injection-tokens';
 import { IAngularFirestore } from './angular-firestore.interface';
+import { delay, switchMap } from 'rxjs/operators';
+import _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService implements IUserService {
-  
-  user$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(null);
+
+  user$: ReplaySubject<IUser> = new ReplaySubject<IUser>(null);
 
   public user: IUser;
   private userDocPath: string;
-  private userValueChanges: Observable<IUser>;
+  private _userValueChanges: Observable<IUser>;
+  private _userValueChangesSubscription: Subscription;
 
   private authStateSubscription: Subscription;
   constructor(
-    @Inject(ANGULAR_FIRESTORE) private afs: IAngularFirestore, 
-    @Inject(TRANSLATE_SERVICE) private translate: ITranslateService, 
-    @Inject(LOG_SERVICE) private logService: ILogService, 
-    @Inject(AUTH_SERVICE) private authService: IAuthService) {}
+    @Inject(ANGULAR_FIRESTORE) private afs: IAngularFirestore,
+    @Inject(TRANSLATE_SERVICE) private translate: ITranslateService,
+    @Inject(LOG_SERVICE) private logService: ILogService,
+    @Inject(AUTH_SERVICE) private authService: IAuthService) { }
 
-  async initialize() {
-    this.authStateSubscription = this.authService.authUser$.subscribe(
-      async authUser => {
-        if( this.authService.authUser ) {
-          this.userDocPath = `users/${this.authService.authUser.uid}`
-          try {
-            this.user = <IUser>(await this.afs.doc<IUser>(this.userDocPath).get().toPromise()).data();
-          } catch(error) {
-            this.logService.error(error);
-            this.user = null;
+  public async getUser(authId: string, timeout = 0): Promise<IUser> {
+    return new Promise(async (resolve, reject) => {
+      setTimeout(async () => {
+        try {
+          const user = await (this.afs.collection('users', ref => ref.where('authId', '==', authId)).get().toPromise());
+          if (user.docs.length > 0) {
+            this.user = <IUser>user.docs[0].data();
+            this.userValueChanges();
+            resolve(this.user);
+            this.user$.next(this.user);
+          } else {
+            throw new Error(`Unable to find User ${authId}`);
           }
-
-          // TODO handle not able to retrieve User
-          // if( !this.user ) {
-          //   this.user = new User(this.authService.authUser).export();
-          //   await this.afs.doc<IUser>(this.userDocPath).set(this.user);
-          // }
-
-          this.userValueChanges = this.afs.doc<IUser>(this.userDocPath).valueChanges();
-          this.userValueChanges.subscribe( {
-            next: async (user) => {
-              this.user = user;
-              this.user$.next(this.user);
-            },
-            error: async (error) => {
-              this.logService.error(error);
-             },
-          });
-        } else {
-          this.user = null;
-          this.user$.next(null);
+        } catch (e) {
+          this.logService.error(e);
+          resolve(null);
         }
-      })
+      }, timeout);
+    })
+
+  }
+  userValueChanges() {
+    if( !_.isEmpty(this._userValueChangesSubscription)) this._userValueChangesSubscription.unsubscribe();
+    
+    this._userValueChanges = this.afs.doc<IUser>(`users/${this.user.id}`).valueChanges();
+    this._userValueChangesSubscription = this._userValueChanges.subscribe({
+      next: async (user) => {
+        this.user = user;
+        this.user$.next(this.user);
+      },
+      error: async (error) => {
+        this.logService.error(error);
+      },
+    });
   }
 
   async saveUserAsync(user: IUser) {
     if (user) {
       user.name = `${user.firstName} ${user.lastInitial}.`;
-      await this.afs.doc<IUser>(this.userDocPath).update(user);
+      await this.afs.doc<IUser>(`users/${this.user.id}`).update(user);
     }
   }
 
-  hasFeature( features: string[] ) {
+  hasFeature(features: string[]) {
     // TODO
     return true;
   }
 
   translateName() {
     // translate new ANONYMOUS user names into local language
-              // if (this.user.firstName === 'ANONYMOUS') {
-              //   this.user.firstName = <string>await this.translate.get('ANONYMOUS').toPromise();
-              //   let alphabet = <string>await this.translate.get('ALPHABET').toPromise();
-              //   this.user.lastInitial = alphabet[Math.floor(Math.random() * alphabet.length)];
-              //   this.user.name = `${this.user.firstName} ${this.user.lastInitial}.`;
-              //   await this.saveUserAsync(this.user);
-              // }
+    // if (this.user.firstName === 'ANONYMOUS') {
+    //   this.user.firstName = <string>await this.translate.get('ANONYMOUS').toPromise();
+    //   let alphabet = <string>await this.translate.get('ALPHABET').toPromise();
+    //   this.user.lastInitial = alphabet[Math.floor(Math.random() * alphabet.length)];
+    //   this.user.name = `${this.user.firstName} ${this.user.lastInitial}.`;
+    //   await this.saveUserAsync(this.user);
+    // }
   }
 }

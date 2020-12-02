@@ -1,6 +1,6 @@
 import { SharedModule } from './shared.module';
 
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 
 import { MenuController, Platform, ToastController } from '@ionic/angular';
@@ -11,6 +11,9 @@ import { InitializeService } from './services/initialize.service';
 
 import { Plugins } from '@capacitor/core';
 import { SettingsService } from './services/settings.service';
+import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService } from './services';
+import { ActivatedRoute, Router } from '@angular/router';
+import _ from 'lodash';
 const { App } = Plugins;
 declare var navigator: any;
 
@@ -20,7 +23,7 @@ declare var navigator: any;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
-  
+
   loggedIn = false;
   dark = false;
 
@@ -32,14 +35,20 @@ export class AppComponent {
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
     private initializeService: InitializeService,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private busySvc: BusyService,
+    @Inject(BUSY_SERVICE) private busyService: IBusyService,
+    @Inject(AUTH_SERVICE) private authService: IAuthService,
+    @Inject(USER_SERVICE) private userService: IUserService,
   ) {
     settings.initialize();
     this.initializeApp();
   }
 
   initializeApp() {
-    this.platform.ready().then(async () => {
+    this.platform.ready().then(async (readySource) => {
 
       await this.initializeService.initializeServices();
 
@@ -51,6 +60,32 @@ export class AppComponent {
       } else {
         // fallback to browser APIs
       }
+
+      let creating = false;
+      let authStateUserSubscription = this.authService.authUser$.subscribe(
+        async authUser => {
+          if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
+            this.router.navigateByUrl('/home/tab/home');
+          } else if (!_.isEmpty(authUser)) {
+
+            if (!creating) {
+              this.busyService.present("Loading User");
+            }
+
+            let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
+
+            if (_.isEmpty(user)) {
+              await this.authService.logout();
+            } else {
+              this.router.navigateByUrl('/home/tab/home');
+            }
+            this.busyService.dismiss();
+          } else {
+            creating = true;
+            this.busyService.present("Creating Anonymous User");
+            await this.authService.createAnonymous();
+          }
+        })
     });
   }
 
@@ -75,4 +110,14 @@ export class AppComponent {
         .then(() => window.location.reload());
     });
   }
+
+  // async doSignup(anonymous: boolean) {
+  //   if (anonymous === undefined || anonymous === false) {
+  //     this.router.navigate(['/login'], { queryParams: { signup: true } });
+  //   } else {
+  //     this.busySvc.present();
+  //     await this.authService.createAnonymous();
+  //     this.busySvc.dismiss();
+  //   }
+  // }
 }
