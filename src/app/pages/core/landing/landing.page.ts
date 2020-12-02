@@ -11,7 +11,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class LandingPage {
 
-  showSign = false;
+  // showSign = false;
 
   constructor(private router: Router, private route: ActivatedRoute, private busySvc: BusyService, private authService: AuthService) {
     // let authStateUserSubscription = this.authService.authUser$.subscribe(user => {
@@ -26,18 +26,18 @@ export class LandingPage {
   }
 
   async ionViewDidEnter() {
-    this.busySvc.dismiss();
-    if( this.route.snapshot.queryParamMap.get('logout') === 'true' ) {
-      // this.busySvc.present();
-      await this.authService.logout()
-      this.showSign = true;
-      // this.busySvc.dismiss();
-    }
+    // this.busySvc.dismiss();
+    // if( this.route.snapshot.queryParamMap.get('logout') === 'true' ) {
+    //   // this.busySvc.present();
+    //   await this.authService.logout()
+    //   this.showSign = true;
+    //   // this.busySvc.dismiss();
+    // }
     
   }
 
   ionViewWillLeave() {
-    this.busySvc.dismiss();
+    // this.busySvc.dismiss();
   }
   
   async doSignup(anonymous: boolean) {

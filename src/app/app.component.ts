@@ -14,6 +14,7 @@ import { SettingsService } from './services/settings.service';
 import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService } from './services';
 import { ActivatedRoute, Router } from '@angular/router';
 import _ from 'lodash';
+import { TranslateService } from '@ngx-translate/core';
 const { App } = Plugins;
 declare var navigator: any;
 
@@ -39,6 +40,7 @@ export class AppComponent {
     private router: Router,
     private route: ActivatedRoute,
     private busySvc: BusyService,
+    private translateService: TranslateService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_SERVICE) private userService: IUserService,
@@ -62,6 +64,8 @@ export class AppComponent {
       }
 
       let creating = false;
+      let pleaseWait = await this.translateService.get('PLEASE_WAIT').toPromise();
+      let creatingUser = await this.translateService.get('CREATING_USER').toPromise();
       let authStateUserSubscription = this.authService.authUser$.subscribe(
         async authUser => {
           if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
@@ -69,7 +73,7 @@ export class AppComponent {
           } else if (!_.isEmpty(authUser)) {
 
             if (!creating) {
-              this.busyService.present("Loading User");
+              this.busyService.present(pleaseWait);
             }
 
             let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
@@ -82,7 +86,7 @@ export class AppComponent {
             this.busyService.dismiss();
           } else {
             creating = true;
-            this.busyService.present("Creating Anonymous User");
+            this.busyService.present(creatingUser);
             await this.authService.createAnonymous();
           }
         })

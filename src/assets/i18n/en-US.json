@@ -77,6 +77,8 @@
     "ON": "on",
     "WITHIN": "within",
     "BETWEEN": "between",
-    "RADIUS": "radius"
+    "RADIUS": "radius",
+    "PLEASE_WAIT": "Please Wait",
+    "CREATING_USER": "Creating Anonymous User"
 
   }

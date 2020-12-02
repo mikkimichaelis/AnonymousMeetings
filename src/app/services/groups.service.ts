@@ -48,7 +48,7 @@ export class GroupsService implements IGroupsService {
     //const active; = .collection('users').where('status', '==', 'active');
     //const q = this.db.list('/meetings').snapshotChanges();
     
-    let query = this.geo.query('meetings').within(center, search.radius, this.field);
+    let query = this.geo.query('groups').within(center, search.radius, this.field);
 
     if (!search.byAnyDay) {
       const dayVerbose = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay
