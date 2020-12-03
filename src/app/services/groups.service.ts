@@ -3,15 +3,16 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { TranslateService } from '@ngx-translate/core';
 import * as firebase from 'firebase/app';
 import * as geofirex from 'geofirex';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import * as luxon from 'luxon';
 import LogRocket from 'logrocket';
 
-import { IGroup } from '../../models';
+import { IGroup, ISchedule } from '../../models';
 import { IGroupsService, IBusyService } from './';
-import { BUSY_SERVICE } from './injection-tokens'
+import { BUSY_SERVICE, FIRESTORE_SERVICE } from './injection-tokens'
 import { ISearchSettings } from '../models';
+import { FirestoreService } from './firestore.service';
 
 
 @Injectable({
@@ -26,8 +27,9 @@ export class GroupsService implements IGroupsService {
   field = 'point';
 
   constructor(
-    private firestore: AngularFirestore, 
+    private afs: AngularFirestore,
     private transSvc: TranslateService,
+    @Inject(FIRESTORE_SERVICE) private fss: FirestoreService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService) { }
 
   initialize() {
@@ -47,23 +49,39 @@ export class GroupsService implements IGroupsService {
 
     //const active; = .collection('users').where('status', '==', 'active');
     //const q = this.db.list('/meetings').snapshotChanges();
-    
-    let query = this.geo.query('groups').within(center, search.radius, this.field);
 
+    let query = this.geo.query<IGroup>('groups').within(center, search.radius, this.field);
+
+    query = query.pipe(
+      switchMap((groups: any[]) => { 
+        const res = groups.map((group: any) => { 
+          return this.fss.col$<ISchedule>('schedules', ref => ref.where('gid', '==', group.id))
+            .pipe(
+              // map(schedules => Object.assign(group, {schedules}))
+              map(schedules => {
+                group.schedules = schedules;
+                return group
+              })
+            ); 
+          }); 
+        return combineLatest(res);
+      })
+     );
+     
     if (!search.byAnyDay) {
       const dayVerbose = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay
         : await this.transSvc.get(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]).toPromise();
 
-        // ${await this.transSvc.get('ON').toPromise()}
+      // ${await this.transSvc.get('ON').toPromise()}
       this.verbose = `${this.verbose} ${dayVerbose}`;
 
       // `${await this.transSvc.get('TODAY').toPromise()}`
       const day = search.byDay !== 'today' ? search.byDay
-      : await this.transSvc.get(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]).toPromise();
+        : await this.transSvc.get(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]).toPromise();
 
       query = query.pipe(
         map(groups => {
-          
+
           const rv = [];
           groups.forEach(m => {
             if ((<any>m).schedule.day === day) {
@@ -102,7 +120,7 @@ export class GroupsService implements IGroupsService {
     } else if (search.bySpecificTime) {
       const between = `${await this.transSvc.get('BETWEEN').toPromise()}`;
       this.verbose = `${this.verbose} ${between} ${luxon.DateTime.fromISO(search.bySpecific.start).toLocaleString(luxon.DateTime.TIME_SIMPLE)} - ${luxon.DateTime.fromISO(search.bySpecific.end).toLocaleString(luxon.DateTime.TIME_SIMPLE)}`;
-      
+
       let today = luxon.DateTime.local();
       let start = luxon.DateTime.fromISO(search.bySpecific.start);
       start = luxon.DateTime.fromObject({
@@ -121,13 +139,13 @@ export class GroupsService implements IGroupsService {
         hour: end.hour,
         minute: end.minute
       })
-      
+
       query = query.pipe(
         map(groups => {
           const rv = [];
           groups.forEach(m => {
             let time = luxon.DateTime.fromFormat((<any>m).schedule.time, 't');
-            if( time >= start && time <= end) {
+            if (time >= start && time <= end) {
               rv.push(m);
             }
           });

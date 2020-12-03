@@ -26,13 +26,14 @@ import { AgmCoreModule } from '@agm/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { FirestoreService } from './services/firestore.service';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService,
   GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
-  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE } from './services';
+  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE } from './services';
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
@@ -74,6 +75,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     TranslateService,
     AngularFireAuth,
 
+    { provide: FIRESTORE_SERVICE, useExisting: FirestoreService},
     { provide: ANGULAR_FIRESTORE, useExisting: AngularFirestore},
     { provide: ANGULAR_FIRE_AUTH, useExisting: AngularFireAuth },
     { provide: TRANSLATE_SERVICE, useExisting: TranslateService},
