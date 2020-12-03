@@ -25,7 +25,7 @@
         {{group.location.address}}<br/>
         {{group.location.city}}, {{group.location.state}}<br/>
         {{group.hitMetadata.distance}}<br/>
-        {{group.schedule.time}} {{group.schedule.day}}<br/>
+        {{group.schedules[0].time}} {{group.schedules[0].day}}<br/>
         <ion-button (click)="details(group)">details</ion-button>
       </agm-info-window>
     </agm-marker>

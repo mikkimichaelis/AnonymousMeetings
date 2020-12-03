@@ -53,21 +53,20 @@ export class GroupsService implements IGroupsService {
     let query = this.geo.query<IGroup>('groups').within(center, search.radius, this.field);
 
     query = query.pipe(
-      switchMap((groups: any[]) => { 
-        const res = groups.map((group: any) => { 
+      switchMap((groups: any[]) => {
+        const res = groups.map((group: any) => {
           return this.fss.col$<ISchedule>('schedules', ref => ref.where('gid', '==', group.id))
             .pipe(
-              // map(schedules => Object.assign(group, {schedules}))
               map(schedules => {
                 group.schedules = schedules;
                 return group
               })
-            ); 
-          }); 
+            );
+        });
         return combineLatest(res);
       })
-     );
-     
+    );
+
     if (!search.byAnyDay) {
       const dayVerbose = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay
         : await this.transSvc.get(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]).toPromise();
@@ -83,10 +82,15 @@ export class GroupsService implements IGroupsService {
         map(groups => {
 
           const rv = [];
-          groups.forEach(m => {
-            if ((<any>m).schedule.day === day) {
-              rv.push(m);
-            }
+          const schedules = [];
+          groups.forEach(group => {
+            group.schedules.forEach(schedule => {
+              if (schedule.day === day) {
+                rv.push(group);
+                schedules.push(schedule);
+              }
+              group.schedules = schedules;
+            })
           });
           return rv;
         })
@@ -107,12 +111,17 @@ export class GroupsService implements IGroupsService {
           this.verbose = `${this.verbose} ${within} ${search.byRelative.early} hour(s)`;
 
           const rv = [];
-          groups.forEach(m => {
-            if (
-              now <= ((<any>m).schedule.offset + <number>search.byRelative.late * 60 * 1000)
-              && (now >= (<any>m).schedule.offset - window)) {
-              rv.push(m);
-            }
+          const schedules = [];
+          groups.forEach(group => {
+            group.schedules.forEach(schedule => {
+              if (
+                now <= (schedule.millis + <number>search.byRelative.late * 60 * 1000)
+                && (now >= (schedule.millis - window))) {
+                rv.push(group);
+                schedules.push(schedule);
+              }
+              group.schedules = schedules;
+            })
           });
           return rv;
         })
@@ -143,11 +152,16 @@ export class GroupsService implements IGroupsService {
       query = query.pipe(
         map(groups => {
           const rv = [];
-          groups.forEach(m => {
-            let time = luxon.DateTime.fromFormat((<any>m).schedule.time, 't');
-            if (time >= start && time <= end) {
-              rv.push(m);
-            }
+          const schedules = [];
+          groups.forEach(group => {
+            group.schedules.forEach(schedule => {
+              let time = luxon.DateTime.fromFormat(schedule.time, 't');
+              if (time >= start && time <= end) {
+                rv.push(group);
+                schedules.push(schedule);
+              }
+              group.schedules = schedules;
+            })
           });
           return rv;
         })
@@ -160,9 +174,9 @@ export class GroupsService implements IGroupsService {
       this.groups.next(<IGroup>(<any>groups));
       await this.busyService.dismiss();
     },
-    async error => {
-      LogRocket.error(error);
-      await this.busyService.dismiss();
-    });
+      async error => {
+        LogRocket.error(error);
+        await this.busyService.dismiss();
+      });
   }
 }

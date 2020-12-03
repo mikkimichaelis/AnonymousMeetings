@@ -18,7 +18,7 @@ export class GroupBLLService implements IGroupBLLService {
     now = luxon.DateTime.fromObject( { year: 1970, month: 1, day: now.weekday, hour: now.hour, minute: now.min, second: now.second});
     now = now.toMillis();
     let schedule: ISchedule;
-    group.schedule.forEach(s => {
+    group.schedules.forEach(s => {
       // ignore if not active
       if (s.active) {
         if (!schedule) {

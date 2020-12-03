@@ -23,7 +23,7 @@
             <ion-item>
               <ion-label style="background-color: lightgreen;">
                 <h2>{{group.name}}</h2>
-                <p>{{group.schedule.day}} {{group.schedule.time}}</p>
+                <p>{{group.schedules[0].day}} {{group.schedules[0].time}}</p>
                 <p>{{group.hitMetadata.distance}}</p>
               </ion-label>
               <ion-avatar slot="end">
@@ -39,7 +39,7 @@
             <ion-item detail="false" routerLink="/app/tabs/groups/group-details/{{group.id}}">
               <ion-label>
                 {{ group.name }}<br />
-                {{ group.schedule.time }}<br />
+                {{ group.schedules[0].time }}<br />
                 {{ group.location.name }}<br />
                 {{ group.location.address }} {{ group.location.city }}, {{ group.location.state }}
               </ion-label>
