@@ -1,14 +1,12 @@
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { IGroup, ISchedule } from '../../models';
 
 export interface IGroupService {
     initialize();
 
     id: string;
-    group$: BehaviorSubject<IGroup>;
+    group$: Subject<IGroup>
     group: IGroup;
-    schedule$: BehaviorSubject<ISchedule>;
-    schedule: ISchedule;
     
-    getGroup(id: string);
+    getGroupAsync(id: string): Promise<IGroup>;
 }

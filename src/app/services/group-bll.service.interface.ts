@@ -1,5 +1,6 @@
 import { IGroup, ISchedule } from '../../models';
 
 export interface IGroupBLLService {
-    getNextScheduledMeeting(group: IGroup): ISchedule
+    orderSchedules(schedules: ISchedule[]): ISchedule[];
+    getNextSchedule(now: number, schedules: ISchedule[]): ISchedule
 }

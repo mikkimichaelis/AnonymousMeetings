@@ -12,9 +12,5 @@ export class GroupTabPage implements OnInit {
   constructor(private route: ActivatedRoute, private groupSvc: GroupService) { }
 
   ngOnInit() {
-    const id = '27e5fb21-6430-41be-b702-5e20e10bc5e9'; //this.route.snapshot.queryParamMap.get('id');
-    if( this.groupSvc.id !== id ) {
-      this.groupSvc.getGroup(id);
-    }
   }
 }

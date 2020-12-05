@@ -21,10 +21,9 @@
         <ion-card class="group-card">
           <ion-card-header>
             <ion-item>
-              <ion-label style="background-color: lightgreen;">
+              <ion-label>
                 <h2>{{group.name}}</h2>
-                <p>{{group.schedules[0].day}} {{group.schedules[0].time}}</p>
-                <p>{{group.hitMetadata.distance}}</p>
+                <!-- <p>{{group.hitMetadata.distance}}</p> -->
               </ion-label>
               <ion-avatar slot="end">
                 <img (click)="attend(group.id)" src="../../../assets/img/groups/attend.png">
@@ -36,12 +35,13 @@
           </ion-card-header>
 
           <ion-card-content>
-            <ion-item detail="false" routerLink="/app/tabs/groups/group-details/{{group.id}}">
+            <ion-item detail="false" routerLink="/group/tab/group?id={{group.id}}">
               <ion-label>
-                {{ group.name }}<br />
-                {{ group.schedules[0].time }}<br />
-                {{ group.location.name }}<br />
-                {{ group.location.address }} {{ group.location.city }}, {{ group.location.state }}
+                {{group.schedules[0].day}} {{ group.schedules[0].time }}<br />
+                <span *ngIf="group.location.name != ''">{{ group.location.name }}<br /></span>
+                {{ group.location.address1 }}<br />
+                {{ group.location.city }}, {{ group.location.state }} {{ group.location.zip }}
+                {{ group.telephone}}
               </ion-label>
             </ion-item>
           </ion-card-content>

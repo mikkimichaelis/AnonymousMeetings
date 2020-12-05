@@ -1,40 +1,52 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { BehaviorSubject } from 'rxjs';
+import { Subject, combineLatest } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
-import { IGroup, ISchedule } from '../../models';
+import { Group, IGroup, ISchedule } from '../../models';
 import { IGroupBLLService, IGroupService } from './';
-import { GROUP_BLL_SERVICE } from './injection-tokens';
+import { FirestoreService } from './firestore.service';
+import { FIRESTORE_SERVICE, GROUP_BLL_SERVICE } from './injection-tokens';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupService implements IGroupService {
   groupCollection: AngularFirestoreCollection<IGroup>
-  group$: BehaviorSubject<IGroup>;
+  group$: Subject<IGroup> = new Subject<IGroup>()
   group: IGroup;
-  schedule$: BehaviorSubject<ISchedule>;
-  schedule: ISchedule;
   id: string;
 
   constructor(
-    private afs: AngularFirestore, 
+    private afs: AngularFirestore,
+    @Inject(FIRESTORE_SERVICE) private fss: FirestoreService,
     @Inject(GROUP_BLL_SERVICE) private groupBLLSvc: IGroupBLLService) { }
   initialize() {
-    this.group$ = new BehaviorSubject<IGroup>(null);
-    this.schedule$ = new BehaviorSubject<ISchedule>(null);
+    this.group$ = new Subject<IGroup>();
   }
 
-  getGroup(id: string) {
-    this.afs.collection<IGroup>('meetings').doc(`${id}`).get().subscribe(g => {
-      this.id = g.id;
-
-      this.group = <any>g.data();
-      this.group$.next(this.group);
-
-      this.schedule = this.groupBLLSvc.getNextScheduledMeeting(this.group);
-      this.schedule$.next(this.schedule);
+  async getGroupAsync(id: string): Promise<IGroup> {
+    // TODO snapshot changes
+    return new Promise((resolve, reject) => {
+      let query = this.fss.doc$(`groups/${id}`).pipe(
+        switchMap((group: any) => {
+          return this.fss.col$<ISchedule>('schedules', ref => ref.where('gid', '==', group.id))
+            .pipe(
+              map(schedules => {
+                group.schedules = schedules;
+                return group
+              })
+            );
+        })
+      ).subscribe((group: IGroup) => {
+        group = new Group(group);
+        this.id = group.id;
+        this.group = group;
+        this.group.schedules = this.groupBLLSvc.orderSchedules(this.group.schedules);
+        this.group$.next(this.group);
+        resolve(this.group);
       });
+    });
   }
 }

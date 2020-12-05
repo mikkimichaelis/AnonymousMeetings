@@ -18,7 +18,7 @@
     <ion-card-header>
       <ion-card-title>{{group.name}} ({{group.type}})</ion-card-title>
       <!-- TODO translate tags -->
-      <ion-card-subtitle>{{group.tags.join(' ')}}</ion-card-subtitle>
+      <ion-card-subtitle>{{group.getTags}}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-item>
@@ -29,26 +29,26 @@
 
     <ion-item>
       <ion-icon slot="start" name="arrow-up-circle-outline"></ion-icon>
-      <ion-label>last activity</ion-label>
-      <ion-text>11/1/2020</ion-text>
+      <ion-label translate>LAST.ACTIVITY</ion-label>
+      <ion-text>{{group.lastActivity}}</ion-text>
     </ion-item>
 
     <ion-item>
       <ion-icon slot="start" name="people-outline"></ion-icon>
-      <ion-label>members</ion-label>
-      <ion-text>20</ion-text>
+      <ion-label translate>GROUP.MEMBERS</ion-label>
+      <ion-text>{{group.getMemberCount}}</ion-text>
     </ion-item>
 
     <ion-item>
       <ion-icon slot="start" name="calendar-outline"></ion-icon>
-      <ion-label>members years sobriety</ion-label>
-      <ion-text>64 combined</ion-text>
+      <ion-label translate>GROUP.YEARS.SOBRIETY</ion-label>
+      <ion-text>{{group.getYearsSobriety}}</ion-text>
     </ion-item>
 
     <ion-item>
       <ion-icon slot="start" name="people-circle-outline"></ion-icon>
-      <ion-label>members online</ion-label>
-      <ion-text>5</ion-text>
+      <ion-label translate>GROUP.MEMBERS.ONLINE</ion-label>
+      <ion-text>{{group.getMembersOnline}}</ion-text>
     </ion-item>
 
     <ion-card-content>

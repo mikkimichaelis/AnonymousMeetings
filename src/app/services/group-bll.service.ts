@@ -10,33 +10,42 @@ import { IGroupBLLService } from './';
 })
 export class GroupBLLService implements IGroupBLLService {
 
-  constructor() {}
+  constructor() { }
 
-  public getNextScheduledMeeting(group: IGroup): ISchedule {
+  orderSchedules(schedules: ISchedule[]): ISchedule[] {
     let week = 7 * 24 * 60 * 1000;  // 1 week in ms
     let now: any = luxon.DateTime.local();
-    now = luxon.DateTime.fromObject( { year: 1970, month: 1, day: now.weekday, hour: now.hour, minute: now.min, second: now.second});
+    now = luxon.DateTime.fromObject({ year: 1970, month: 1, day: now.weekday, hour: now.hour, minute: now.min, second: now.second });
     now = now.toMillis();
-    let schedule: ISchedule;
-    group.schedules.forEach(s => {
+    let rv: ISchedule[] = [];
+    schedules.forEach(s => {
+      const x = this.getNextSchedule(now, schedules);
+      rv.push(x);
+      now = x.millis + 1;
+    });
+    return rv;
+  }
+
+  public getNextSchedule(now: number, schedules: ISchedule[]): ISchedule {
+    let rv: ISchedule;
+    schedules.forEach(schedule => {
       // ignore if not active
-      if (s.active) {
-        if (!schedule) {
-          // special handle first schedule
-          if( s.millis < now ) {
+      if (schedule.active) {
+        if (!rv) {  // special handle if no schedule yet
+          if (schedule.millis < now) {
             // s happens next week if recurring otherwise ignore
-            schedule = s.recurring ? s : null;
+            rv = schedule.recurring ? schedule : null;
           } else {
             // s happens this week
-            schedule = s;
+            rv = schedule;
           }
-        } else if (s.millis > now) {
+        } else if (schedule.millis > now) {
           // s happens this week
-          schedule = s.millis < schedule.millis ? s : schedule; // s comes before schedule
-        } else if (s.recurring) {
+          rv = schedule.millis < rv.millis ? schedule : rv; // s comes before schedule
+        } else if (schedule.recurring) {
           // s happens next week
-          if( schedule.millis < now ) { // schedule also happens next week
-            schedule = s.millis < schedule.millis ? s : schedule; // s comes before schedule next week
+          if (rv.millis < now) { // schedule also happens next week
+            rv = schedule.millis < rv.millis ? schedule : rv; // s comes before schedule next week
           } else {
             // schedule happens this week so keep it
             // schedule = schedule;
@@ -44,6 +53,6 @@ export class GroupBLLService implements IGroupBLLService {
         }
       }
     });
-    return schedule;
+    return rv;
   }
 }
