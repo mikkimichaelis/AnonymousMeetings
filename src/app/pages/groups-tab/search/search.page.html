@@ -20,29 +20,20 @@
       <ion-col size="12" size-md="6" *ngFor="let group of groupsSvc.groups | async">
         <ion-card class="group-card">
           <ion-card-header>
-            <ion-item>
-              <ion-label>
-                <h2>{{group.name}}</h2>
-                <!-- <p>{{group.hitMetadata.distance}}</p> -->
-              </ion-label>
-              <ion-avatar slot="end">
-                <img (click)="attend(group.id)" src="../../../assets/img/groups/attend.png">
-              </ion-avatar>
-              <ion-item routerLink="/group/tab/group" routerDirection="forward">
-                <ion-label>Sign Up</ion-label>
-               </ion-item>
-            </ion-item>
+            <h4>{{group.name}}</h4>
           </ion-card-header>
 
           <ion-card-content>
-            <ion-item detail="false" routerLink="/group/tab/group?id={{group.id}}">
-              <ion-label>
-                {{group.schedules[0].day}} {{ group.schedules[0].time }}<br />
-                <span *ngIf="group.location.name != ''">{{ group.location.name }}<br /></span>
-                {{ group.location.address1 }}<br />
-                {{ group.location.city }}, {{ group.location.state }} {{ group.location.zip }}
-                {{ group.telephone}}
-              </ion-label>
+            <ion-item slot="start" detail="false" (click)="details(group)">
+
+              {{group.schedules[0].day}} {{ group.schedules[0].time }}<br />
+              <span *ngIf="group.location.name != ''">{{ group.location.name }}<br /></span>
+              {{ group.location.address1 }}<br />
+              {{ group.location.city }}, {{ group.location.state }} {{ group.location.zip }}
+              {{ group.telephone}}
+
+              <ion-img class="logo" src="assets/images/aa.png"></ion-img>
+
             </ion-item>
           </ion-card-content>
         </ion-card>

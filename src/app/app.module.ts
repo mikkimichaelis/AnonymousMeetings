@@ -33,7 +33,7 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService,
   GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
-  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE } from './services';
+  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, USER_BLL_SERVICE, UserBLLService } from './services';
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
@@ -59,7 +59,8 @@ import { AuthGuard, FeatureGuard } from './guards';
     }),
     AgmCoreModule.forRoot({ apiKey: environment.googleCloudConfig.agmKey }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule.enablePersistence(),
+    // AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule,
     AngularFireAuthModule,
     NgCalendarModule,
     CoreModule,
@@ -85,6 +86,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     { provide: GROUP_SERVICE, useExisting: GroupService },
     { provide: GROUP_BLL_SERVICE, useExisting: GroupBLLService },
     { provide: USER_SERVICE, useExisting: UserService },
+    { provide: USER_BLL_SERVICE, useExisting: UserBLLService },
     { provide: BUSY_SERVICE, useExisting: BusyService },
     { provide: SETTINGS_SERVICE, useExisting: SettingsService },
 

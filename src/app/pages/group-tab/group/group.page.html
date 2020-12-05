@@ -18,7 +18,7 @@
     <ion-card-header>
       <ion-card-title>{{group.name}} ({{group.type}})</ion-card-title>
       <!-- TODO translate tags -->
-      <ion-card-subtitle>{{group.getTags}}</ion-card-subtitle>
+      <ion-card-subtitle>{{group.tagsString}}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-item>
@@ -36,27 +36,31 @@
     <ion-item>
       <ion-icon slot="start" name="people-outline"></ion-icon>
       <ion-label translate>GROUP.MEMBERS</ion-label>
-      <ion-text>{{group.getMemberCount}}</ion-text>
+      <ion-text>{{group.memberCount}}</ion-text>
     </ion-item>
 
     <ion-item>
       <ion-icon slot="start" name="calendar-outline"></ion-icon>
       <ion-label translate>GROUP.YEARS.SOBRIETY</ion-label>
-      <ion-text>{{group.getYearsSobriety}}</ion-text>
+      <ion-text>{{group.yearsSobriety}}</ion-text>
     </ion-item>
 
     <ion-item>
       <ion-icon slot="start" name="people-circle-outline"></ion-icon>
       <ion-label translate>GROUP.MEMBERS.ONLINE</ion-label>
-      <ion-text>{{group.getMembersOnline}}</ion-text>
+      <ion-text>{{group.membersOnline}}</ion-text>
     </ion-item>
 
     <ion-card-content>
       <ion-item>
-        about this group......
+        {{group.about}}
       </ion-item>
       <ion-item>
-        NOTES: Please use side entrance. Do not leave cigrette butts on the ground. etc.
+        {{group.notes}}
+      </ion-item>
+      <ion-item>
+        <ion-button fill="outline" slot="end" (click)="makeHomegroup(group)" *ngIf="!isHomeGroup" translate>GROUP.MAKE.HOMEGROUP</ion-button>
+        <ion-icon slot="end" name="home-outline" *ngIf="isHomeGroup" >Homegroup</ion-icon>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -71,11 +75,11 @@
     <ion-card-content>
       <ion-item>
         <ion-label>When</ion-label>
-        <ion-text>Wednesday at 7:00 pm</ion-text>
+        <ion-text>{{group.schedules[0].day}} @ {{group.schedules[0].time}}</ion-text>
       </ion-item>
       <ion-item>
         <ion-label>Location</ion-label>
-        <ion-text>12950 W Farmroad 156<br />Republic, MO 65738<br />USA</ion-text>
+        <ion-text>{{group.location.address1}}<br />{{group.location.city}}, {{group.location.state}} {{group.location.zip}}<br />{{group.location.country}}</ion-text>
       </ion-item>
       <ion-item>
         <ion-button fill="outline" slot="start">Add to Calendar</ion-button>
@@ -84,7 +88,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="group.schedules[0].zoom"> 
     <ion-card-header>
       <!-- <ion-icon style="float: right;" name="share-outline"></ion-icon> -->
       <ion-card-title>Zoom Meeting</ion-card-title>
@@ -99,7 +103,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="!group.schedules[0].zoom">
     <ion-card-header>
       <ion-card-title>Ride Request</ion-card-title>
       <ion-card-subtitle></ion-card-subtitle>
@@ -143,31 +147,31 @@
       <ion-item>
         <ion-icon slot="start" name="call-outline"></ion-icon>
         <ion-label>telephone</ion-label>
-        <ion-text>+1 (417) 555-1212</ion-text>
+        <ion-text>{{group.telephone}}</ion-text>
       </ion-item>
 
-      <ion-item>
+      <!-- <ion-item>
         <ion-icon slot="start" name="copy-outline"></ion-icon>
         <ion-label>fax</ion-label>
         <ion-text>+1 (417) 555-1212</ion-text>
-      </ion-item>
+      </ion-item> -->
 
       <ion-item>
         <ion-icon slot="start" name="mail-outline"></ion-icon>
         <ion-label>email</ion-label>
-        <ion-text>info@somegrouop.com</ion-text>
+        <ion-text>{{group.email}}</ion-text>
       </ion-item>
 
       <ion-item>
         <ion-icon slot="start" name="planet-outline"></ion-icon>
         <ion-label>www</ion-label>
-        <ion-text>www.somegroup.com</ion-text>
+        <ion-text>{{group.url}}</ion-text>
       </ion-item>
 
       <ion-item>
         <ion-icon slot="start" name="home-outline"></ion-icon>
         <ion-label>address</ion-label>
-        <ion-text>12950 W Farmroad 156<br />Republic, MO 65738<br />USA</ion-text>
+        <ion-text>{{group.address.address1}}<br />{{group.address.city}}, {{group.address.state}} {{group.address.zip}}</ion-text>
       </ion-item>
 
       <ion-item>

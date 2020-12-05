@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import _ from 'lodash';
+import { IUser, IGroup, HomeGroup } from 'src/models';
 import { IUserBLLService } from './';
 
 @Injectable({
@@ -7,4 +9,13 @@ import { IUserBLLService } from './';
 export class UserBLLService implements IUserBLLService{
 
   constructor() { }
+  isHomeGroup(user: IUser, group: IGroup): boolean {
+    return group.id === (_.has(user, 'homeGroup.gid') ? user.homeGroup.gid : false);
+  }
+  setName(user: IUser) {
+    user.name = `${user.firstName} ${user.lastInitial}.`;
+  }
+  makeHomeGroup(user: IUser, group: IGroup) {
+    user.homeGroup = (new HomeGroup(group)).serialize();
+  }
 }

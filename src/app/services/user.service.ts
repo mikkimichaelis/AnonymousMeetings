@@ -4,14 +4,16 @@ import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { IUser } from '../../models';
+import { HomeGroup, IGroup, IUser } from '../../models';
 import { User } from '../../models';
 
 import { IAuthService, IUserService, ILogService, ITranslateService } from './';
-import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE } from './injection-tokens';
+import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, USER_BLL_SERVICE } from './injection-tokens';
 import { IAngularFirestore } from './angular-firestore.interface';
 import { delay, switchMap } from 'rxjs/operators';
 import _ from 'lodash';
+import LogRocket from 'logrocket';
+import { IUserBLLService } from './user-bll.service.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,8 @@ export class UserService implements IUserService {
     @Inject(ANGULAR_FIRESTORE) private afs: IAngularFirestore,
     @Inject(TRANSLATE_SERVICE) private translate: ITranslateService,
     @Inject(LOG_SERVICE) private logService: ILogService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService) { }
+    @Inject(AUTH_SERVICE) private authService: IAuthService,
+    @Inject(USER_BLL_SERVICE) private userBLLService: IUserBLLService) { }
 
   public async getUser(authId: string, timeout = 0): Promise<IUser> {
     return new Promise(async (resolve, reject) => {
@@ -70,8 +73,12 @@ export class UserService implements IUserService {
 
   async saveUserAsync(user: IUser) {
     if (user) {
-      user.name = `${user.firstName} ${user.lastInitial}.`;
+      try {
       await this.afs.doc<IUser>(`users/${this.user.id}`).update(user);
+      } catch(e) {
+        console.error(e);
+        LogRocket.error(e);
+      }
     }
   }
 

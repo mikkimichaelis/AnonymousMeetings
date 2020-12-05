@@ -1,6 +1,7 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import _ from 'lodash';
 import { Subject, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -31,6 +32,7 @@ export class GroupService implements IGroupService {
     return new Promise((resolve, reject) => {
       let query = this.fss.doc$(`groups/${id}`).pipe(
         switchMap((group: any) => {
+          if( !_.isEmpty(group) ){
           return this.fss.col$<ISchedule>('schedules', ref => ref.where('gid', '==', group.id))
             .pipe(
               map(schedules => {
@@ -38,6 +40,9 @@ export class GroupService implements IGroupService {
                 return group
               })
             );
+          } else {
+            reject("Invalid group ID");
+          }
         })
       ).subscribe((group: IGroup) => {
         group = new Group(group);
