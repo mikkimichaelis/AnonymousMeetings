@@ -11,52 +11,26 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class LandingPage {
 
-  // showSign = false;
+  showLanding = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private busySvc: BusyService, private authService: AuthService) {
-    // let authStateUserSubscription = this.authService.authUser$.subscribe(user => {
-    //   if( user ) {
-    //     this.router.navigateByUrl('/home/tab/home');
-    //   } else {
-    //     this.doSignup(true);
-    //     // this.showSign = true;
-    //     // this.router.navigateByUrl('/core/landing');
-    //   }
-    // })
+  constructor(private router: Router, private route: ActivatedRoute, private busySvc: BusyService, private authService: AuthService) { 
   }
 
   async ionViewDidEnter() {
-    // this.busySvc.dismiss();
-    // if( this.route.snapshot.queryParamMap.get('logout') === 'true' ) {
-    //   // this.busySvc.present();
-    //   await this.authService.logout()
-    //   this.showSign = true;
-    //   // this.busySvc.dismiss();
-    // }
-    
+    this.showLanding = this.route.snapshot.queryParams.showLanding;
   }
 
   ionViewWillLeave() {
-    // this.busySvc.dismiss();
+    this.busySvc.dismiss();
   }
   
-  async doSignup(anonymous: boolean) {
-    if( anonymous === undefined || anonymous === false ) {
-      this.router.navigate(['/login'], { queryParams: { signup: true }});
-    } else {
+  async doSign(anonymous: boolean, signup: boolean) {
+    if( anonymous ) {
       this.busySvc.present();
       await this.authService.createAnonymous();
       this.busySvc.dismiss();
+    } else {
+      this.router.navigate(['/core/login'], { queryParams: { signup: signup }});
     }
   }
-
-  // async doSign(signup: boolean, anonymous?: boolean) {
-  //   if( anonymous === undefined || anonymous === false ) {
-  //     this.router.navigate(['/login'], { queryParams: { signup: signup }});
-  //   } else {
-  //     this.busySvc.present();
-  //     await this.authService.createAnonymous();
-  //     this.busySvc.dismiss();
-  //   }
-  // }
 }

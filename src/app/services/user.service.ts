@@ -7,8 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { HomeGroup, IGroup, IUser } from '../../models';
 import { User } from '../../models';
 
-import { IAuthService, IUserService, ILogService, ITranslateService } from './';
-import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, USER_BLL_SERVICE } from './injection-tokens';
+import { IAuthService, IUserService, ILogService, ITranslateService, IFirestoreService } from './';
+import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, USER_BLL_SERVICE, FIRESTORE_SERVICE } from './injection-tokens';
 import { IAngularFirestore } from './angular-firestore.interface';
 import { delay, switchMap } from 'rxjs/operators';
 import _ from 'lodash';
@@ -29,24 +29,25 @@ export class UserService implements IUserService {
 
   private authStateSubscription: Subscription;
   constructor(
+    @Inject(FIRESTORE_SERVICE) private fss: IFirestoreService,
     @Inject(ANGULAR_FIRESTORE) private afs: IAngularFirestore,
     @Inject(TRANSLATE_SERVICE) private translate: ITranslateService,
     @Inject(LOG_SERVICE) private logService: ILogService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_BLL_SERVICE) private userBLLService: IUserBLLService) { }
 
-  public async getUser(authId: string, timeout = 0): Promise<IUser> {
+  public async getUser(id: string, timeout = 0): Promise<IUser> {
     return new Promise(async (resolve, reject) => {
       setTimeout(async () => {
         try {
-          const user = await (this.afs.collection('users', ref => ref.where('authId', '==', authId)).get().toPromise());
-          if (user.docs.length > 0) {
-            this.user = <IUser>user.docs[0].data();
+          const user = await this.fss.col(`users`).doc<IUser>(id).get().toPromise();
+          if( user.exists ) {
+            this.user = new User(user.data());
             this.userValueChanges();
-            resolve(this.user);
             this.user$.next(this.user);
+            resolve(this.user);
           } else {
-            throw new Error(`Unable to find User ${authId}`);
+            throw new Error(`Unable to find User ${id}`);
           }
         } catch (e) {
           this.logService.error(e);

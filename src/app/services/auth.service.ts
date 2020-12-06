@@ -115,7 +115,7 @@ export class AuthService implements IAuthService {
       tosUrl: 'https://anonymousgroups.us/assets/pages/tos.html',
       privacyPolicyUrl: 'https://anonymousgroups.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
-      signInSuccessUrl: '/core/landing'
+      signInSuccessUrl: '/home/tab/home'
     };
   }
 }

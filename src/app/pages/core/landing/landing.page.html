@@ -4,24 +4,24 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-content *ngIf="showSign"> -->
+<ion-content *ngIf="showLanding">
   <!-- <div class="login">
     <p translate>LANDING.SIGNIN.TXT</p>
     <ion-button (click)="doSign(false)" translate>LANDING.SIGNIN</ion-button>
-  </div>
+  </div> -->
 
   <div class="signup">
     <p translate>LANDING.SIGNUP.TXT</p>
-  <ion-button (click)="doSign(true)" translate>LANDING.SIGNUP</ion-button>
+  <ion-button (click)="doSign(false, true)" translate>LANDING.SIGNUP</ion-button>
   </div>
 
   <div class="login">
     <p translate>LANDING.ANONYMOUS.TXT</p>
-    <ion-button (click)="doSign(false, true)" translate>LANDING.ANONYMOUS</ion-button>
-  </div> -->
+    <ion-button (click)="doSign(true)" translate>LANDING.ANONYMOUS</ion-button>
+  </div>
 
   <!-- <div class="login">
     <p translate>LANDING.ANONYMOUS.COMPLETE.TXT</p>
     <ion-button (click)="doSign(false, true, true)" translate>LANDING.ANONYMOUS.COMPLETE</ion-button>
   </div> -->
-<!-- </ion-content> -->
+</ion-content>

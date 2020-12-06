@@ -14,7 +14,7 @@ import { UserPage } from './user/user.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/core/landing',
+    redirectTo: '/core/landing?showLanding=true',
     pathMatch: 'full',
   },
   {

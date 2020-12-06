@@ -78,16 +78,22 @@ export class AppComponent {
 
             let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
 
-            if (_.isEmpty(user)) {
-              await this.authService.logout();
-            } else {
+            if (!_.isEmpty(user)) {
               this.router.navigateByUrl('/home/tab/home');
+            } else {
+              await this.authService.logout();
             }
             this.busyService.dismiss();
           } else {
-            creating = true;
-            this.busyService.present(creatingUser);
-            await this.authService.createAnonymous();
+            if (creating) {
+              // we are in a loop, redirect to landing
+              this.busyService.dismiss();
+              this.router.navigateByUrl('/core/landing?showLanding=true');
+            } else {
+              creating = true;
+              this.busyService.present(creatingUser);
+              await this.authService.createAnonymous();
+            }
           }
         })
     });
@@ -114,14 +120,4 @@ export class AppComponent {
         .then(() => window.location.reload());
     });
   }
-
-  // async doSignup(anonymous: boolean) {
-  //   if (anonymous === undefined || anonymous === false) {
-  //     this.router.navigate(['/login'], { queryParams: { signup: true } });
-  //   } else {
-  //     this.busySvc.present();
-  //     await this.authService.createAnonymous();
-  //     this.busySvc.dismiss();
-  //   }
-  // }
 }
