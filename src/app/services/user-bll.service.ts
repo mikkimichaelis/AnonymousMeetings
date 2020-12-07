@@ -12,10 +12,4 @@ export class UserBLLService implements IUserBLLService{
   isHomeGroup(user: IUser, group: IGroup): boolean {
     return group.id === (_.has(user, 'homeGroup.gid') ? user.homeGroup.gid : false);
   }
-  setName(user: IUser) {
-    user.name = `${user.firstName} ${user.lastInitial}.`;
-  }
-  makeHomeGroup(user: IUser, group: IGroup) {
-    user.homeGroup = (new HomeGroup(group)).serialize();
-  }
 }

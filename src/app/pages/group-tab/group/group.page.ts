@@ -46,8 +46,8 @@ export class GroupPage implements OnInit {
         {
           text: 'OK',
           handler: async () => {
-            this.userBLLService.makeHomeGroup(this.userService.user, group)
-            await this.userService.saveUserAsync(this.userService.user);
+            await this.userService.makeHomeGroup(this.userService.user, group)
+            //await this.userService.saveUserAsync(this.userService.user);
           }
         }]
     });

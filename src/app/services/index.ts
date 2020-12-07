@@ -39,6 +39,9 @@ export * from './log.service';
 export * from './settings.service.interface';
 export * from './settings.service';
 
+export * from './toast.service.interface';
+export * from './toast.service';
+
 export * from './user-bll.service.interface';
 export * from './user-bll.service';
 

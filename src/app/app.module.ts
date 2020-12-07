@@ -26,6 +26,7 @@ import { AgmCoreModule } from '@agm/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireFunctions, AngularFireFunctionsModule } from '@angular/fire/functions';
 import { FirestoreService } from './services/firestore.service';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
@@ -33,7 +34,7 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService,
   GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
-  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, USER_BLL_SERVICE, UserBLLService } from './services';
+  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, USER_BLL_SERVICE, UserBLLService, ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService } from './services';
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
@@ -59,8 +60,8 @@ import { AuthGuard, FeatureGuard } from './guards';
     }),
     AgmCoreModule.forRoot({ apiKey: environment.googleCloudConfig.agmKey }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    // AngularFirestoreModule.enablePersistence(),
-    AngularFirestoreModule,
+    AngularFireFunctionsModule,
+    AngularFirestoreModule,     // AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     NgCalendarModule,
     CoreModule,
@@ -79,6 +80,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     { provide: FIRESTORE_SERVICE, useExisting: FirestoreService},
     { provide: ANGULAR_FIRESTORE, useExisting: AngularFirestore},
     { provide: ANGULAR_FIRE_AUTH, useExisting: AngularFireAuth },
+    { provide: ANGULAR_FIRE_FUNCTIONS, useExisting: AngularFireFunctions },
     { provide: TRANSLATE_SERVICE, useExisting: TranslateService},
     { provide: AUTH_SERVICE, useExisting: AuthService },
     { provide: LOG_SERVICE, useExisting: LogService },
@@ -88,6 +90,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     { provide: USER_SERVICE, useExisting: UserService },
     { provide: USER_BLL_SERVICE, useExisting: UserBLLService },
     { provide: BUSY_SERVICE, useExisting: BusyService },
+    { provide: TOAST_SERVICE, useExisting: ToastService },
     { provide: SETTINGS_SERVICE, useExisting: SettingsService },
 
     AuthGuard,

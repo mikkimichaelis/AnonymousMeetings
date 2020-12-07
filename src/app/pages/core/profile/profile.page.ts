@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { IUserBLLService, IUserService, USER_BLL_SERVICE, USER_SERVICE } from 'src/app/services';
+import { BUSY_SERVICE, IBusyService, IToastService, IUserBLLService, IUserService, TOAST_SERVICE, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
+import { IUser } from 'src/models';
 
 @Component({
   selector: 'app-profile',
@@ -11,33 +12,43 @@ import { IUserBLLService, IUserService, USER_BLL_SERVICE, USER_SERVICE } from 's
 export class ProfilePage implements OnInit {
 
   userForm: FormGroup;
-  user: any
+  user: IUser;
 
-  constructor( private formBuilder: FormBuilder, 
-    private location: Location, 
+  constructor(private formBuilder: FormBuilder,
+    private location: Location,
+    @Inject(BUSY_SERVICE) private busyService: IBusyService,
+    @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(USER_BLL_SERVICE) private userBLLService: IUserBLLService,
     @Inject(USER_SERVICE) private userService: IUserService) {
-      
-    this.user = Object.assign({}, this.userService.user);
+      this.initialize();
+  }
+
+  ngOnInit() { }
+
+  ionViewWillEnter() {
+    this.initialize();
+  }
+
+  initialize() {
+    this.user = this.userService.user.serialize();
     this.userForm = this.formBuilder.group({
       "firstName": [this.user.firstName, [Validators.required, Validators.minLength(3)]],
       "lastInitial": [this.user.lastInitial, [Validators.required, Validators.maxLength(1)]],
     })
-   }
-
-  ngOnInit() {}
-
-  ionViewWillEnter() {
-    // make a copy of current user
-    this.user = this.userService.user.serialize();
   }
 
   async submitForm() {
-    if( this.userForm.valid) {
-      this.userBLLService.setName(this.userService.user);
-      await this.userService.saveUserAsync(this.userForm.value);
-      this.location.back();
+    if (this.userForm.valid) {
+      try {
+        this.busyService.present('Saving Changes');
+        await this.userService.setName(this.userForm.value.firstName, this.userForm.value.lastInitial);
+        this.location.back();
+      } catch (e) {
+        this.initialize();
+        this.toastService.present('Error saving changes')
+      } finally {
+        this.busyService.dismiss();
+      }
     }
   }
-
 }
