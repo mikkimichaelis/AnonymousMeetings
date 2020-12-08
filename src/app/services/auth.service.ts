@@ -17,7 +17,7 @@ export class AuthService implements IAuthService {
   firebaseUi: any;
 
   authUser: firebase.User = null;
-  authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>()
+  authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>(1)
   isAnonymous: boolean = true;
 
   private authStateSubscription: Subscription;

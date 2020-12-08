@@ -22,7 +22,9 @@ type DocPredicate<T> = string | AngularFirestoreDocument<T>;
 export class FirestoreService {
 
 
-  constructor(private afs: AngularFirestore) {}
+  constructor(private afs: AngularFirestore) {
+    firebase.functions().useFunctionsEmulator('http://localhost:5001');
+  }
 
   /// **************
   /// Get a Reference

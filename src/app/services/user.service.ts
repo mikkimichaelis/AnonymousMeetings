@@ -21,7 +21,7 @@ import { IAngularFireFunctions } from './angular-fire-functions.interface';
 })
 export class UserService implements IUserService {
 
-  user$: ReplaySubject<IUser> = new ReplaySubject<IUser>(null);
+  user$: ReplaySubject<IUser> = new ReplaySubject<IUser>(1);
 
   public user: IUser;
   private userDocPath: string;

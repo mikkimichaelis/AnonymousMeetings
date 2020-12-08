@@ -27,6 +27,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireFunctions, AngularFireFunctionsModule } from '@angular/fire/functions';
+import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
 import { FirestoreService } from './services/firestore.service';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
@@ -76,6 +77,8 @@ import { AuthGuard, FeatureGuard } from './guards';
     AngularFirestore,
     TranslateService,
     AngularFireAuth,
+    AuthGuard,
+    FeatureGuard,
 
     { provide: FIRESTORE_SERVICE, useExisting: FirestoreService},
     { provide: ANGULAR_FIRESTORE, useExisting: AngularFirestore},
@@ -93,8 +96,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     { provide: TOAST_SERVICE, useExisting: ToastService },
     { provide: SETTINGS_SERVICE, useExisting: SettingsService },
 
-    AuthGuard,
-    FeatureGuard
+    // { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebaseConfig.useEmulators ? ['localhost', 5001] : undefined },
   ],
   bootstrap: [AppComponent]
 })
