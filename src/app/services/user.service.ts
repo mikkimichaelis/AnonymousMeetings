@@ -103,11 +103,9 @@ export class UserService implements IUserService {
 
   async setName(firstName: string, lastInitial: string) {
     let setName: any = this.aff.httpsCallable('setName');
-    let rv = await setName({
-      data: {
+    let rv = await setName( {
         firstName: firstName,
         lastInitial: lastInitial
-      }
     }).toPromise().then((result) => {
       if (result) return true;
       throw new Error("Unable to set Name");
