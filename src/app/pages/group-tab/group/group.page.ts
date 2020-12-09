@@ -29,7 +29,7 @@ export class GroupPage implements OnInit {
     const id = this.route.snapshot.queryParamMap.get('id');
     try {
       this.busySvc.present();
-      await this.groupSvc.getGroupAsync(id);
+      await this.groupSvc.getGroupAsync('007cce78-96ae-4d55-aa61-0f93d84366b2');
     } catch (e) {
 
     } finally {

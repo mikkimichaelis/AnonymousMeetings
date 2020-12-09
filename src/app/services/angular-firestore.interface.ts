@@ -1,4 +1,5 @@
 import { NgZone } from '@angular/core';
+import firebase from 'firebase/app';
 import { FirebaseAppConfig, FirebaseOptions, ɵAngularFireSchedulers } from '@angular/fire';
 import { AngularFirestoreCollection, AngularFirestoreCollectionGroup, AngularFirestoreDocument, 
     CollectionReference, DocumentReference, PersistenceSettings, QueryFn, QueryGroupFn, Settings } from "@angular/fire/firestore";

@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import * as firebase from 'firebase/app';
+// import * as firebase from 'firebase';
+import firebase from 'firebase/app'
 import * as firebaseui from 'firebaseui';
 
 import { Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';

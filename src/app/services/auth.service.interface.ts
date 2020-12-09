@@ -1,4 +1,5 @@
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import firebase from 'firebase/app';
+import { ReplaySubject } from 'rxjs';
 
 export interface IAuthService {
     initialize();
