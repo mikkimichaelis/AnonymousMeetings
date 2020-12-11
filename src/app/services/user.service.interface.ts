@@ -1,12 +1,12 @@
 import { ReplaySubject } from 'rxjs';
-import { IGroup, IHomeGroup, IUser } from '../../models';
+import { IGroup, User } from '../../models';
 
 export interface IUserService {
-    user: IUser;
-    user$: ReplaySubject<IUser>;
+    user: User;
+    user$: ReplaySubject<User>;
     getUser(id: string, timeout?: number);
-    saveUserAsync(user: IUser);
+    saveUserAsync(user: User);
 
     setName(firstName: string, lastInitial: string);
-    makeHomeGroup(user: IUser, group: IGroup);
+    makeHomeGroup(gid: string);
 }

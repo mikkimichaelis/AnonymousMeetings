@@ -21,9 +21,9 @@ import { IAngularFireFunctions } from './angular-fire-functions.interface';
 })
 export class UserService implements IUserService {
 
-  user$: ReplaySubject<IUser> = new ReplaySubject<IUser>(1);
+  user$: ReplaySubject<User> = new ReplaySubject<User>(1);
 
-  public user: IUser;
+  public user: User;
   private userDocPath: string;
   private _userValueChanges: Observable<IUser>;
   private _userValueChangesSubscription: Subscription;
@@ -74,10 +74,10 @@ export class UserService implements IUserService {
     });
   }
 
-  async saveUserAsync(user: IUser) {
+  async saveUserAsync(user: User) {
     if (user) {
       try {
-        await this.afs.doc<IUser>(`users/${this.user.id}`).update(user);
+        await this.afs.doc<IUser>(`users/${this.user.id}`).update(user.toObject());
       } catch (e) {
         console.error(e);
         LogRocket.error(e);
@@ -101,21 +101,25 @@ export class UserService implements IUserService {
     // }
   }
 
-  async setName(firstName: string, lastInitial: string) {
-    let setName: any = this.aff.httpsCallable('setName');
-    let rv = await setName( {
-        firstName: firstName,
-        lastInitial: lastInitial
-    }).toPromise().then((result) => {
-      if (result) return true;
-      throw new Error("Unable to set Name");
+  
+  private async makeCallableAsync<T>(func: string, data: any): Promise<T> {
+    let callable: any = this.aff.httpsCallable(func);
+    let rv = await callable(data).toPromise().then((result) => {
+      if (result) return <T>result;
+      throw new Error(`Callable ${func} failed`);
     }, (error) => {
       LogRocket.error(error);
       console.log(error);
       throw new Error("Network call failed");
     })
+    return null;
   }
-  makeHomeGroup(user: IUser, group: IGroup) {
-    user.homeGroup = (new HomeGroup(group)).serialize();
+
+  async setName(firstName: string, lastInitial: string) {
+    await this.makeCallableAsync('setName', {firstName: firstName, lastInitial: lastInitial});
+  }
+
+  async makeHomeGroup(gid: string) {
+    await this.makeCallableAsync('makeHomeGroup', {gid: gid});
   }
 }

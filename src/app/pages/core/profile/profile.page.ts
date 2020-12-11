@@ -30,10 +30,10 @@ export class ProfilePage implements OnInit {
   }
 
   initialize() {
-    this.user = this.userService.user.serialize();
+    this.user = this.userService.user.toObject();
     this.userForm = this.formBuilder.group({
-      "firstName": [this.user.firstName, [Validators.required, Validators.minLength(3)]],
-      "lastInitial": [this.user.lastInitial, [Validators.required, Validators.maxLength(1)]],
+      "firstName": [this.user.profile.firstName, [Validators.required, Validators.minLength(3)]],
+      "lastInitial": [this.user.profile.lastInitial, [Validators.required, Validators.maxLength(1)]],
     })
   }
 

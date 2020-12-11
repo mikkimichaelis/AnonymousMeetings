@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { IGroup } from 'src/models';
 
-import { BusyService, GROUP_BLL_SERVICE, GROUP_SERVICE, IGroupBLLService, IGroupService, IUserBLLService, IUserService, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
+import { BusyService, BUSY_SERVICE, GROUP_BLL_SERVICE, GROUP_SERVICE, IBusyService, IGroupBLLService, IGroupService, IToastService, IUserBLLService, IUserService, TOAST_SERVICE, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
 
 @Component({
   selector: 'app-group',
@@ -20,16 +20,17 @@ export class GroupPage implements OnInit {
     private route: ActivatedRoute,
     private alertController: AlertController,
     private busySvc: BusyService,
+    @Inject(BUSY_SERVICE) private busyService: IBusyService,
+    @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(USER_BLL_SERVICE) private userBLLService: IUserBLLService,
     @Inject(USER_SERVICE) private userService: IUserService,
-    @Inject(GROUP_BLL_SERVICE) private groupBLLSvc: IGroupBLLService,
     @Inject(GROUP_SERVICE) private groupSvc: IGroupService) { }
 
   async ngOnInit() {
     const id = this.route.snapshot.queryParamMap.get('id');
     try {
       this.busySvc.present();
-      await this.groupSvc.getGroupAsync('007cce78-96ae-4d55-aa61-0f93d84366b2');
+      await this.groupSvc.getGroupAsync(id);
     } catch (e) {
 
     } finally {
@@ -46,8 +47,14 @@ export class GroupPage implements OnInit {
         {
           text: 'OK',
           handler: async () => {
-            await this.userService.makeHomeGroup(this.userService.user, group)
-            //await this.userService.saveUserAsync(this.userService.user);
+            try {
+              this.busyService.present('Saving Changes');
+              await this.userService.makeHomeGroup(group.id)
+            } catch (e) {
+              this.toastService.present('Error saving changes')
+            } finally {
+              this.busyService.dismiss();
+            }
           }
         }]
     });
