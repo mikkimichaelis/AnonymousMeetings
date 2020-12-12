@@ -5,8 +5,9 @@ import _ from 'lodash';
 import { Subject, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { Group, IGroup, ISchedule } from '../../models';
-import { IGroupBLLService, IGroupService } from './';
+import { Group, IGroup, ISchedule } from '../../shared/models';
+import { IGroupService } from './';
+import { IGroupBLLService } from '../../shared/bll';
 import { FirestoreService } from './firestore.service';
 import { FIRESTORE_SERVICE, GROUP_BLL_SERVICE } from './injection-tokens';
 

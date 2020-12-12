@@ -4,8 +4,8 @@ import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { HomeGroup, IGroup, IUser } from '../../models';
-import { User } from '../../models';
+import { HomeGroup, IGroup, IUser } from '../../shared/models';
+import { User } from '../../shared/models';
 
 import { IAuthService, IUserService, ILogService, ITranslateService, IFirestoreService } from './';
 import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, USER_BLL_SERVICE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS } from './injection-tokens';
@@ -13,7 +13,7 @@ import { IAngularFirestore } from './angular-firestore.interface';
 import { delay, switchMap } from 'rxjs/operators';
 import _ from 'lodash';
 import LogRocket from 'logrocket';
-import { IUserBLLService } from './user-bll.service.interface';
+import { IUserBLLService } from '../../shared/bll/user-bll.service.interface';
 import { IAngularFireFunctions } from './angular-fire-functions.interface';
 
 @Injectable({

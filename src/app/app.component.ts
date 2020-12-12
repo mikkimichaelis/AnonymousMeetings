@@ -15,6 +15,7 @@ import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, U
 import { ActivatedRoute, Router } from '@angular/router';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
+import { User } from 'src/shared/models';
 const { App } = Plugins;
 declare var navigator: any;
 

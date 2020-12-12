@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs';
-import { IGroup, ISchedule } from '../../models';
+import { IGroup, ISchedule } from '../../shared/models';
 
 export interface IGroupService {
     initialize();

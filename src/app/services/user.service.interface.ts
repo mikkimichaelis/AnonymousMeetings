@@ -1,5 +1,5 @@
 import { ReplaySubject } from 'rxjs';
-import { IGroup, User } from '../../models';
+import { IGroup, User } from '../../shared/models';
 
 export interface IUserService {
     user: User;

@@ -8,7 +8,7 @@ import { map, switchMap } from 'rxjs/operators';
 import * as luxon from 'luxon';
 import LogRocket from 'logrocket';
 
-import { IGroup, ISchedule } from '../../models';
+import { IGroup, ISchedule } from '../../shared/models';
 import { IGroupsService, IBusyService } from './';
 import { BUSY_SERVICE, FIRESTORE_SERVICE } from './injection-tokens'
 import { ISearchSettings } from '../models';

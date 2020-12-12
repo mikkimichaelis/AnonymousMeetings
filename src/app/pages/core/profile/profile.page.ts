@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BUSY_SERVICE, IBusyService, IToastService, IUserBLLService, IUserService, TOAST_SERVICE, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
-import { IUser } from 'src/models';
+import { BUSY_SERVICE, IBusyService, IToastService, IUserService, TOAST_SERVICE, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
+import { IUserBLLService } from '../../../../shared/bll';
+import { IUser } from 'src/shared/models';
 
 @Component({
   selector: 'app-profile',

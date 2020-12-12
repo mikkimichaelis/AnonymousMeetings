@@ -34,8 +34,11 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService,
-  GROUP_SERVICE, GroupBLLService, GROUP_BLL_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
-  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, USER_BLL_SERVICE, UserBLLService, ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService } from './services';
+  GROUP_SERVICE, GROUP_BLL_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
+  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
+  USER_BLL_SERVICE, ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService } from './services';
+
+import { GroupBLLService, UserBLLService } from '../shared/bll';
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';

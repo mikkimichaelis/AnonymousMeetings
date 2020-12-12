@@ -1,9 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { IGroup } from 'src/models';
+import { IGroup } from 'src/shared/models';
 
-import { BusyService, BUSY_SERVICE, GROUP_BLL_SERVICE, GROUP_SERVICE, IBusyService, IGroupBLLService, IGroupService, IToastService, IUserBLLService, IUserService, TOAST_SERVICE, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
+import { BusyService, BUSY_SERVICE, GROUP_SERVICE, IBusyService, IGroupService, IToastService, IUserService, TOAST_SERVICE, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
+import { IUserBLLService } from '../../../../shared/bll';
 
 @Component({
   selector: 'app-group',
