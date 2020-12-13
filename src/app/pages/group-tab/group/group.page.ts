@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { UserBLLService } from 'src/shared/bll';
 import { IGroup } from 'src/shared/models';
 
-import { BusyService, BUSY_SERVICE, GROUP_SERVICE, IBusyService, IGroupService, IToastService, IUserService, TOAST_SERVICE, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
-import { IUserBLLService } from '../../../../shared/bll';
+import { BusyService, BUSY_SERVICE, GROUP_SERVICE, IBusyService, IGroupService, IToastService, IUserService, TOAST_SERVICE, USER_SERVICE } from '../../../services';
 
 @Component({
   selector: 'app-group',
@@ -14,7 +14,7 @@ import { IUserBLLService } from '../../../../shared/bll';
 export class GroupPage implements OnInit {
 
   public get isHomeGroup(): boolean {
-    return this.userBLLService.isHomeGroup( this.userService.user, this.groupSvc.group );
+    return UserBLLService.isHomeGroup( this.userService.user, this.groupSvc.group );
   }
 
   constructor(
@@ -23,7 +23,6 @@ export class GroupPage implements OnInit {
     private busySvc: BusyService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
-    @Inject(USER_BLL_SERVICE) private userBLLService: IUserBLLService,
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(GROUP_SERVICE) private groupSvc: IGroupService) { }
 

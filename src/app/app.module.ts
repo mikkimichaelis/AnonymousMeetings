@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { HttpClient } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
 
@@ -34,11 +33,9 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService,
-  GROUP_SERVICE, GROUP_BLL_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
+  GROUP_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
   LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
-  USER_BLL_SERVICE, ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService } from './services';
-
-import { GroupBLLService, UserBLLService } from '../shared/bll';
+  ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService } from './services';
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
@@ -93,9 +90,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     { provide: LOG_SERVICE, useExisting: LogService },
     { provide: GROUPS_SERVICE, useExisting: GroupsService },
     { provide: GROUP_SERVICE, useExisting: GroupService },
-    { provide: GROUP_BLL_SERVICE, useExisting: GroupBLLService },
     { provide: USER_SERVICE, useExisting: UserService },
-    { provide: USER_BLL_SERVICE, useExisting: UserBLLService },
     { provide: BUSY_SERVICE, useExisting: BusyService },
     { provide: TOAST_SERVICE, useExisting: ToastService },
     { provide: SETTINGS_SERVICE, useExisting: SettingsService },

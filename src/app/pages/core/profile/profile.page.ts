@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BUSY_SERVICE, IBusyService, IToastService, IUserService, TOAST_SERVICE, USER_BLL_SERVICE, USER_SERVICE } from '../../../services';
-import { IUserBLLService } from '../../../../shared/bll';
+import { BUSY_SERVICE, IBusyService, IToastService, IUserService, TOAST_SERVICE, USER_SERVICE } from '../../../services';
 import { IUser } from 'src/shared/models';
 
 @Component({
@@ -19,7 +18,6 @@ export class ProfilePage implements OnInit {
     private location: Location,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
-    @Inject(USER_BLL_SERVICE) private userBLLService: IUserBLLService,
     @Inject(USER_SERVICE) private userService: IUserService) {
       this.initialize();
   }
