@@ -1,12 +1,12 @@
 import { Subject } from 'rxjs';
-import { IGroup, ISchedule } from '../../shared/models';
+import { Group } from 'src/shared/models';
 
 export interface IGroupService {
     initialize();
 
     id: string;
-    group$: Subject<IGroup>
-    group: IGroup;
+    group$: Subject<Group>
+    group: Group;
     
-    getGroupAsync(id: string): Promise<IGroup>;
+    getGroupAsync(id: string): Promise<Group>;
 }
