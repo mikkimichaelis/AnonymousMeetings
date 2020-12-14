@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import * as _ from 'lodash';
 import { IGroup } from 'src/shared/models';
 
 import { BusyService, BUSY_SERVICE, GROUP_SERVICE, IBusyService, IGroupService, IToastService, IUserService, TOAST_SERVICE, USER_SERVICE } from '../../../services';
@@ -26,7 +27,10 @@ export class GroupPage implements OnInit {
     @Inject(GROUP_SERVICE) private groupSvc: IGroupService) { }
 
   async ngOnInit() {
-    const id = this.route.snapshot.queryParamMap.get('id');
+    let id = this.route.snapshot.queryParamMap.get('id');
+    if( !id ) {
+      id = _.get(this.userService.user, 'homeGroup.id');
+    }
     try {
       this.busySvc.present();
       await this.groupSvc.getGroupAsync(id);

@@ -50,7 +50,7 @@ export class GroupsService implements IGroupsService {
     //const active; = .collection('users').where('status', '==', 'active');
     //const q = this.db.list('/meetings').snapshotChanges();
 
-    let query = this.geo.query<IGroup>('groups').within(center, search.radius, this.field);
+    let query = this.geo.query<IGroup>('groups').within(center, 100, this.field);
 
     query = query.pipe(
       switchMap((groups: any[]) => {
@@ -82,8 +82,8 @@ export class GroupsService implements IGroupsService {
         map(groups => {
 
           const rv = [];
-          const schedules = [];
           groups.forEach(group => {
+            const schedules = [];
             group.schedules.forEach(schedule => {
               if (schedule.day === day) {
                 rv.push(group);
@@ -173,7 +173,6 @@ export class GroupsService implements IGroupsService {
     query = query.pipe(
       map(groups => {
         const rv = [];
-        const schedules = [];
         groups.forEach(group => {
           rv.push(new Group(group))
         });
