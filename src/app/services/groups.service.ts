@@ -8,7 +8,7 @@ import { map, switchMap } from 'rxjs/operators';
 import * as luxon from 'luxon';
 import LogRocket from 'logrocket';
 
-import { IGroup, ISchedule } from '../../shared/models';
+import { Group, IGroup, ISchedule } from '../../shared/models';
 import { IGroupsService, IBusyService } from './';
 import { BUSY_SERVICE, FIRESTORE_SERVICE } from './injection-tokens'
 import { ISearchSettings } from '../models';
@@ -169,6 +169,16 @@ export class GroupsService implements IGroupsService {
     } else {
       this.verbose = `${this.verbose} ${(await this.transSvc.get('ANYTIME').toPromise()).toLowerCase()}`;
     }
+
+    query = query.pipe(
+      map(groups => {
+        const rv = [];
+        const schedules = [];
+        groups.forEach(group => {
+          rv.push(new Group(group))
+        });
+        return rv;
+      }));
 
     query.subscribe(async groups => {
       this.groups.next(<IGroup>(<any>groups));

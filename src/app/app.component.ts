@@ -50,16 +50,16 @@ export class AppComponent {
     this.initializeApp();
 
 
-    const user = new User({
-      id: 'authUser.uid',
-      profile: new UserProfile(<any>
-        {
-          anonymous: false,
-      })
-  });
-  user.setUserAuthNames('mikki michaelis')
+    // const user = new User({
+    //   id: 'authUser.uid',
+    //   profile: new UserProfile(<any>
+    //     {
+    //       anonymous: false,
+    //     })
+    // });
+    // user.setUserAuthNames('mikki michaelis')
 
-  user.toObject()
+    // user.toObject()
 
   }
 

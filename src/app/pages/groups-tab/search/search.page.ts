@@ -52,6 +52,11 @@ export class SearchPage implements OnInit {
   }
 
   async presentSettings() {
+    if( (<any>this)._infoWindow ) { 
+      (<any>this)._infoWindow.close(); 
+      (<any>this)._infoWindow = null; 
+    }
+    
     const modal = await this.modalCtrl.create({
       component: SearchSettingsPage,
       cssClass: 'search-options-class',

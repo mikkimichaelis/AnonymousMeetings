@@ -35,9 +35,9 @@ export class MapPage extends SearchPage {
       await this.refresh();
     };
   
-     iw: any;
-     clickedMarker( infoWindow, i) {
-       if( this.iw ) this.iw.close();
-       this.iw = infoWindow;
+    _infoWindow: any;
+     clickedMarker( infoWindow ) {
+       if( this._infoWindow ) this._infoWindow.close();
+       this._infoWindow = infoWindow;
      }
 }

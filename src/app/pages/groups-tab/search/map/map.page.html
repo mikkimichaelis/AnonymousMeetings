@@ -22,8 +22,9 @@
       <agm-info-window  #infoWindow>
         {{group.name}}<br/>
         {{group.location.name}}<br/>
-        {{group.location.address}}<br/>
-        {{group.location.city}}, {{group.location.state}}<br/>
+        {{group.location.address1}}<br/>
+        {{group.location.address2}}<br/>
+        {{group.location.city}}, {{group.location.state}} {{group.location.zip}}<br/>
         {{group.hitMetadata.distance}}<br/>
         {{group.schedules[0].time}} {{group.schedules[0].day}}<br/>
         <ion-button (click)="details(group)">details</ion-button>
