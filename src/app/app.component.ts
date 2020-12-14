@@ -48,6 +48,19 @@ export class AppComponent {
   ) {
     settings.initialize();
     this.initializeApp();
+
+
+    const user = new User({
+      id: 'authUser.uid',
+      profile: new UserProfile(<any>
+        {
+          anonymous: false,
+      })
+  });
+  user.setUserAuthNames('mikki michaelis')
+
+  user.toObject()
+
   }
 
   initializeApp() {
