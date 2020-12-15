@@ -8,5 +8,5 @@ export interface IUserService {
     saveUserAsync(user: User);
 
     setName(firstName: string, lastInitial: string);
-    makeHomeGroup(gid: string);
+    makeHomeGroup(id: string);
 }

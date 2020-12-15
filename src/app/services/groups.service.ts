@@ -5,7 +5,7 @@ import firebase from 'firebase/app';
 import * as geofirex from 'geofirex';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import * as luxon from 'luxon';
+import { DateTime } from 'luxon';
 import LogRocket from 'logrocket';
 
 import { Group, IGroup, ISchedule } from '../../shared/models';
@@ -55,6 +55,7 @@ export class GroupsService implements IGroupsService {
     query = query.pipe(
       switchMap((groups: any[]) => {
         const res = groups.map((group: any) => {
+          if( group.name === 'Greenfield TGIF Group') debugger;
           return this.fss.col$<ISchedule>('schedules', ref => ref.where('gid', '==', group.id))
             .pipe(
               map(schedules => {
@@ -84,6 +85,7 @@ export class GroupsService implements IGroupsService {
           const rv = [];
           groups.forEach(group => {
             const schedules = [];
+            if( group.name === 'Greenfield TGIF Group') debugger;
             group.schedules.forEach(schedule => {
               if (schedule.day === day) {
                 rv.push(group);
@@ -128,11 +130,11 @@ export class GroupsService implements IGroupsService {
       )
     } else if (search.bySpecificTime) {
       const between = `${await this.transSvc.get('BETWEEN').toPromise()}`;
-      this.verbose = `${this.verbose} ${between} ${luxon.DateTime.fromISO(search.bySpecific.start).toLocaleString(luxon.DateTime.TIME_SIMPLE)} - ${luxon.DateTime.fromISO(search.bySpecific.end).toLocaleString(luxon.DateTime.TIME_SIMPLE)}`;
+      this.verbose = `${this.verbose} ${between} ${DateTime.fromISO(search.bySpecific.start).toLocaleString(DateTime.TIME_SIMPLE)} - ${DateTime.fromISO(search.bySpecific.end).toLocaleString(DateTime.TIME_SIMPLE)}`;
 
-      let today = luxon.DateTime.local();
-      let start = luxon.DateTime.fromISO(search.bySpecific.start);
-      start = luxon.DateTime.fromObject({
+      let today = DateTime.local();
+      let start = DateTime.fromISO(search.bySpecific.start);
+      start = DateTime.fromObject({
         year: today.year,
         month: today.month,
         day: today.day,
@@ -140,8 +142,8 @@ export class GroupsService implements IGroupsService {
         minute: start.minute
       })
 
-      let end = luxon.DateTime.fromISO(search.bySpecific.end);
-      end = luxon.DateTime.fromObject({
+      let end = DateTime.fromISO(search.bySpecific.end);
+      end = DateTime.fromObject({
         year: today.year,
         month: today.month,
         day: today.day,
@@ -155,7 +157,7 @@ export class GroupsService implements IGroupsService {
           const schedules = [];
           groups.forEach(group => {
             group.schedules.forEach(schedule => {
-              let time = luxon.DateTime.fromFormat(schedule.time, 't');
+              let time = DateTime.fromFormat(schedule.time, 't');
               if (time >= start && time <= end) {
                 rv.push(group);
                 schedules.push(schedule);

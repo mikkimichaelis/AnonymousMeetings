@@ -115,7 +115,7 @@ export class UserService implements IUserService {
     await this.makeCallableAsync('setName', {firstName: firstName, lastInitial: lastInitial});
   }
 
-  async makeHomeGroup(gid: string) {
-    await this.makeCallableAsync('makeHomeGroup', {gid: gid});
+  async makeHomeGroup(id: string) {
+    await this.makeCallableAsync('makeHomeGroup', {id: id});
   }
 }

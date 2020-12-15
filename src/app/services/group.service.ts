@@ -2,7 +2,7 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import _ from 'lodash';
-import { Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { Group, IGroup, ISchedule } from '../../shared/models';
@@ -18,6 +18,8 @@ export class GroupService implements IGroupService {
   group$: Subject<Group> = new Subject<Group>()
   group: Group;
   id: string;
+  groupQuery: Subscription;
+  schedulesQuery: Subscription;
 
   constructor(
     private afs: AngularFirestore,
@@ -29,9 +31,12 @@ export class GroupService implements IGroupService {
   }
 
   async getGroupAsync(id: string): Promise<Group> {
-    // TODO snapshot changes
+    if( this.groupQuery && !this.groupQuery.closed ) {
+      this.groupQuery.unsubscribe();
+    }
+
     return new Promise((resolve, reject) => {
-      let query = this.fss.doc$(`groups/${id}`).pipe(
+      this.groupQuery = this.fss.doc$(`groups/${id}`).pipe(
         switchMap((group: any) => {
           if (!_.isEmpty(group)) {
             return this.fss.col$<ISchedule>('schedules', ref => ref.where('gid', '==', group.id))
