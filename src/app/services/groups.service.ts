@@ -20,7 +20,8 @@ import { FirestoreService } from './firestore.service';
 })
 export class GroupsService implements IGroupsService {
 
-  public groups: BehaviorSubject<IGroup> = new BehaviorSubject<IGroup>(<any>[]);
+  public groups$: BehaviorSubject<IGroup[]> = new BehaviorSubject<IGroup[]>(<any>[]);
+  public groups: IGroup[];
   public verbose: string;
 
   private geo: geofirex.GeoFireClient;
@@ -36,7 +37,7 @@ export class GroupsService implements IGroupsService {
     this.geo = geofirex.init(firebase);
   }
 
-  async getGroups(search: ISearchSettings) {
+  async getGroupsAsync(search: ISearchSettings): Promise<IGroup[]> {
     await this.busyService.present();
     //var position: GeolocationPosition = await Geolocation.getCurrentPosition();
     //const center = this.geo.point(position.coords.latitude, position.coords.longitude); 
@@ -55,7 +56,6 @@ export class GroupsService implements IGroupsService {
     query = query.pipe(
       switchMap((groups: any[]) => {
         const res = groups.map((group: any) => {
-          if( group.name === 'Greenfield TGIF Group') debugger;
           return this.fss.col$<ISchedule>('schedules', ref => ref.where('gid', '==', group.id))
             .pipe(
               map(schedules => {
@@ -85,7 +85,7 @@ export class GroupsService implements IGroupsService {
           const rv = [];
           groups.forEach(group => {
             const schedules = [];
-            if( group.name === 'Greenfield TGIF Group') debugger;
+            if (group.name === 'Greenfield TGIF Group') debugger;
             group.schedules.forEach(schedule => {
               if (schedule.day === day) {
                 rv.push(group);
@@ -181,13 +181,18 @@ export class GroupsService implements IGroupsService {
         return rv;
       }));
 
-    query.subscribe(async groups => {
-      this.groups.next(<IGroup>(<any>groups));
-      await this.busyService.dismiss();
-    },
-      async error => {
-        LogRocket.error(error);
+    return new Promise((resolve, reject) => {
+      query.subscribe(async groups => {
+        this.groups = groups;
+        this.groups$.next(<IGroup[]>(<any>groups));
         await this.busyService.dismiss();
-      });
+        resolve(this.groups);
+      },
+        async error => {
+          LogRocket.error(error);
+          await this.busyService.dismiss();
+          reject(error);
+        });
+    });
   }
 }

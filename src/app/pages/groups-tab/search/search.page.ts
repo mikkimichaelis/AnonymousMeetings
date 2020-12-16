@@ -44,7 +44,7 @@ export class SearchPage implements OnInit {
       await this.settingsSvc.save();
     }
 
-    await this.groupsSvc.getGroups(s);
+    await this.groupsSvc.getGroupsAsync(s);
   }
 
   details(group: any) {

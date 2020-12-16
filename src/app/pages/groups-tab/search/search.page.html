@@ -17,7 +17,7 @@
 
   <ion-grid fixed>
     <ion-row>
-      <ion-col size="12" size-md="6" *ngFor="let group of groupsSvc.groups | async">
+      <ion-col size="12" size-md="6" *ngFor="let group of groupsSvc.groups$ | async">
         <ion-card class="group-card">
           <ion-card-header>
             <h4>{{group.name}}</h4>

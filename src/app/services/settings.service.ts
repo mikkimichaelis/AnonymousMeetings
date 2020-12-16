@@ -27,7 +27,8 @@ export class SettingsService implements ISettingsService {
     // Initialize default values
     this.settings = <any>Object.assign({}, environment.defaultSettings)
 
-    await this.load();
+    // TODO load settings
+    // await this.load();
   }
 
   async load() {
