@@ -30,7 +30,7 @@ export class AppComponent {
   dark = false;
 
   constructor(
-    private menu: MenuController,
+    // private menu: MenuController,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -39,28 +39,13 @@ export class AppComponent {
     private initializeService: InitializeService,
     private settings: SettingsService,
     private router: Router,
-    private route: ActivatedRoute,
-    private busySvc: BusyService,
     private translateService: TranslateService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_SERVICE) private userService: IUserService,
   ) {
-    settings.initialize();
+    this.settings.initialize();
     this.initializeApp();
-
-
-    // const user = new User({
-    //   id: 'authUser.uid',
-    //   profile: new UserProfile(<any>
-    //     {
-    //       anonymous: false,
-    //     })
-    // });
-    // user.setUserAuthNames('mikki michaelis')
-
-    // user.toObject()
-
   }
 
   initializeApp() {
@@ -80,7 +65,7 @@ export class AppComponent {
       let creating = false;
       let pleaseWait = await this.translateService.get('PLEASE_WAIT').toPromise();
       let creatingUser = await this.translateService.get('CREATING_USER').toPromise();
-      let authStateUserSubscription = this.authService.authUser$.subscribe(
+      this.authService.authUser$.subscribe(
         async authUser => {
           if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
             this.router.navigateByUrl('/home/tab/home');
