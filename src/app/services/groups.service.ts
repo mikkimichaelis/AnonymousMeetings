@@ -30,15 +30,13 @@ export class GroupsService implements IGroupsService {
   constructor(
     private afs: AngularFirestore,
     private transSvc: TranslateService,
-    @Inject(FIRESTORE_SERVICE) private fss: FirestoreService,
-    @Inject(BUSY_SERVICE) private busyService: IBusyService) { }
+    @Inject(FIRESTORE_SERVICE) private fss: FirestoreService) { }
 
   initialize() {
     this.geo = geofirex.init(firebase);
   }
 
   async getGroupsAsync(search: ISearchSettings): Promise<IGroup[]> {
-    await this.busyService.present();
     //var position: GeolocationPosition = await Geolocation.getCurrentPosition();
     //const center = this.geo.point(position.coords.latitude, position.coords.longitude); 
     //const center = this.geo.point(39.8249268571429, -84.8946604285714);
@@ -185,12 +183,10 @@ export class GroupsService implements IGroupsService {
       query.subscribe(async groups => {
         this.groups = groups;
         this.groups$.next(<IGroup[]>(<any>groups));
-        await this.busyService.dismiss();
         resolve(this.groups);
       },
         async error => {
           LogRocket.error(error);
-          await this.busyService.dismiss();
           reject(error);
         });
     });

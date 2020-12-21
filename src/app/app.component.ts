@@ -7,6 +7,8 @@ import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { CometChat } from "@cometchat-pro/cordova-ionic-chat"
+
 import { InitializeService } from './services/initialize.service';
 
 import { Plugins } from '@capacitor/core';
@@ -48,8 +50,22 @@ export class AppComponent {
     this.initializeApp();
   }
 
-  initializeApp() {
+  async initializeApp() {
     this.platform.ready().then(async (readySource) => {
+
+      var appID = "27315ccd0a804b8";
+      var region = "us";
+      var appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region).build();
+      await CometChat.init(appID, appSetting).then(
+        () => {
+          console.log("Initialization completed successfully");
+          // You can now call login function.
+        },
+        error => {
+          console.log("Initialization failed with error:", error);
+          // Check the reason for error and take appropriate action.
+        }
+      );
 
       await this.initializeService.initializeServices();
 
@@ -78,6 +94,10 @@ export class AppComponent {
             let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
 
             if (!_.isEmpty(user)) {
+              if( !user.chatUser ) {
+                await this.userService.createChatUser(user);
+              }
+              await this.userService.loginChatUser(user);
               this.router.navigateByUrl('/home/tab/home');
             } else {
               await this.authService.logout();

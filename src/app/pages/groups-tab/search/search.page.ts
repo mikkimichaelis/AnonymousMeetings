@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
+import { BUSY_SERVICE, IBusyService } from 'src/app/services';
 import { GroupsService } from 'src/app/services/groups.service';
 import { LocationService } from 'src/app/services/location.service';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -19,14 +20,17 @@ export class SearchPage implements OnInit {
     protected modalCtrl: ModalController, 
     protected groupsSvc: GroupsService, 
     protected locSvc: LocationService,
-    protected settingsSvc: SettingsService
+    protected settingsSvc: SettingsService,
+    @Inject(BUSY_SERVICE) private busyService: IBusyService
     ) { }
 
   ngOnInit() {
   }
 
   async ionViewDidEnter() {
+    await this.busyService.present();
     await this.refresh();
+    await this.busyService.dismiss();
   };
 
   async refresh() {

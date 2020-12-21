@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 
+import { CometChat } from "@cometchat-pro/cordova-ionic-chat"
+
 import { TranslateService } from '@ngx-translate/core';
 
 import { IUser } from '../../shared/models';
@@ -18,6 +20,8 @@ import { IAngularFireFunctions } from './angular-fire-functions.interface';
 })
 export class UserService implements IUserService {
 
+  chatUser!: CometChat.User;
+  apiKey = "1f88533ab03f2c4c742e1a36579a75dccb6c649e";
   user$: ReplaySubject<User> = new ReplaySubject<User>(1);
 
   public user: User;
@@ -53,8 +57,8 @@ export class UserService implements IUserService {
         }
       }, timeout);
     })
-
   }
+
   userValueChanges() {
     if (!_.isEmpty(this._userValueChangesSubscription)) this._userValueChangesSubscription.unsubscribe();
 
@@ -81,6 +85,30 @@ export class UserService implements IUserService {
     }
   }
 
+  async createChatUser(user: User) {
+
+    var chatUser = new CometChat.User(user.id);
+    chatUser.setName(user.name);
+
+    await CometChat.createUser(chatUser, this.apiKey).then(
+      async (newChatUser) => {
+        user.chatUser = newChatUser;
+        await this.saveUserAsync(user)
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  async loginChatUser(user: User) {
+    var chatUser = CometChat.login(user.id, this.apiKey).then(
+      chatUser => {
+        this.chatUser = chatUser;
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
   hasFeature(features: string[]) {
     // TODO
     return true;
@@ -97,7 +125,7 @@ export class UserService implements IUserService {
     // }
   }
 
-  
+
   private async makeCallableAsync<T>(func: string, data: any): Promise<T> {
     let callable: any = this.aff.httpsCallable(func);
     let rv = await callable(data).toPromise().then((result) => {
@@ -112,10 +140,10 @@ export class UserService implements IUserService {
   }
 
   async setName(firstName: string, lastInitial: string) {
-    await this.makeCallableAsync('setName', {firstName: firstName, lastInitial: lastInitial});
+    await this.makeCallableAsync('setName', { firstName: firstName, lastInitial: lastInitial });
   }
 
   async makeHomeGroup(id: string) {
-    await this.makeCallableAsync('makeHomeGroup', {id: id});
+    await this.makeCallableAsync('makeHomeGroup', { id: id });
   }
 }

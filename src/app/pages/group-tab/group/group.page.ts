@@ -32,12 +32,12 @@ export class GroupPage implements OnInit {
       id = _.get(this.userService.user, 'homeGroup.id');
     }
     try {
-      this.busySvc.present();
+      await this.busySvc.present();
       await this.groupSvc.getGroupAsync(id);
     } catch (e) {
-
+      console.log(e);
     } finally {
-      this.busySvc.dismiss();
+      await this.busySvc.dismiss();
     }
   }
 

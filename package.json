@@ -10,7 +10,10 @@
     "test": "npx ng test",
     "lint": "npx ng lint",
     "e2e": "npx ng e2e",
-    "deploy": "npx ng run app:build"
+    "deploy": "npx ng run app:build",
+    "resources": "cordova-res ios && cordova-res android && node scripts/resources.js",
+    "res-ios": "cordova-res ios --skip-config --copy",
+    "res-and": "cordova-res android --skip-config --copy"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +30,7 @@
     "@capacitor/android": "^2.4.2",
     "@capacitor/core": "2.4.2",
     "@capacitor/ios": "^2.4.2",
+    "@cometchat-pro/cordova-ionic-chat": "^2.1.1",
     "@google/maps": "^1.1.3",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/in-app-browser": "^5.29.0",
@@ -72,6 +76,8 @@
     "@types/node": "^12.11.1",
     "@types/uuid": "^8.3.0",
     "codelyzer": "^6.0.0",
+    "cordova-res": "^0.15.2",
+    "firebase-tools": "^9.0.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",
