@@ -53,19 +53,7 @@ export class AppComponent {
   async initializeApp() {
     this.platform.ready().then(async (readySource) => {
 
-      var appID = "27315ccd0a804b8";
-      var region = "us";
-      var appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region).build();
-      await CometChat.init(appID, appSetting).then(
-        () => {
-          console.log("Initialization completed successfully");
-          // You can now call login function.
-        },
-        error => {
-          console.log("Initialization failed with error:", error);
-          // Check the reason for error and take appropriate action.
-        }
-      );
+      await this.comChatInit();
 
       await this.initializeService.initializeServices();
 
@@ -94,10 +82,18 @@ export class AppComponent {
             let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
 
             if (!_.isEmpty(user)) {
-              if( !user.chatUser ) {
+              // TODO not sure why user.chatUser is null after successful login
+              // user.chatUser = await this.userService.loginChatUser(user);
+              await this.userService.loginChatUser(user);
+
+              if(!user.chatUser) {
                 await this.userService.createChatUser(user);
               }
-              await this.userService.loginChatUser(user);
+
+              if(!user.chatUser) {
+                // TODO
+              }
+              
               this.router.navigateByUrl('/home/tab/home');
             } else {
               await this.authService.logout();
@@ -138,5 +134,21 @@ export class AppComponent {
         .then(() => this.swUpdate.activateUpdate())
         .then(() => window.location.reload());
     });
+  }
+
+  async comChatInit() {
+    var appID = "27315ccd0a804b8";
+    var region = "US";
+    var appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region).build();
+    await CometChat.init(appID, appSetting).then(
+      () => {
+        console.log("Initialization completed successfully");
+        // You can now call login function.
+      },
+      error => {
+        console.log("Initialization failed with error:", error);
+        // Check the reason for error and take appropriate action.
+      }
+    );
   }
 }

@@ -93,18 +93,26 @@ export class UserService implements IUserService {
     await CometChat.createUser(chatUser, this.apiKey).then(
       async (newChatUser) => {
         user.chatUser = newChatUser;
-        await this.saveUserAsync(user)
+        await this.saveUserAsync(user);
       }, error => {
         console.log(error);
       });
+
+      // TODO not my best code
+      return chatUser;
   }
 
   async loginChatUser(user: User) {
-    var chatUser = CometChat.login(user.id, this.apiKey).then(
-      chatUser => {
-        this.chatUser = chatUser;
-      }, error => {
+    var chatUser = await CometChat.login(user.id, this.apiKey).then(
+      async chatUser => {
+        this.chatUser = user.chatUser = chatUser;
+        await this.saveUserAsync(user)
+        return this.chatUser;
+      }, async error => {
         console.log(error);
+        this.chatUser = user.chatUser = null;
+        await this.saveUserAsync(user)
+        return this.chatUser;
       }
     )
   }
