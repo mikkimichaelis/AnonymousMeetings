@@ -1,19 +1,19 @@
 import { Inject, Injectable } from '@angular/core';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
 
-import { CometChat } from "@cometchat-pro/cordova-ionic-chat"
-
 import { TranslateService } from '@ngx-translate/core';
 
 import { IUser } from '../../shared/models';
 import { User } from '../../shared/models';
 
 import { IAuthService, IUserService, ILogService, ITranslateService, IFirestoreService } from './';
-import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS } from './injection-tokens';
+import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS, SETTINGS_SERVICE } from './injection-tokens';
 import { IAngularFirestore } from './angular-firestore.interface';
 import _ from 'lodash';
 import LogRocket from 'logrocket';
 import { IAngularFireFunctions } from './angular-fire-functions.interface';
+import { ISettingsService } from './settings.service.interface';
+import { CometChat } from '@cometchat-pro/chat';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,6 @@ import { IAngularFireFunctions } from './angular-fire-functions.interface';
 export class UserService implements IUserService {
 
   chatUser!: CometChat.User;
-  apiKey = "1f88533ab03f2c4c742e1a36579a75dccb6c649e";
   user$: ReplaySubject<User> = new ReplaySubject<User>(1);
 
   public user: User;
@@ -36,7 +35,8 @@ export class UserService implements IUserService {
     @Inject(ANGULAR_FIRE_FUNCTIONS) private aff: IAngularFireFunctions,
     @Inject(TRANSLATE_SERVICE) private translate: ITranslateService,
     @Inject(LOG_SERVICE) private logService: ILogService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService) { }
+    @Inject(AUTH_SERVICE) private authService: IAuthService,
+    @Inject(SETTINGS_SERVICE) private settingsService: ISettingsService) { }
 
   public async getUser(id: string, timeout = 0): Promise<IUser> {
     return new Promise(async (resolve, reject) => {
@@ -90,7 +90,7 @@ export class UserService implements IUserService {
     var chatUser = new CometChat.User(user.id);
     chatUser.setName(user.name);
 
-    await CometChat.createUser(chatUser, this.apiKey).then(
+    await CometChat.createUser(chatUser, this.settingsService.cometChat.AUTH_KEY).then(
       async (newChatUser) => {
         user.chatUser = newChatUser;
         await this.saveUserAsync(user);
@@ -103,7 +103,8 @@ export class UserService implements IUserService {
   }
 
   async loginChatUser(user: User) {
-    var chatUser = await CometChat.login(user.id, this.apiKey).then(
+    // TODO if not logged in settings service has no keys so hard coding AUTH_KEY for now
+    var chatUser = await CometChat.login(user.id, this.settingsService.cometChat.AUTH_KEY).then(
       async chatUser => {
         this.chatUser = user.chatUser = chatUser;
         await this.saveUserAsync(user)

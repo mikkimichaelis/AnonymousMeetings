@@ -1,28 +1,29 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import LogRocket from 'logrocket';
-import { environment } from '../../environments/environment';
 
-import { ILogService } from './';
+import { ILogService } from './log.service.interface';
+import { ISettingsService } from './settings.service.interface';
+import { SETTINGS_SERVICE } from './injection-tokens';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LogService implements ILogService {
 
-  constructor() {
+  constructor(@Inject(SETTINGS_SERVICE) private settingsService: ISettingsService) {
     
   }
 
   async initialize() {
     //this.authService.authStateUser
     // check for anonymity first!
-    if (environment.production) {
-      LogRocket.init(environment.logRocketConfig.appID, environment.logRocketConfig.options);
+    if (this.settingsService.environment.production) {
+      LogRocket.init(this.settingsService.environment.logRocketConfig.appID, this.settingsService.environment.logRocketConfig.options);
     }
   }
 
   trace(msg: any, ...args: any[]) {
-    if (!environment.production) {
+    if (!this.settingsService.environment.production) {
       LogRocket.captureMessage(this.stringify(msg), {});
     }
   }

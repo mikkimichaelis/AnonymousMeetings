@@ -7,6 +7,7 @@ import * as contentEs from '../../assets/i18n/es.json';
 
 const TRANSLATIONS = {
   'en-us': contentEnUS,
+  'en': contentEnUS,
   'es': contentEs
 };
 

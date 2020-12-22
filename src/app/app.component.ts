@@ -1,23 +1,20 @@
 import { SharedModule } from './shared.module';
 
-import { Component, Inject } from '@angular/core';
+import { Component, enableProdMode, Inject } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 
 import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { CometChat } from "@cometchat-pro/cordova-ionic-chat"
-
 import { InitializeService } from './services/initialize.service';
 
 import { Plugins } from '@capacitor/core';
-import { SettingsService } from './services/settings.service';
-import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService } from './services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService, ISettingsService, SETTINGS_SERVICE } from './services';
+import { Router } from '@angular/router';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
-import { User, UserProfile } from 'src/shared/models';
+import { environment } from 'src/environments/environment';
 const { App } = Plugins;
 declare var navigator: any;
 
@@ -39,24 +36,23 @@ export class AppComponent {
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
     private initializeService: InitializeService,
-    private settings: SettingsService,
     private router: Router,
     private translateService: TranslateService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_SERVICE) private userService: IUserService,
+    @Inject(SETTINGS_SERVICE) private settingsService: ISettingsService
   ) {
-    this.settings.initialize();
+    if (environment.production) {
+      enableProdMode();
+    }
     this.initializeApp();
+    this.settingsService.initialize(false);
   }
 
   async initializeApp() {
     this.platform.ready().then(async (readySource) => {
-
-      await this.comChatInit();
-
       await this.initializeService.initializeServices();
-
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
@@ -74,6 +70,9 @@ export class AppComponent {
           if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
             this.router.navigateByUrl('/home/tab/home');
           } else if (!_.isEmpty(authUser)) {
+            
+            // reinitialize auth dependent services
+            await this.initializeService.initializeServices();
 
             if (!creating) {
               this.busyService.present(pleaseWait);
@@ -82,13 +81,14 @@ export class AppComponent {
             let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
 
             if (!_.isEmpty(user)) {
+              
+              if(_.isEmpty(user.chatUser)) {
+                await this.userService.createChatUser(user);
+              } 
+
               // TODO not sure why user.chatUser is null after successful login
               // user.chatUser = await this.userService.loginChatUser(user);
               await this.userService.loginChatUser(user);
-
-              if(!user.chatUser) {
-                await this.userService.createChatUser(user);
-              }
 
               if(!user.chatUser) {
                 // TODO
@@ -134,21 +134,5 @@ export class AppComponent {
         .then(() => this.swUpdate.activateUpdate())
         .then(() => window.location.reload());
     });
-  }
-
-  async comChatInit() {
-    var appID = "27315ccd0a804b8";
-    var region = "US";
-    var appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region).build();
-    await CometChat.init(appID, appSetting).then(
-      () => {
-        console.log("Initialization completed successfully");
-        // You can now call login function.
-      },
-      error => {
-        console.log("Initialization failed with error:", error);
-        // Check the reason for error and take appropriate action.
-      }
-    );
   }
 }

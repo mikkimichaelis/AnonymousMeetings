@@ -19,6 +19,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 
+import { CometchatAngularUiKitModule } from 'src/libs/cometchat-angular-ui-kit/src/lib/cometchat-angular-ui-kit.module';
+
 import { google } from '@google/maps';
 import { AgmCoreModule } from '@agm/core';
 
@@ -59,6 +61,7 @@ import { AuthGuard, FeatureGuard } from './guards';
         useClass: TranslateUniversalLoader
       }
     }),
+    CometchatAngularUiKitModule,
     AgmCoreModule.forRoot({ apiKey: environment.googleCloudConfig.agmKey }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireFunctionsModule,
@@ -99,4 +102,5 @@ import { AuthGuard, FeatureGuard } from './guards';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+ }

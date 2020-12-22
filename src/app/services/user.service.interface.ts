@@ -1,4 +1,4 @@
-import { CometChat } from '@cometchat-pro/cordova-ionic-chat';
+import { CometChat } from '@cometchat-pro/chat';
 import { ReplaySubject } from 'rxjs';
 import { User } from '../../shared/models';
 
