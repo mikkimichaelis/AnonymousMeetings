@@ -98,8 +98,8 @@ export class UserService implements IUserService {
         console.log(error);
       });
 
-      // TODO not my best code
-      return chatUser;
+    // TODO not my best code
+    return chatUser;
   }
 
   async loginChatUser(user: User) {
@@ -154,5 +154,13 @@ export class UserService implements IUserService {
 
   async makeHomeGroup(id: string) {
     await this.makeCallableAsync('makeHomeGroup', { id: id });
+  }
+
+  async makeFavGroup(id: string, make: boolean) {
+    if (make) {
+      await this.makeCallableAsync('addFavorite', { gid: id });
+    } else {
+      await this.makeCallableAsync('removeFavorite', { gid: id });
+    }
   }
 }

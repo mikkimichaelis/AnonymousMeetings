@@ -59,6 +59,10 @@
         {{group.notes}}
       </ion-item>
       <ion-item>
+        <ion-icon name="heart" (click)="makeFavGroup(group, false)" *ngIf="isFavorite"></ion-icon>
+        <ion-icon name="heart-outline" (click)="makeFavGroup(group, true)" *ngIf="!isFavorite"></ion-icon>
+      </ion-item>
+      <ion-item>
         <ion-button fill="outline" slot="end" (click)="makeHomegroup(group)" *ngIf="!isHomeGroup" translate>GROUP.MAKE.HOMEGROUP</ion-button>
         <ion-icon slot="end" name="home-outline" *ngIf="isHomeGroup" >Homegroup</ion-icon>
       </ion-item>

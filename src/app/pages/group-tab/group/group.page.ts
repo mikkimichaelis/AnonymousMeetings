@@ -17,6 +17,10 @@ export class GroupPage implements OnInit {
     return this.groupSvc.group.isHomeGroup(this.userService.user);
   }
 
+  public get isFavorite(): boolean {
+    return this.groupSvc.group.isFavorite(this.userService.user);
+  }
+
   constructor(
     private route: ActivatedRoute,
     private alertController: AlertController,
@@ -27,8 +31,12 @@ export class GroupPage implements OnInit {
     @Inject(GROUP_SERVICE) private groupSvc: IGroupService) { }
 
   async ngOnInit() {
+    
+  }
+
+  async ionViewWillEnter() {
     let id = this.route.snapshot.queryParamMap.get('id');
-    if( !id ) {
+    if (!id) {
       id = _.get(this.userService.user, 'homeGroup.id');
     }
     try {
@@ -62,5 +70,16 @@ export class GroupPage implements OnInit {
         }]
     });
     alert.present();
+  }
+
+  async makeFavGroup(group: IGroup, make: boolean) {
+    try {
+      this.busyService.present('Saving Changes');
+      await this.userService.makeFavGroup(group.id, make);
+    } catch (e) {
+      this.toastService.present('Error saving changes')
+    } finally {
+      this.busyService.dismiss();
+    }
   }
 }
