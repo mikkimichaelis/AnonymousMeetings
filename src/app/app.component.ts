@@ -83,12 +83,10 @@ export class AppComponent {
             if (!_.isEmpty(user)) {
               
               if(_.isEmpty(user.chatUser)) {
-                await this.userService.createChatUser(user);
-              } 
+                user.chatUser = await this.userService.createChatUser(user);
+              }
 
-              // TODO not sure why user.chatUser is null after successful login
-              // user.chatUser = await this.userService.loginChatUser(user);
-              await this.userService.loginChatUser(user);
+              await this.userService.loginChatUser(user.chatUser);
 
               if(!user.chatUser) {
                 // TODO

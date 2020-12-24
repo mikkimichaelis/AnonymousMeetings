@@ -17,7 +17,6 @@ export class GroupService implements IGroupService {
   groupCollection: AngularFirestoreCollection<Group>
   group$: Subject<Group> = new Subject<Group>()
   group: Group;
-  id: string;
   groupQuery: Subscription;
   schedulesQuery: Subscription;
 
@@ -52,7 +51,6 @@ export class GroupService implements IGroupService {
         })
       ).subscribe((igroup: IGroup) => {
         const group = new Group(igroup);
-        this.id = group.id;
         this.group = group;
         this.group.schedules = group.orderSchedules();
         this.group$.next(this.group);

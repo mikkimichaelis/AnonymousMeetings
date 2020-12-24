@@ -85,39 +85,6 @@ export class UserService implements IUserService {
     }
   }
 
-  async createChatUser(user: User) {
-
-    var chatUser = new CometChat.User(user.id);
-    chatUser.setName(user.name);
-
-    await CometChat.createUser(chatUser, this.settingsService.cometChat.AUTH_KEY).then(
-      async (newChatUser) => {
-        user.chatUser = newChatUser;
-        await this.saveUserAsync(user);
-      }, error => {
-        console.log(error);
-      });
-
-    // TODO not my best code
-    return chatUser;
-  }
-
-  async loginChatUser(user: User) {
-    // TODO if not logged in settings service has no keys so hard coding AUTH_KEY for now
-    var chatUser = await CometChat.login(user.id, this.settingsService.cometChat.AUTH_KEY).then(
-      async chatUser => {
-        this.chatUser = user.chatUser = chatUser;
-        await this.saveUserAsync(user)
-        return this.chatUser;
-      }, async error => {
-        console.log(error);
-        this.chatUser = user.chatUser = null;
-        await this.saveUserAsync(user)
-        return this.chatUser;
-      }
-    )
-  }
-
   hasFeature(features: string[]) {
     // TODO
     return true;
@@ -135,17 +102,17 @@ export class UserService implements IUserService {
   }
 
 
-  private async makeCallableAsync<T>(func: string, data: any): Promise<T> {
+  private async makeCallableAsync<T>(func: string, data?: any): Promise<T> {
     let callable: any = this.aff.httpsCallable(func);
-    let rv = await callable(data).toPromise().then((result) => {
-      if (result) return <T>result;
-      throw new Error(`Callable ${func} failed`);
-    }, (error) => {
-      LogRocket.error(error);
-      console.log(error);
-      throw new Error("Network call failed");
+    return new Promise<T>(async (resolve, reject) => {
+      let rv = await callable(data).toPromise().then((result) => {
+        resolve(result);
+      }, (error) => {
+        LogRocket.error(error);
+        console.log(error);
+        reject(error);
+      })
     })
-    return null;
   }
 
   async setName(firstName: string, lastInitial: string) {
@@ -161,6 +128,27 @@ export class UserService implements IUserService {
       await this.makeCallableAsync('addFavorite', { gid: id });
     } else {
       await this.makeCallableAsync('removeFavorite', { gid: id });
+    }
+  }
+
+  async createChatUser(user: User): Promise<CometChat.User> {
+    const chatUser = await this.makeCallableAsync('createChatUser');
+    return <any>chatUser;
+  }
+
+  async loginChatUser(chatUser: any) {
+    // TODO disabled for testing login code
+    //const loggedIn = await CometChat.getLoggedinUser();
+    const loggedIn = false;
+
+    if (!loggedIn) {
+      await CometChat.login(chatUser.authToken).then(
+        chatUser => {
+          console.log('chatUser logged in');
+        }, async error => {
+          console.error(error);
+        }
+      )
     }
   }
 }

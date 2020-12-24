@@ -10,8 +10,8 @@ export interface IUserService {
     getUser(id: string, timeout?: number);
     saveUserAsync(user: User);
 
-    createChatUser(user: any);
-    loginChatUser(user: any);
+    createChatUser(user: any): Promise<CometChat.User>;
+    loginChatUser(chatUser: CometChat.User);
 
     setName(firstName: string, lastInitial: string);
     makeHomeGroup(id: string);
