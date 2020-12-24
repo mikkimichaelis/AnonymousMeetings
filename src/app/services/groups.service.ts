@@ -130,8 +130,8 @@ export class GroupsService implements IGroupsService {
       const between = `${await this.transSvc.get('BETWEEN').toPromise()}`;
       this.verbose = `${this.verbose} ${between} ${DateTime.fromISO(search.bySpecific.start).toLocaleString(DateTime.TIME_SIMPLE)} - ${DateTime.fromISO(search.bySpecific.end).toLocaleString(DateTime.TIME_SIMPLE)}`;
 
-      let today = DateTime.local();
-      let start = DateTime.fromISO(search.bySpecific.start);
+      let today = DateTime.utc();
+      let start = DateTime.fromISO(search.bySpecific.start).toUTC();
       start = DateTime.fromObject({
         year: today.year,
         month: today.month,
@@ -140,7 +140,7 @@ export class GroupsService implements IGroupsService {
         minute: start.minute
       })
 
-      let end = DateTime.fromISO(search.bySpecific.end);
+      let end = DateTime.fromISO(search.bySpecific.end).toUTC();
       end = DateTime.fromObject({
         year: today.year,
         month: today.month,
