@@ -20,15 +20,15 @@ export class LandingPage {
     this.showLanding = this.route.snapshot.queryParams.showLanding;
   }
 
-  ionViewWillLeave() {
-    this.busySvc.dismiss();
+  async ionViewWillLeave() {
+    await this.busySvc.dismiss();
   }
   
   async doSign(anonymous: boolean, signup: boolean) {
     if( anonymous ) {
-      this.busySvc.present();
+      await this.busySvc.present();
       await this.authService.createAnonymous();
-      this.busySvc.dismiss();
+      await this.busySvc.dismiss();
     } else {
       this.router.navigate(['/core/login'], { queryParams: { signup: signup }});
     }

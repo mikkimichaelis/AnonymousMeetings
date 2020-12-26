@@ -59,27 +59,27 @@ export class GroupPage implements OnInit {
           text: 'OK',
           handler: async () => {
             try {
-              this.busyService.present('Saving Changes');
+              await this.busyService.present('Saving Changes');
               await this.userService.makeHomeGroup(group.id)
             } catch (e) {
-              this.toastService.present('Error saving changes')
+              await this.toastService.present('Error saving changes')
             } finally {
-              this.busyService.dismiss();
+              await this.busyService.dismiss();
             }
           }
         }]
     });
-    alert.present();
+    await alert.present();
   }
 
   async makeFavGroup(group: IGroup, make: boolean) {
     try {
-      this.busyService.present('Saving Changes');
+      await this.busyService.present('Saving Changes');
       await this.userService.makeFavGroup(group.id, make);
     } catch (e) {
-      this.toastService.present('Error saving changes')
+      await this.toastService.present('Error saving changes')
     } finally {
-      this.busyService.dismiss();
+      await this.busyService.dismiss();
     }
   }
 }

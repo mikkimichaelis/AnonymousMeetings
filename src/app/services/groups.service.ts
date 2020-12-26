@@ -83,7 +83,6 @@ export class GroupsService implements IGroupsService {
           const rv = [];
           groups.forEach(group => {
             const schedules = [];
-            if (group.name === 'Greenfield TGIF Group') debugger;
             group.schedules.forEach(schedule => {
               if (schedule.day === day) {
                 rv.push(group);

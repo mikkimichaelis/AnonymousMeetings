@@ -103,16 +103,16 @@ export class SearchSettingsPage implements OnInit {
     this.weekdayOptions[0] = rv;
   }
 
-  save() {
+  async save() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    this.modalCtrl.dismiss(this.settings);
+    await this.modalCtrl.dismiss(this.settings);
   }
 
-  cancel() {
+  async cancel() {
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
-    this.modalCtrl.dismiss();
+    await this.modalCtrl.dismiss();
   }
 
   updateBySpecificTime(property: string, value)  {
@@ -136,7 +136,7 @@ export class SearchSettingsPage implements OnInit {
       ]
     });
 
-    picker.present();
+    await picker.present();
   }
 
   getColumns(numColumns, numOptions, columnOptions) {

@@ -51,7 +51,7 @@ export class InitializeService implements IInitializeService {
 
       await this.settingsService.initialize(false);
 
-      //this.busyService.present();
+      //await this.busyService.present();
 
       // firebase.initializeApp(environment.firebaseConfig);
       // await this.settingsService.initialize();

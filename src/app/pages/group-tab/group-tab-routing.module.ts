@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
+import { GroupTabPage } from './group-tab.page';
 import { CalendarPage } from '../common/calendar/calendar.page';
 import { FeedPage } from '../common/feed/feed.page';
 import { GroupPage } from './group/group.page';
-import { SponsorsPage } from './sponsors/sponsors.page';
-
-import { GroupTabPage } from './group-tab.page';
 import { ChatPage } from '../common/chat/chat.page';
+import { MembersPage } from './members/members.page';
 
 const routes: Routes = [
   // {
@@ -60,11 +60,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'sponsors',
+        path: 'members',
         children: [
           {
             path: '',
-            component: SponsorsPage
+            component: MembersPage
           }
         ]
       }

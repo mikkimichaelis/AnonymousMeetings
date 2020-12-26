@@ -47,7 +47,7 @@ export class CalendarPage implements OnInit {
   constructor(private navController:NavController) { }
 
   ngOnInit(): void {
-    debugger;
+    // debugger;
   }
 
   loadEvents() {

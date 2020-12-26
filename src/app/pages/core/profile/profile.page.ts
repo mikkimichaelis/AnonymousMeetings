@@ -39,14 +39,14 @@ export class ProfilePage implements OnInit {
   async submitForm() {
     if (this.userForm.valid) {
       try {
-        this.busyService.present('Saving Changes');
+        await this.busyService.present('Saving Changes');
         await this.userService.setName(this.userForm.value.firstName, this.userForm.value.lastInitial);
         this.location.back();
       } catch (e) {
         this.initialize();
-        this.toastService.present('Error saving changes')
+        await this.toastService.present('Error saving changes')
       } finally {
-        this.busyService.dismiss();
+        await this.busyService.dismiss();
       }
     }
   }

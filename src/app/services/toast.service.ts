@@ -16,7 +16,7 @@ export class ToastService implements IToastService {
   async present(message: string, duration?: number, options?: any) {
 
     if( this.toast ) {
-      this.toast.dismiss();
+      await this.toast.dismiss();
       this.toast = null;
     }
 
@@ -33,7 +33,7 @@ export class ToastService implements IToastService {
     opts.message = message;
 
     this.toast = await this.toastController.create(opts)
-    this.toast.present();
+    await this.toast.present();
   }
 }
 

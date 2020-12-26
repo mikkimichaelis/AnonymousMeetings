@@ -2,7 +2,7 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import _ from 'lodash';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { Group, IGroup, ISchedule } from '../../shared/models';
@@ -15,7 +15,7 @@ import { FIRESTORE_SERVICE } from './injection-tokens';
 })
 export class GroupService implements IGroupService {
   groupCollection: AngularFirestoreCollection<Group>
-  group$: Subject<Group> = new Subject<Group>()
+  group$: ReplaySubject<Group> = new ReplaySubject<Group>(1);
   group: Group;
   groupQuery: Subscription;
   schedulesQuery: Subscription;
@@ -26,7 +26,7 @@ export class GroupService implements IGroupService {
 
   }
   initialize() {
-    this.group$ = new Subject<Group>();
+    this.group$ = new ReplaySubject<Group>(1);
   }
 
   async getGroupAsync(id: string): Promise<Group> {

@@ -5,7 +5,7 @@ import { GroupTabPageRoutingModule } from './group-tab-routing.module';
 
 import { GroupTabPage } from './group-tab.page';
 import { GroupPage } from './group/group.page';
-import { SponsorsPage } from './sponsors/sponsors.page';
+import { MembersPage } from './members/members.page';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { SponsorsPage } from './sponsors/sponsors.page';
   declarations: [
     GroupTabPage,
     GroupPage,
-    SponsorsPage]
+    MembersPage]
 })
 export class GroupTabPageModule {}

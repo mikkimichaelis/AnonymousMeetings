@@ -20,7 +20,7 @@ export class HomePage {
     })
   }
 
-  ionViewWillLeave(): void {
-    this.busySvc.dismiss();
+  async ionViewWillLeave() {
+    await this.busySvc.dismiss();
   }
 }

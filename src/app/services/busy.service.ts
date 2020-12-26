@@ -6,26 +6,23 @@ import { IBusyService } from '.';
   providedIn: 'root'
 })
 export class BusyService implements IBusyService {
-  loader: any;
+  private loader: any;
 
   constructor(private loadingController: LoadingController) { }
 
-  async initialize() {}
+  async initialize() { }
 
-  async present(content?: string) {
-    this.dismiss();
-
-    this.loader = await this.loadingController.create({ message: content ? content : 'Please wait...' });
-    this.loader.present();
-    
-    this.loader.onDidDismiss(() => {
-      this.loader = null;
-    })
+  async present(message?: string, duration?: number) {
+    this.loader = await this.loadingController.create({
+      message: message ? message : 'Please wait...',  // TODO remove hard coded defaults
+      duration: duration ? duration : 10000
+    });
+    await this.loader.present();
   }
 
-  dismiss() {
-    if (this.loader)
-      this.loader.dismiss();
-      this.loader = null;
-  }t 
+  async dismiss() {
+    try {
+      await this.loadingController.dismiss();
+    } catch (e) { }
+  }
 }

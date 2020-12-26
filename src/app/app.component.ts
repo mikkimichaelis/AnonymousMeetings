@@ -75,7 +75,7 @@ export class AppComponent {
             await this.initializeService.initializeServices();
 
             if (!creating) {
-              this.busyService.present(pleaseWait);
+              await this.busyService.present(pleaseWait);
             }
 
             let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
@@ -96,15 +96,15 @@ export class AppComponent {
             } else {
               await this.authService.logout();
             }
-            this.busyService.dismiss();
+            await this.busyService.dismiss();
           } else {
             if (creating) {
               // we are in a loop, redirect to landing
-              this.busyService.dismiss();
+              await this.busyService.dismiss();
               this.router.navigateByUrl('/core/landing?showLanding=true');
             } else {
               creating = true;
-              this.busyService.present(creatingUser);
+              await this.busyService.present(creatingUser);
               await this.authService.createAnonymous();
             }
           }
