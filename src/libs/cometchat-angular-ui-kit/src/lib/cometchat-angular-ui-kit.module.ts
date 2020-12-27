@@ -43,6 +43,7 @@ import { CometchatAngularUiKitComponent } from './cometchat-angular-ui-kit.compo
 import { ContactScreenComponent } from './contact-screen/contact-screen.component';
 import { ConversationsScreenComponent } from './conversations-screen/conversations-screen.component';
 import { GroupScreenComponent } from './group-screen/group-screen.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,7 @@ import { GroupScreenComponent } from './group-screen/group-screen.component';
     GroupScreenComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     CometChatModule,
     FormsModule,
     EmojiModule,

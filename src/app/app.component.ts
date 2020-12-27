@@ -26,7 +26,7 @@ declare var navigator: any;
 export class AppComponent {
 
   loggedIn = false;
-  dark = false;
+  dark = true;
 
   constructor(
     // private menu: MenuController,
@@ -92,7 +92,7 @@ export class AppComponent {
                 // TODO
               }
               
-              this.router.navigateByUrl('/home/tab/home');
+              this.router.navigateByUrl('/group/tab/group');
             } else {
               await this.authService.logout();
             }

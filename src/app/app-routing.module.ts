@@ -30,6 +30,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/group-tab/group-tab.module').then(m => m.GroupTabPageModule)
   },
   {
+    path: 'messages',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/messages-tab/messages-tab.module').then(m => m.MessagesTabPageModule)
+  },
+  {
     path: 'groups',
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/groups-tab/groups-tab.module').then(m => m.GroupsTabPageModule)

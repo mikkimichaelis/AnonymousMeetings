@@ -30,6 +30,8 @@ export * from './log.service';
 export * from './settings.service.interface';
 export * from './settings.service';
 
+export * from './shared-data.service';
+
 export * from './toast.service.interface';
 export * from './toast.service';
 

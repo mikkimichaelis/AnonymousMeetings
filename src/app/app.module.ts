@@ -34,13 +34,14 @@ import { FirestoreService } from './services/firestore.service';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
-import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService,
+import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService, SharedDataService,
   GROUP_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
   LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
   ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService } from './services';
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
+import { MessagesTabPageModule } from './pages/messages-tab/messages-tab.module';
 import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
 import { AuthGuard, FeatureGuard } from './guards';
 
@@ -70,7 +71,8 @@ import { AuthGuard, FeatureGuard } from './guards';
     NgCalendarModule,
     CoreModule,
     GroupTabPageModule,
-    HomeTabPageModule
+    HomeTabPageModule,
+    MessagesTabPageModule
   ],
   providers: [
     InAppBrowser,
@@ -97,6 +99,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     { provide: BUSY_SERVICE, useExisting: BusyService },
     { provide: TOAST_SERVICE, useExisting: ToastService },
     { provide: SETTINGS_SERVICE, useExisting: SettingsService },
+    SharedDataService,
 
     // { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebaseConfig.useEmulators ? ['localhost', 5001] : undefined },
   ],

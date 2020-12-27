@@ -9,20 +9,10 @@ import { FriendsPage } from './friends/friends.page';
 import { CometchatEmbeddedComponent } from 'src/libs/cometchat-angular-ui-kit/src/lib/cometchat-embedded/cometchat-embedded.component';
 
 const routes: Routes = [
-  // {
-  //   path: 'home',
-  //   redirectTo: 'home/tab',
-  //   pathMatch: 'full'
-  // },
   {
     path: 'tab',
     component: HomeTabPage,
     children: [
-      // {
-      //   path: 'home/tab',
-      //   redirectTo: 'home/tab/home',
-      //   pathMatch: 'full'
-      // },
       {
         path: 'home',
         children: [
