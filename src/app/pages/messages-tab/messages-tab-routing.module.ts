@@ -7,6 +7,7 @@ import { CometchatEmbeddedComponent } from 'src/libs/cometchat-angular-ui-kit/sr
 import { ContactsPage } from './contacts/contacts.page';
 import { ConversationsPage } from './conversations/conversations.page';
 import { MessagesPage } from './messages/messages.page';
+import { ChatPage } from './chat/chat';
 
 const routes: Routes = [
   {
@@ -37,6 +38,15 @@ const routes: Routes = [
           {
             path: '',
             component: MessagesPage
+          }
+        ]
+      },
+      {
+        path: 'chat',
+        children: [
+          {
+            path: '',
+            component: ChatPage
           }
         ]
       }
