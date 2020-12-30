@@ -12,6 +12,7 @@ import { FeedPage } from './feed/feed.page';
 import { MessagesPage } from './messages/messages.page';
 import { SponsorPage } from './sponsor/sponsor.page';
 import { UserPage } from './user/user.page';
+import { ZoomPage } from './zoom/zoom.page';
 
 const routes: Routes = [
   {
@@ -49,6 +50,12 @@ const routes: Routes = [
   {
     path: 'sponsor',
     component: SponsorPage,
+    canActivate: [FeatureGuard],
+    data: {roles: ['User']}
+  },
+  {
+    path: 'zoom',
+    component: ZoomPage,
     canActivate: [FeatureGuard],
     data: {roles: ['User']}
   },

@@ -9,13 +9,12 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { InitializeService } from './services/initialize.service';
 
-import { Plugins } from '@capacitor/core';
 import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService, ISettingsService, SETTINGS_SERVICE } from './services';
 import { Router } from '@angular/router';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
-const { App } = Plugins;
+import { Zoom } from '@ionic-native/zoom/ngx';
 declare var navigator: any;
 
 @Component({
@@ -24,6 +23,9 @@ declare var navigator: any;
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
+  SDK_KEY = 'd1BznmF4HfrvRZmabIyCcp2a6bpcZYbqmCXB';
+  SDK_SECRET = 'U0j5w2XB4CURvIhIpwf6cJnjRknjCZdG4Sva';
 
   loggedIn = false;
   dark = true;
@@ -38,6 +40,7 @@ export class AppComponent {
     private initializeService: InitializeService,
     private router: Router,
     private translateService: TranslateService,
+    private zoomService: Zoom,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_SERVICE) private userService: IUserService,
@@ -51,16 +54,28 @@ export class AppComponent {
   }
 
   async initializeApp() {
-    this.platform.ready().then(async (readySource) => {
+    this.platform.ready().then(async () => {
+
+      console.log("Platform ready");
       await this.initializeService.initializeServices();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+
 
       if (this.platform.is('hybrid')) { // 'hybrid' detects both Cordova and Capacitor
         // make your native API calls
       } else {
         // fallback to browser APIs
       }
+
+      this.zoomService.initialize(this.SDK_KEY, this.SDK_SECRET)
+      .then((success) => {
+        console.log(success);
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
 
       let creating = false;
       let pleaseWait = await this.translateService.get('PLEASE_WAIT').toPromise();

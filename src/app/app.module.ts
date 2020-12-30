@@ -31,6 +31,8 @@ import { AngularFireFunctions, AngularFireFunctionsModule, USE_EMULATOR as USE_F
 
 import { FirestoreService } from './services/firestore.service';
 
+import { Zoom } from '@ionic-native/zoom/ngx';
+
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
@@ -84,6 +86,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     AngularFireAuth,
     AuthGuard,
     FeatureGuard,
+    Zoom,
 
     { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebaseConfig.useEmulators ? ['localhost', 5001] : undefined },
     { provide: FIRESTORE_SERVICE, useExisting: FirestoreService},

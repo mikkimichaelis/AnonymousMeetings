@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Plugins } from '@capacitor/core';
-const { Storage } = Plugins;
 
 import { FIRESTORE_SERVICE } from './injection-tokens';
 import { IFirestoreService } from './firestore.service.interface';
@@ -49,16 +47,17 @@ export class SettingsService implements ISettingsService {
   }
 
   async load() {
-    const rv = await Storage.get({ key: 'settings' });
-    if (rv && rv.value) {
-      Object.assign(this.settings, JSON.parse(rv.value));
-    }
+    // TODO add cordova storage plugin
+    // const rv = await Storage.get({ key: 'settings' });
+    // if (rv && rv.value) {
+    //   Object.assign(this.settings, JSON.parse(rv.value));
+    // }
   }
 
   async save() {
-    await Storage.set({
-      key: 'settings',
-      value: JSON.stringify(this.settings)
-    });
+    // await Storage.set({
+    //   key: 'settings',
+    //   value: JSON.stringify(this.settings)
+    // });
   }
 }
