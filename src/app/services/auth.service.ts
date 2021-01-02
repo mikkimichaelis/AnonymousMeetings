@@ -52,15 +52,16 @@ export class AuthService implements IAuthService {
   }
 
   public async createAnonymous(): Promise<boolean> {
-    await this.firebaseAuth.signInAnonymously()
+    return new Promise(async (resolve, reject) => {
+      await this.firebaseAuth.signInAnonymously()
       .then(authUser => {
-        return true;
+        resolve(true);
       })
       .catch(error => {
         this.logService.error(error);
-        return false;
+        resolve(false);
       });
-      return;
+    })
   }
 
   async logout() {
@@ -85,6 +86,14 @@ export class AuthService implements IAuthService {
           // Return type determines whether we continue the redirect automatically
           // or whether we leave that to developer to handle.
           return true;
+        },
+        signInFailure: async (error: firebaseui.auth.AuthUIError) => {
+          if (error.code !== 'firebaseui/anonymous-upgrade-merge-conflict') {
+            return Promise.resolve();
+          }
+          var anonymousUser = firebase.auth().currentUser;
+          return firebase.auth().signInWithCredential(error.credential);
+          anonymousUser.delete();
         }
       },
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
@@ -116,7 +125,8 @@ export class AuthService implements IAuthService {
       tosUrl: 'https://anonymousgroups.us/assets/pages/tos.html',
       privacyPolicyUrl: 'https://anonymousgroups.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
-      signInSuccessUrl: '/home/tab/home'
+      signInSuccessUrl: '/home/tab/home',
+      autoUpgradeAnonymousUsers: true
     };
   }
 }

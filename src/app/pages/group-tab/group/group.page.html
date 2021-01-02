@@ -4,7 +4,8 @@
       <ion-back-button></ion-back-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title translate>TITLE.MEETING.INFO</ion-title>
+    <!-- <ion-title translate>TITLE.MEETING.INFO</ion-title> -->
+    <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span></ion-title>
   </ion-toolbar>
 </ion-header>
 

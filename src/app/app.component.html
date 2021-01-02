@@ -10,12 +10,12 @@
           <ion-menu-toggle autoHide="false">
 
             <!-- Home Feed, Favorites, Profile -->
-            <ion-item routerLink="/home/tab/home" routerLinkActive="active" routerDirection="root" detail="false">
+            <!-- <ion-item routerLink="/home/tab/home" routerLinkActive="active" routerDirection="root" detail="false">
               <ion-icon slot="start" name="home"></ion-icon>
               <ion-label>
                 Old Home
               </ion-label>
-            </ion-item>
+            </ion-item> -->
 
             <!-- Meeting, Feed, Calendar, Chat, Discussion, Notices, Sponsors -->
             <ion-item routerLink="/group/tab/group" routerLinkActive="active" routerDirection="root" detail="false">
@@ -99,12 +99,20 @@
               </ion-label>
             </ion-item>
 
-            <ion-item routerLink="/core/logout" routerLinkActive="active" routerDirection="root" detail="false">
+            <ion-item routerLink="/core/login" routerLinkActive="active" routerDirection="root" detail="false"
+            *ngIf="showLogin">
+              <ion-icon slot="start" name="log-in"></ion-icon>
+              <ion-label>
+                Login
+              </ion-label>
+            </ion-item>
+
+            <!-- <ion-item routerLink="/core/logout" routerLinkActive="active" routerDirection="root" detail="false">
               <ion-icon slot="start" name="log-out"></ion-icon>
               <ion-label>
                 Logout
               </ion-label>
-            </ion-item>
+            </ion-item> -->
           </ion-menu-toggle>
         </ion-list>
 

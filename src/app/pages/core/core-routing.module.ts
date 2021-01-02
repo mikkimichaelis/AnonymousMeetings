@@ -6,6 +6,7 @@ import { FeatureGuard } from '../../guards/feature.guard';
 
 import { AboutPage } from './about/about.page';
 import { AccountPage } from './account/account.page';
+import { ErrorPage } from './error/error.page';
 import { LandingPage } from './landing/landing.page';
 import { LoginPage } from './login/login.page';
 import { LogoutPage } from './logout/logout.page';
@@ -42,6 +43,10 @@ const routes: Routes = [
     component: LogoutPage
   },
   {
+    path: 'error',
+    component: ErrorPage
+  },
+  {
     path: 'profile',
     component: ProfilePage,
     canActivate: [AuthGuard]
@@ -68,7 +73,6 @@ const routes: Routes = [
     redirectTo: 'landing',
     pathMatch: 'full'
   }
-  
 ];
 
 @NgModule({

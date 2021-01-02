@@ -9,7 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { InitializeService } from './services/initialize.service';
 
-import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService, ISettingsService, SETTINGS_SERVICE } from './services';
+import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService, ISettingsService, SETTINGS_SERVICE, TOAST_SERVICE, IToastService } from './services';
 import { Router } from '@angular/router';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,17 +30,22 @@ export class AppComponent {
   loggedIn = false;
   dark = true;
 
+  get showLogin() {
+    return this.authService.isAnonymous;
+  }
+
   constructor(
     // private menu: MenuController,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private swUpdate: SwUpdate,
-    private toastCtrl: ToastController,
     private initializeService: InitializeService,
     private router: Router,
     private translateService: TranslateService,
     private zoomService: Zoom,
+    private toastCtrl: ToastController,
+    @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_SERVICE) private userService: IUserService,
@@ -83,6 +88,7 @@ export class AppComponent {
       this.authService.authUser$.subscribe(
         async authUser => {
           if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
+            // TODO verify route
             this.router.navigateByUrl('/home/tab/home');
           } else if (!_.isEmpty(authUser)) {
             
@@ -109,7 +115,10 @@ export class AppComponent {
               
               this.router.navigateByUrl('/group/tab/group');
             } else {
-              await this.authService.logout();
+              // We have Auth but no network to retrieve User
+              // await this.authService.logout();
+              await this.toastService.present('Network Error loading user');
+              this.router.navigateByUrl('/core/error');
             }
             await this.busyService.dismiss();
           } else {
@@ -120,7 +129,11 @@ export class AppComponent {
             } else {
               creating = true;
               await this.busyService.present(creatingUser);
-              await this.authService.createAnonymous();
+              let created = await this.authService.createAnonymous();
+              if(!created) {
+                await this.toastService.present('Network Error creating anonymous user');
+                await this.busyService.dismiss();
+              }
             }
           }
         })

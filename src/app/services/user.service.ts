@@ -138,10 +138,9 @@ export class UserService implements IUserService {
 
   async loginChatUser(chatUser: any) {
     // TODO disabled for testing login code
-    //const loggedIn = await CometChat.getLoggedinUser();
-    const loggedIn = false;
-
-    if (!loggedIn) {
+    const loggedIn = false; //const loggedIn = await CometChat.getLoggedinUser();
+    
+    if (!loggedIn && chatUser) {
       await CometChat.login(chatUser.authToken).then(
         chatUser => {
           console.log('chatUser logged in');
