@@ -1,6 +1,8 @@
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 
+!/plugins/cordova-universal-links-plugin/hooks/lib/ios/xcodePreferences.js
+
 *~
 *.sw[mnpcod]
 .tmp
@@ -27,7 +29,31 @@ npm-debug.log*
 /dist
 /node_modules
 /platforms
-/plugins
+
+# But do not ignore "plugins" because we need something from its internals...
+!plugins/
+
+# ... but ignore (almost all) the content of "plugins"...
+plugins/*
+# ... however, do not ignore "That/Very" because we need to dig more into it
+!plugins/cordova-universal-links-plugin/
+# ... but ignore (almost all) the content of "plugins"...
+plugins/cordova-universal-links-plugin/*
+# ... however, do not ignore "That/Very" because we need to dig more into it
+!plugins/cordova-universal-links-plugin/hooks
+# ... but ignore (almost all) the content of "plugins"...
+plugins/cordova-universal-links-plugin/hooks/*
+# ... however, do not ignore "That/Very" because we need to dig more into it
+!plugins/cordova-universal-links-plugin/hooks/lib
+# ... but ignore (almost all) the content of "plugins"...
+plugins/cordova-universal-links-plugin/hooks/lib/*
+# ... however, do not ignore "That/Very" because we need to dig more into it
+!plugins/cordova-universal-links-plugin/hooks/lib/ios
+# ... but ignore (almost all) the content of "plugins"...
+plugins/cordova-universal-links-plugin/hooks/lib/ios/*
+# ... however, do not ignore "That/Very" because we need to dig more into it
+!plugins/cordova-universal-links-plugin/hooks/lib/ios/xcodePreferences.js
+
 /www
 /src/environments
 
@@ -37,3 +63,5 @@ npm-debug.log*
 /resources/ios/splash
 /resources/windows/icon
 /resources/windows/splash
+
+
