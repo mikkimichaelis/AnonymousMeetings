@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts/ngx';
 import * as _ from 'lodash';
 import { IGroup } from 'src/shared/models';
 
@@ -25,6 +26,7 @@ export class GroupPage implements OnInit {
     private route: ActivatedRoute,
     private alertController: AlertController,
     private busySvc: BusyService,
+    private contacts: Contacts,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(USER_SERVICE) private userService: IUserService,
@@ -81,5 +83,16 @@ export class GroupPage implements OnInit {
     } finally {
       await this.busyService.dismiss();
     }
+  }
+
+  async makeContact(group: IGroup) {
+    let contact: Contact = this.contacts.create();
+
+    contact.name = new ContactName(null, group.name, group.location.name);
+    contact.phoneNumbers = [new ContactField('business', group.telephone)];
+    contact.save().then(
+      () => console.log('Contact saved!', contact),
+      (error: any) => console.error('Error saving contact.', error)
+    );
   }
 }

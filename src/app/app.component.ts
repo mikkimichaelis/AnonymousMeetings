@@ -1,6 +1,6 @@
 import { SharedModule } from './shared.module';
 
-import { Component, enableProdMode, Inject } from '@angular/core';
+import { Component, enableProdMode, Inject, Injector } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 
 import { MenuController, Platform, ToastController } from '@ionic/angular';
@@ -9,12 +9,12 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { InitializeService } from './services/initialize.service';
 
-import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService, ISettingsService, SETTINGS_SERVICE, TOAST_SERVICE, IToastService } from './services';
+import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService, ISettingsService, SETTINGS_SERVICE, TOAST_SERVICE, IToastService, ILogService, LOG_SERVICE } from './services';
 import { Router } from '@angular/router';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
-import { Zoom } from '@ionic-native/zoom/ngx';
+//import { Zoom } from '@ionic-native/zoom/ngx';
 declare var navigator: any;
 
 @Component({
@@ -43,8 +43,9 @@ export class AppComponent {
     private initializeService: InitializeService,
     private router: Router,
     private translateService: TranslateService,
-    private zoomService: Zoom,
+    //private zoomService: any, //Zoom,
     private toastCtrl: ToastController,
+    @Inject(LOG_SERVICE) private logService: ILogService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
@@ -59,6 +60,7 @@ export class AppComponent {
   }
 
   async initializeApp() {
+    this.logService.trace("initializeApp()");
     this.platform.ready().then(async () => {
 
       console.log("Platform ready");
@@ -74,13 +76,13 @@ export class AppComponent {
         // fallback to browser APIs
       }
 
-      this.zoomService.initialize(this.SDK_KEY, this.SDK_SECRET)
-      .then((success) => {
-        console.log(success);
-      })
-      .catch((error)=>{
-        console.log(error);
-      });
+      // this.zoomService.initialize(this.SDK_KEY, this.SDK_SECRET)
+      // .then((success) => {
+      //   console.log(success);
+      // })
+      // .catch((error)=>{
+      //   console.log(error);
+      // });
 
       let creating = false;
       let pleaseWait = await this.translateService.get('PLEASE_WAIT').toPromise();

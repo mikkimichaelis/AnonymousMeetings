@@ -19,6 +19,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Contacts } from '@ionic-native/contacts/ngx';
+
 import { CometchatAngularUiKitModule } from 'src/libs/cometchat-angular-ui-kit/src/lib/cometchat-angular-ui-kit.module';
 
 import { google } from '@google/maps';
@@ -30,8 +34,6 @@ import { AngularFireAuth, AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireFunctions, AngularFireFunctionsModule, USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
 
 import { FirestoreService } from './services/firestore.service';
-
-import { Zoom } from '@ionic-native/zoom/ngx';
 
 import { NgCalendarModule  } from 'ionic2-calendar';
 
@@ -46,6 +48,9 @@ import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
 import { MessagesTabPageModule } from './pages/messages-tab/messages-tab.module';
 import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
 import { AuthGuard, FeatureGuard } from './guards';
+
+// TODO
+// import { Zoom } from '@ionic-native/zoom/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -81,12 +86,16 @@ import { AuthGuard, FeatureGuard } from './guards';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Geolocation,
+    NativeStorage,
+    Contacts,
     AngularFirestore,
     TranslateService,
     AngularFireAuth,
     AuthGuard,
     FeatureGuard,
-    Zoom,
+    // TODO
+    //Zoom,
 
     { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebaseConfig.useEmulators ? ['localhost', 5001] : undefined },
     { provide: FIRESTORE_SERVICE, useExisting: FirestoreService},

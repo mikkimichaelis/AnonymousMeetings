@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ILocationService } from './location.service.interface';
 
 @Injectable({
@@ -7,13 +7,11 @@ import { ILocationService } from './location.service.interface';
 })
 export class LocationService implements ILocationService {
 
-  constructor() { }
+  constructor(private geo: Geolocation) { }
 
   async getGps(): Promise<{lat: number, lon: number}> {
-    // TODO add cordova geolocation
-    // const pos = await Geolocation.getCurrentPosition();
-    // return { lat: pos.coords.latitude, lon: pos.coords.longitude };
-    return { lat: 1, lon: 1 }
+    const pos = await this.geo.getCurrentPosition();
+    return { lat: pos.coords.latitude, lon: pos.coords.longitude };
   }
 
   async getZipGps(zip: string): Promise<{lat: number, lon: number}> {

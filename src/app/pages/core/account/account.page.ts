@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Zoom } from '@ionic-native/zoom/ngx';
+// import { Zoom } from '@ionic-native/zoom/ngx';
 
 @Component({
   selector: 'app-account',
@@ -12,18 +12,19 @@ export class AccountPage implements OnInit {
   userName = '';
   password = '';
 
-  constructor(private zoomService: Zoom) {
-    this.zoomService.isLoggedIn().then((success) => {
-      console.log(success);
-      if (success === true) {
-        this.loggedIn = true;
-      } else {
-        this.loggedIn = false;
-      }
-    }).catch((error) => {
-      console.log(error);
-      this.presentToast(error);
-    });
+  // TODO
+  constructor() { //private zoomService: any Zoom) {
+    // this.zoomService.isLoggedIn().then((success) => {
+    //   console.log(success);
+    //   if (success === true) {
+    //     this.loggedIn = true;
+    //   } else {
+    //     this.loggedIn = false;
+    //   }
+    // }).catch((error) => {
+    //   console.log(error);
+    //   this.presentToast(error);
+    // });
   }
 
   ngOnInit() {
@@ -36,16 +37,16 @@ export class AccountPage implements OnInit {
     console.log('Going to login');
     console.log(this.userName);
     console.log(this.password);
-    this.zoomService.login(this.userName, this.password).then((success) => {
-      console.log(success.message);
-      this.presentToast(success.message);
-      this.loggedIn = true;
-      this.userName = '';
-      this.password = '';
-    }).catch((error) => {
-      console.log(error);
-      this.presentToast(error.message);
-    });
+    // this.zoomService.login(this.userName, this.password).then((success) => {
+    //   console.log(success.message);
+    //   this.presentToast(success.message);
+    //   this.loggedIn = true;
+    //   this.userName = '';
+    //   this.password = '';
+    // }).catch((error) => {
+    //   console.log(error);
+    //   this.presentToast(error.message);
+    // });
   }
 
   /**
@@ -53,14 +54,14 @@ export class AccountPage implements OnInit {
    */
   logout() {
     console.log('Going to logout');
-    this.zoomService.logout().then((success) => {
-      console.log(success.message);
-      this.presentToast(success.message);
-      this.loggedIn = false;
-    }).catch((error) => {
-      this.presentToast(error.message);
-      console.log(error);
-    });
+    // this.zoomService.logout().then((success) => {
+    //   console.log(success.message);
+    //   this.presentToast(success.message);
+    //   this.loggedIn = false;
+    // }).catch((error) => {
+    //   this.presentToast(error.message);
+    //   console.log(error);
+    // });
   }
 
   async presentToast(text) {

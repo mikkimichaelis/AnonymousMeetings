@@ -17,9 +17,10 @@ export class LogService implements ILogService {
   async initialize() {
     //this.authService.authStateUser
     // check for anonymity first!
-    if (this.settingsService.environment.production) {
-      LogRocket.init(this.settingsService.environment.logRocketConfig.appID, this.settingsService.environment.logRocketConfig.options);
-    }
+    // TODO
+    //if (this.settingsService.environment.production) {
+      LogRocket.init("tdzfnj/anonymous-meetings", {});
+    //}
   }
 
   trace(msg: any, ...args: any[]) {

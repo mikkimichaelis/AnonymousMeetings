@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 import { FIRESTORE_SERVICE } from './injection-tokens';
 import { IFirestoreService } from './firestore.service.interface';
@@ -25,11 +26,12 @@ export class SettingsService implements ISettingsService {
     this.save();
   }
 
-  constructor(@Inject(FIRESTORE_SERVICE) private fss: IFirestoreService) { }
+  constructor(private storage: NativeStorage, @Inject(FIRESTORE_SERVICE) private fss: IFirestoreService) { }
 
   async initialize(auth: boolean) {
     // Initialize default values
     this.settings = <any>Object.assign({}, environment.defaultSettings)
+    await this.load();
 
     if (auth) {
       // TODO make these calls concurrent
@@ -47,17 +49,21 @@ export class SettingsService implements ISettingsService {
   }
 
   async load() {
-    // TODO add cordova storage plugin
-    // const rv = await Storage.get({ key: 'settings' });
-    // if (rv && rv.value) {
-    //   Object.assign(this.settings, JSON.parse(rv.value));
-    // }
+    try {
+      const settings = await this.storage.getItem('settings');
+      if (settings) {
+        Object.assign(this.settings, settings);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async save() {
-    // await Storage.set({
-    //   key: 'settings',
-    //   value: JSON.stringify(this.settings)
-    // });
+    try {
+      this.storage.setItem('settings', this.settings);
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

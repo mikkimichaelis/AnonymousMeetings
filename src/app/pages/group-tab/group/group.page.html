@@ -53,10 +53,10 @@
     </ion-item>
 
     <ion-card-content>
-      <ion-item>
+      <ion-item *ngIf="group.about">
         {{group.about}}
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="group.notes">
         {{group.notes}}
       </ion-item>
       <!-- <ion-item>
@@ -180,7 +180,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-button fill="outline" slot="end">Save as Contact</ion-button>
+        <ion-button fill="outline" slot="end" (click)="makeContact(group)">Save as Contact</ion-button>
       </ion-item>
     </ion-card-content>
   </ion-card>

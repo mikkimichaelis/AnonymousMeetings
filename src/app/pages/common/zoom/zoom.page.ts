@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Zoom } from '@ionic-native/zoom/ngx';
 import { ToastController } from '@ionic/angular';
 import { UserService, USER_SERVICE } from 'src/app/services';
+
+// TODO 
+// import { Zoom } from '@ionic-native/zoom/ngx';
 
 @Component({
   selector: 'app-zoom',
@@ -15,7 +17,7 @@ export class ZoomPage implements OnInit {
   displayName = 'Mike M';
 
   constructor(    private toastCtrl: ToastController,
-    private zoomService: Zoom,
+    //private zoomService: any, // Zoom,
     @Inject(USER_SERVICE) private userService: UserService) { }
 
   ngOnInit() {
@@ -68,16 +70,16 @@ export class ZoomPage implements OnInit {
       no_button_leave: false
     };
     // Call join meeting method.
-    this.zoomService.joinMeeting(this.meetingNumber, this.meetingPassword, this.displayName, options)
-        .then((success) => {
-          console.log(success);
-          this.presentToast(success);
-          this.meetingNumber = null;
-          this.meetingPassword = null;
-        }).catch((error) => {
-          console.log(error);
-          this.presentToast(error);
-    });
+    // this.zoomService.joinMeeting(this.meetingNumber, this.meetingPassword, this.displayName, options)
+    //     .then((success) => {
+    //       console.log(success);
+    //       this.presentToast(success);
+    //       this.meetingNumber = null;
+    //       this.meetingPassword = null;
+    //     }).catch((error) => {
+    //       console.log(error);
+    //       this.presentToast(error);
+    // });
   }
 
 }
