@@ -127,15 +127,16 @@ export class AppComponent {
             if (creating) {
               // we are in a loop, redirect to landing
               await this.busyService.dismiss();
-              this.router.navigateByUrl('/core/landing?showLanding=true');
+              this.router.navigateByUrl('/core/login');
             } else {
-              creating = true;
-              await this.busyService.present(creatingUser);
-              let created = await this.authService.createAnonymous();
-              if(!created) {
-                await this.toastService.present('Network Error creating anonymous user');
-                await this.busyService.dismiss();
-              }
+              this.router.navigateByUrl('/core/login');
+              // creating = true;
+              // await this.busyService.present(creatingUser);
+              // let created = await this.authService.createAnonymous();
+              // if(!created) {
+              //   await this.toastService.present('Network Error creating anonymous user');
+              //   await this.busyService.dismiss();
+              // }
             }
           }
         })

@@ -17,7 +17,8 @@ export class LandingPage {
   }
 
   async ionViewDidEnter() {
-    this.showLanding = this.route.snapshot.queryParams.showLanding;
+    this.showLanding = this.route.snapshot.queryParamMap.get('showLanding') === 'true';
+    console.log(`showLanding ${this.showLanding}`);
   }
 
   async ionViewWillLeave() {
