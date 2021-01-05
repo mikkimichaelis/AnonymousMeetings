@@ -47,12 +47,20 @@ plugins/cordova-universal-links-plugin/hooks/*
 !plugins/cordova-universal-links-plugin/hooks/lib
 # ... but ignore (almost all) the content of "plugins"...
 plugins/cordova-universal-links-plugin/hooks/lib/*
+
 # ... however, do not ignore "That/Very" because we need to dig more into it
 !plugins/cordova-universal-links-plugin/hooks/lib/ios
 # ... but ignore (almost all) the content of "plugins"...
 plugins/cordova-universal-links-plugin/hooks/lib/ios/*
 # ... however, do not ignore "That/Very" because we need to dig more into it
 !plugins/cordova-universal-links-plugin/hooks/lib/ios/xcodePreferences.js
+
+# ... however, do not ignore "That/Very" because we need to dig more into it
+!plugins/cordova-universal-links-plugin/hooks/lib/android
+# ... but ignore (almost all) the content of "plugins"...
+plugins/cordova-universal-links-plugin/hooks/lib/android/*
+# ... however, do not ignore "That/Very" because we need to dig more into it
+!plugins/cordova-universal-links-plugin/hooks/lib/android/manifestWriter.js
 
 /www
 /src/environments
