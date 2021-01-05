@@ -79,7 +79,7 @@
     "@angular/language-service": "~10.0.0",
     "@firebase/firestore-types": "^2.0.0",
     "@ionic/angular-toolkit": "^2.3.0",
-    "@ionic/cli": "^6.12.2",
+    "@ionic/cli": "^6.12.3",
     "@ionic/lab": "^2.0.19",
     "@types/googlemaps": "3.39.12",
     "@types/jasmine": "~3.5.0",
