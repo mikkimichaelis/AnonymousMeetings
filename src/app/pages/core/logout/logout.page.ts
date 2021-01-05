@@ -16,6 +16,7 @@ export class LogoutPage implements OnInit {
 
   async ionViewWillEnter() {
     await this.authService.logout();
+    this.router.navigateByUrl('/core/login');
   }
 
 }
