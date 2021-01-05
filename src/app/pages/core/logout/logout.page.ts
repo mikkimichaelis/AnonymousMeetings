@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Injector, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AUTH_SERVICE, IAuthService } from 'src/app/services';
 
 @Component({
   selector: 'app-logout',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogoutPage implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, @Inject(AUTH_SERVICE) private authService: IAuthService) { }
 
   ngOnInit() {
+  }
+
+  async ionViewWillEnter() {
+    await this.authService.logout();
   }
 
 }

@@ -13,7 +13,7 @@ export class LandingPage {
 
   showLanding = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private busySvc: BusyService, private authService: AuthService) { 
+  constructor(private router: Router, private route: ActivatedRoute, private busySvc: BusyService, private authService: AuthService) {
   }
 
   async ionViewDidEnter() {
@@ -24,14 +24,8 @@ export class LandingPage {
   async ionViewWillLeave() {
     await this.busySvc.dismiss();
   }
-  
+
   async doSign(anonymous: boolean, signup: boolean) {
-    if( anonymous ) {
-      await this.busySvc.present();
-      await this.authService.createAnonymous();
-      await this.busySvc.dismiss();
-    } else {
-      this.router.navigate(['/core/login'], { queryParams: { signup: signup }});
-    }
+    this.router.navigate(['/core/login'], { queryParams: { signup: signup } });
   }
 }

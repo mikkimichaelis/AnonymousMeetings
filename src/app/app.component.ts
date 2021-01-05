@@ -93,55 +93,74 @@ export class AppComponent {
             // TODO verify route
             this.router.navigateByUrl('/home/tab/home');
           } else if (!_.isEmpty(authUser)) {
-            
-            // reinitialize auth dependent services
             await this.initializeService.initializeServices();
-
-            if (!creating) {
-              await this.busyService.present(pleaseWait);
-            }
-
-            let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
-
-            if (!_.isEmpty(user)) {
-              
-              if(_.isEmpty(user.chatUser)) {
-                user.chatUser = await this.userService.createChatUser(user);
-              }
-
-              await this.userService.loginChatUser(user.chatUser);
-
-              if(!user.chatUser) {
-                // TODO
-              }
-              
-              this.router.navigateByUrl('/group/tab/group');
+            let user = await this.userService.getUser(authUser.uid);
+            if (user) {
+              this.router.navigateByUrl('/home/tab/home');
             } else {
-              // We have Auth but no network to retrieve User
-              // await this.authService.logout();
-              await this.toastService.present('Network Error loading user');
-              this.router.navigateByUrl('/core/error');
+              this.router.navigateByUrl('/core/logout');
             }
-            await this.busyService.dismiss();
-          } else {
-            if (creating) {
-              // we are in a loop, redirect to landing
-              await this.busyService.dismiss();
-              this.router.navigateByUrl('/core/login');
-            } else {
-              this.router.navigateByUrl('/core/login');
-              // creating = true;
-              // await this.busyService.present(creatingUser);
-              // let created = await this.authService.createAnonymous();
-              // if(!created) {
-              //   await this.toastService.present('Network Error creating anonymous user');
-              //   await this.busyService.dismiss();
-              // }
-            }
-          }
-        })
+          } 
+          // else {
+          //   this.router.navigateByUrl('/core/landing?showLanding=true');
+          // }
+        });
     });
   }
+
+  // if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
+  //   // TODO verify route
+  //   this.router.navigateByUrl('/home/tab/home');
+  // } else if (!_.isEmpty(authUser)) {
+
+  //   // reinitialize auth dependent services
+  //   await this.initializeService.initializeServices();
+
+  //   if (!creating) {
+  //     await this.busyService.present(pleaseWait);
+  //   }
+
+  //   let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
+
+  //   if (!_.isEmpty(user)) {
+
+  //     if(_.isEmpty(user.chatUser)) {
+  //       user.chatUser = await this.userService.createChatUser(user);
+  //     }
+
+  //     await this.userService.loginChatUser(user.chatUser);
+
+  //     if(!user.chatUser) {
+  //       // TODO
+  //     }
+
+  //     this.router.navigateByUrl('/group/tab/group');
+  //   } else {
+  //     // We have Auth but no network to retrieve User
+  //     // await this.authService.logout();
+  //     await this.toastService.present('Network Error loading user');
+  //     this.router.navigateByUrl('/core/error');
+  //   }
+  //   await this.busyService.dismiss();
+  // } else {
+  //   if (creating) {
+  // we are in a loop, redirect to landing
+  //   await this.busyService.dismiss();
+  //   this.router.navigateByUrl('/core/login');
+  // } else {
+  //   this.router.navigateByUrl('/core/login');
+  // creating = true;
+  // await this.busyService.present(creatingUser);
+  // let created = await this.authService.createAnonymous();
+  // if(!created) {
+  //   await this.toastService.present('Network Error creating anonymous user');
+  //   await this.busyService.dismiss();
+  // }
+  //         }
+  //       }
+  //       })
+  // });
+  // }
 
   async ngOnInit() {
     this.swUpdate.available.subscribe(async res => {

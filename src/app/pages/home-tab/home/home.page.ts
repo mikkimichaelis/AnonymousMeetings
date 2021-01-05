@@ -23,4 +23,8 @@ export class HomePage {
   async ionViewWillLeave() {
     await this.busySvc.dismiss();
   }
+
+  async logout() {
+    this.router.navigateByUrl('/core/logout');
+  }
 }

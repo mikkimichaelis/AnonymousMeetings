@@ -3,7 +3,7 @@
     "apps": [],
     "details": [
       {
-        "appID": "<YOUR_TEAM_ID_FROM_MEMBER_CENTER>.io.ionic.starter",
+        "appID": "<YOUR_TEAM_ID_FROM_MEMBER_CENTER>.us.anonymousmeetings.app",
         "paths": [
           "*",
           "/"
