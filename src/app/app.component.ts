@@ -27,7 +27,7 @@ export class AppComponent {
   SDK_KEY = 'd1BznmF4HfrvRZmabIyCcp2a6bpcZYbqmCXB';
   SDK_SECRET = 'U0j5w2XB4CURvIhIpwf6cJnjRknjCZdG4Sva';
 
-  loggedIn = false;
+  loggedIn = true;
   dark = true;
 
   get showLogin() {
