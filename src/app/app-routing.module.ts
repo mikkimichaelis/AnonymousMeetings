@@ -7,7 +7,7 @@ import { FeatureGuard } from './guards/feature.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/core/login',
+    redirectTo: '/core/landing',
     pathMatch: 'full'
   },
   {
@@ -47,7 +47,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/core/login',
+    redirectTo: '/core/landing',
     pathMatch: 'full'
   }
 ];

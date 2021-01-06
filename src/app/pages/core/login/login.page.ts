@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import firebase from 'firebase/app'
+import { from, of } from 'rxjs';
+import { concatMap, delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -19,8 +21,15 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   ionViewDidEnter() {
+    from(['redirect']).pipe(
+      // TODO automate this pause to a single function and put in config
+      // ToDo add delays and spacers
+      concatMap(item => of(item).pipe(delay(500)))
+    ).subscribe(redirect => {
+      this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig());
+    });
     // The start method will wait until the DOM is loaded.
-    this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig());
+    //this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig());
   
     // var provider = new firebase.auth.GoogleAuthProvider();
     // firebase.auth().signInWithRedirect(provider).then(function() {

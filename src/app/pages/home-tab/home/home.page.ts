@@ -4,6 +4,9 @@ import { UserService } from '../../../services/user.service';
 import { GroupsService } from '../../../services/groups.service';
 import { Router } from '@angular/router';
 
+import { StreamChat, ChannelData, Message, User } from 'stream-chat';
+import axios from 'axios';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -11,17 +14,18 @@ import { Router } from '@angular/router';
 })
 export class HomePage {
 
-  constructor(private router: Router, private busySvc: BusyService, public userService: UserService) {}
+  constructor(private router: Router, private busySvc: BusyService, public userService: UserService) { }
 
   async ionViewDidEnter() {
-    await this.busySvc.present('Loading....');
+    // TODO time dely the present to smooth app progression
+    //await this.busySvc.present('Loading....');
     await this.userService.user$.subscribe(user => {
-      if( user ) this.busySvc.dismiss();
+      if (user) this.busySvc.dismiss();
     })
   }
 
   async ionViewWillLeave() {
-    await this.busySvc.dismiss();
+    //await this.busySvc.dismiss();
   }
 
   async logout() {

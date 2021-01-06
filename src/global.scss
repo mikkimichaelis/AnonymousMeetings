@@ -33,3 +33,27 @@
  */
 
  @import "./app/app.scss";
+
+
+//  https://forum.ionicframework.com/t/centering-content/175189/3
+ .fullheight {
+    height: 100%;
+  }
+  
+  .xc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .vcs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hcs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
