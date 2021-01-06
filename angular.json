@@ -40,6 +40,9 @@
               },
               {
                 "input": "node_modules/firebaseui/dist/firebaseui.css"
+              },
+              {
+                "input": "node_modules/@nebular/theme/styles/prebuilt/dark.css"
               }
             ],
             "scripts": [],

@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 import { FeatureGuard } from '../../guards/feature.guard';
 
-import { CometchatEmbeddedComponent } from 'src/libs/cometchat-angular-ui-kit/src/lib/cometchat-embedded/cometchat-embedded.component';
 
 import { CalendarPage } from './calendar/calendar.page';
 import { ChatPage } from './chat/chat.page';
@@ -37,7 +36,7 @@ const routes: Routes = [
   },
   {
     path: 'chat',
-    component: CometchatEmbeddedComponent,
+    component: null,
     canActivate: [FeatureGuard],
     data: {roles: ['User']}
   },

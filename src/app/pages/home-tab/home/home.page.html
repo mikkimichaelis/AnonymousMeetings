@@ -1,4 +1,4 @@
-<!-- <ion-header>
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
@@ -6,14 +6,16 @@
     <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span>
     </ion-title>
   </ion-toolbar>
-</ion-header> -->
+</ion-header>
 
-<nb-chat title="Nebular Conversational UI">
-  <nb-chat-message *ngFor="let msg of messages" [type]="msg.type" [message]="msg.text" [reply]="msg.reply"
-    [sender]="msg.user.name" [date]="msg.date" [files]="msg.files" [quote]="msg.quote" [latitude]="msg.latitude"
-    [longitude]="msg.longitude" [avatar]="msg.user.avatar">
-  </nb-chat-message>
+<ion-content>
+  <nb-chat title="Nebular Conversational UI">
+    <nb-chat-message *ngFor="let msg of messages" [type]="msg.type" [message]="msg.text" [reply]="msg.reply"
+      [sender]="msg.user.name" [date]="msg.date" [files]="msg.files" [quote]="msg.quote" [latitude]="msg.latitude"
+      [longitude]="msg.longitude" [avatar]="msg.user.avatar">
+    </nb-chat-message>
 
-  <nb-chat-form (send)="sendMessage($event)" [dropFiles]="true">
-  </nb-chat-form>
-</nb-chat>
+    <nb-chat-form (send)="sendMessage($event)" [dropFiles]="true">
+    </nb-chat-form>
+  </nb-chat>
+</ion-content>

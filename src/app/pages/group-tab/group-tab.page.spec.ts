@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { GroupTabPage } from './group-tab.page';
@@ -7,7 +7,7 @@ describe('GroupTabPage', () => {
   let component: GroupTabPage;
   let fixture: ComponentFixture<GroupTabPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GroupTabPage ],
       imports: [IonicModule.forRoot()]

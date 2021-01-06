@@ -23,8 +23,6 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Contacts } from '@ionic-native/contacts/ngx';
 
-import { CometchatAngularUiKitModule } from 'src/libs/cometchat-angular-ui-kit/src/lib/cometchat-angular-ui-kit.module';
-
 import { google } from '@google/maps';
 import { AgmCoreModule } from '@agm/core';
 
@@ -45,9 +43,9 @@ import { GroupService, GroupsService, LogService, UserService, AuthService, Busy
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
-import { MessagesTabPageModule } from './pages/messages-tab/messages-tab.module';
 import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
 import { AuthGuard, FeatureGuard } from './guards';
+import { NbFocusMonitor, NbThemeModule } from '@nebular/theme';
 
 // TODO
 // import { Zoom } from '@ionic-native/zoom/ngx';
@@ -69,7 +67,6 @@ import { AuthGuard, FeatureGuard } from './guards';
         useClass: TranslateUniversalLoader
       }
     }),
-    CometchatAngularUiKitModule,
     AgmCoreModule.forRoot({ apiKey: environment.googleCloudConfig.agmKey }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireFunctionsModule,
@@ -79,7 +76,7 @@ import { AuthGuard, FeatureGuard } from './guards';
     CoreModule,
     GroupTabPageModule,
     HomeTabPageModule,
-    MessagesTabPageModule
+    NbThemeModule.forRoot()
   ],
   providers: [
     InAppBrowser,

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { SwUpdate } from '@angular/service-worker';
 import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
   let authServiceSpy;
   let userServiceSpy;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     platformReadySpy = Promise.resolve();
     platformSpy = jasmine.createSpyObj('Platform', {ready: platformReadySpy, is: true} );
     splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);

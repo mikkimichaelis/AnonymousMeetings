@@ -29,11 +29,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./pages/group-tab/group-tab.module').then(m => m.GroupTabPageModule)
   },
-  {
-    path: 'messages',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/messages-tab/messages-tab.module').then(m => m.MessagesTabPageModule)
-  },
+  // {
+  //   path: 'messages',
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () => import('./pages/messages-tab/messages-tab.module').then(m => m.MessagesTabPageModule)
+  // },
   {
     path: 'groups',
     canActivate: [AuthGuard],
@@ -54,7 +54,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, relativeLinkResolution: 'legacy' })
   ],
   exports: [RouterModule]
 })

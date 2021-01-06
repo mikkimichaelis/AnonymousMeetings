@@ -1,5 +1,4 @@
 import { Inject, Injectable } from '@angular/core';
-import { CometChat } from '@cometchat-pro/chat';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as firebase from 'firebase/app';
@@ -41,7 +40,6 @@ export class InitializeService implements IInitializeService {
       // Post Auth Init
       // TODO check this list periodically
       await this.settingsService.initialize(true);
-      await this.comChatInit();
     } else {
       // Pre Auth init
       await this.busyService.initialize();
@@ -64,20 +62,5 @@ export class InitializeService implements IInitializeService {
     }
 
     //this.busyService.dismiss();
-  }
-
-  async comChatInit() {
-    // TODO review environment app ID is ok, api key is secret
-    var appSetting = new CometChat.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(environment.cometChat.REGION).build();
-    await CometChat.init(environment.cometChat.APP_ID, appSetting).then(
-      () => {
-        console.log("Initialization completed successfully");
-        // You can now call login function.
-      },
-      error => {
-        console.log("Initialization failed with error:", error);
-        // Check the reason for error and take appropriate action.
-      }
-    );
   }
 }

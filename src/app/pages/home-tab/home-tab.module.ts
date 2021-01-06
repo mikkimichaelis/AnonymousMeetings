@@ -8,13 +8,10 @@ import { HomePage } from './home/home.page';
 import { FriendsPage } from './friends/friends.page';
 import { AttendancePage } from './attendance/attendance.page';
 
-import { NbChatModule, NbFocusMonitor } from '@nebular/theme';
-
 @NgModule({
   imports: [
     SharedModule,
     HomeTabPageRoutingModule,
-    NbChatModule
   ],
   declarations: [
     HomeTabPage, 
@@ -23,7 +20,6 @@ import { NbChatModule, NbFocusMonitor } from '@nebular/theme';
     AttendancePage
   ],
   providers: [
-    NbFocusMonitor
   ]
 })
 export class HomeTabPageModule {}

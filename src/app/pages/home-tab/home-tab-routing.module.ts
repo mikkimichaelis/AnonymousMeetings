@@ -6,7 +6,6 @@ import { HomePage } from './home/home.page';
 import { MessagesPage } from '../common/messages/messages.page';
 import { AttendancePage } from './attendance/attendance.page';
 import { FriendsPage } from './friends/friends.page';
-import { CometchatEmbeddedComponent } from 'src/libs/cometchat-angular-ui-kit/src/lib/cometchat-embedded/cometchat-embedded.component';
 
 const routes: Routes = [
   {
@@ -22,15 +21,15 @@ const routes: Routes = [
           }
         ]
       },
-      {
-        path: 'messages',
-        children: [
-          {
-            path: '',
-            component: CometchatEmbeddedComponent
-          }
-        ]
-      },
+      // {
+      //   path: 'messages',
+      //   children: [
+      //     {
+      //       path: '',
+      //       component: CometchatEmbeddedComponent
+      //     }
+      //   ]
+      // },
       {
         path: 'attendance',
         children: [
