@@ -45,7 +45,7 @@ import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
 import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
 import { AuthGuard, FeatureGuard } from './guards';
-import { NbFocusMonitor, NbThemeModule } from '@nebular/theme';
+import { NbThemeModule } from '@nebular/theme';
 
 // TODO
 // import { Zoom } from '@ionic-native/zoom/ngx';
@@ -59,6 +59,7 @@ import { NbFocusMonitor, NbThemeModule } from '@nebular/theme';
     AppRoutingModule,
     FormsModule,
     IonicModule.forRoot(),
+    NbThemeModule.forRoot(),
     IonicStorageModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forRoot({
@@ -75,8 +76,7 @@ import { NbFocusMonitor, NbThemeModule } from '@nebular/theme';
     NgCalendarModule,
     CoreModule,
     GroupTabPageModule,
-    HomeTabPageModule,
-    NbThemeModule.forRoot()
+    HomeTabPageModule
   ],
   providers: [
     InAppBrowser,

@@ -13,14 +13,13 @@ import _ from 'lodash';
 import LogRocket from 'logrocket';
 import { IAngularFireFunctions } from './angular-fire-functions.interface';
 import { ISettingsService } from './settings.service.interface';
-import { CometChat } from '@cometchat-pro/chat';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService implements IUserService {
 
-  chatUser!: CometChat.User;
+  chatUser!: any; // CometChat.User;
   user$: ReplaySubject<User> = new ReplaySubject<User>(1);
 
   public user: User;
@@ -131,7 +130,7 @@ export class UserService implements IUserService {
     }
   }
 
-  async createChatUser(user: User): Promise<CometChat.User> {
+  async createChatUser(user: User): Promise<any> {
     const chatUser = await this.makeCallableAsync('createChatUser');
     return <any>chatUser;
   }
@@ -141,13 +140,13 @@ export class UserService implements IUserService {
     const loggedIn = false; //const loggedIn = await CometChat.getLoggedinUser();
     
     if (!loggedIn && chatUser) {
-      await CometChat.login(chatUser.authToken).then(
-        chatUser => {
-          console.log('chatUser logged in');
-        }, async error => {
-          console.error(error);
-        }
-      )
+      // await CometChat.login(chatUser.authToken).then(
+      //   chatUser => {
+      //     console.log('chatUser logged in');
+      //   }, async error => {
+      //     console.error(error);
+      //   }
+      // )
     }
   }
 }
