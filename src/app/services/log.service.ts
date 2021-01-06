@@ -15,27 +15,21 @@ export class LogService implements ILogService {
   }
 
   async initialize() {
-    //this.authService.authStateUser
-    // check for anonymity first!
-    // TODO
-    //if (this.settingsService.environment.production) {
       LogRocket.init("tdzfnj/anonymous-meetings", {});
-    //}
+      // TODO identify(uid: string, traits?: IUserTraits): void;
   }
 
   trace(msg: any, ...args: any[]) {
-    if (!this.settingsService.environment.production) {
-      LogRocket.captureMessage(this.stringify(msg), {});
-    }
+    LogRocket.log(msg, ...args);
   }
   message(msg: any, ...args: any[]) {
-    LogRocket.captureMessage(this.stringify(msg), {})
+    LogRocket.log(msg, ...args);
   }
-  error(error: Error, ...args: any[]) {
-    LogRocket.captureException(error, {})
+  error(error: any, ...args: any[]) {
+    LogRocket.error(error, ...args);
   }
-  exception(e: Error, ...args: any[]) {
-    LogRocket.captureException(e, {})
+  exception(e: any, ...args: any[]) {
+    LogRocket.error(e, ...args);
   }
 
   private stringify(x: any): string {
