@@ -100,8 +100,10 @@
     "@types/node": "^12.11.1",
     "@types/uuid": "^8.3.0",
     "codelyzer": "^6.0.0",
-    "cordova-android": "^9.0.0",
+    "cordova-android": "git+https://github.com/apache/cordova-android.git",
     "cordova-ios": "^6.1.1",
+    "cordova-plugin-androidx": "^3.0.0",
+    "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-contacts": "^3.0.1",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "^4.1.0",
@@ -113,6 +115,7 @@
     "cordova-plugin-whitelist": "^1.3.3",
     "cordova-res": "^0.15.2",
     "cordova-universal-links-plugin-fix": "1.2.1",
+    "cordova.plugin.zoom": "^4.6.2166-6.603",
     "firebase-tools": "^9.0.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -150,7 +153,10 @@
         "ANDROID_HOST": " ",
         "ANDROID_PATHPREFIX": "/"
       },
-      "cordova-universal-links-plugin": {}
+      "cordova-universal-links-plugin": {},
+      "cordova-plugin-androidx": {},
+      "cordova-plugin-androidx-adapter": {},
+      "cordova.plugin.zoom": {}
     },
     "platforms": [
       "ios",

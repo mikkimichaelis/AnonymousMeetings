@@ -62,6 +62,14 @@ plugins/cordova-universal-links-plugin/hooks/lib/android/*
 # ... however, do not ignore "That/Very" because we need to dig more into it
 !plugins/cordova-universal-links-plugin/hooks/lib/android/manifestWriter.js
 
+!platforms/
+platforms/*
+!platforms/android/
+platforms/android/*
+!platforms/android/app
+platforms/android/app/*
+!platforms/android/app/build.gradle
+
 /www
 /src/environments
 
