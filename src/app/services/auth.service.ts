@@ -4,6 +4,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 // import * as firebase from 'firebase';
 import firebase from 'firebase/app'
 import * as firebaseui from 'firebaseui';
+import _ from 'lodash';
+import LogRocket from 'logrocket';
 
 import { Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';
 
@@ -27,24 +29,27 @@ export class AuthService implements IAuthService {
     @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth) { }
 
   async initialize() {
-    this.authStateSubscription = this.firebaseAuth.authState.subscribe(
-      (user: firebase.User) => {
-        this.isAnonymous = user !== null ? user.isAnonymous : true;
-        this.authUser = user;
-        this.authUser$.next(user);
-      },
-      (error: any) => {
-        this.logService.error(error);
-      });
-
     let auth = firebase.auth();
+    this.firebaseUi = new firebaseui.auth.AuthUI(auth);
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .catch(function (error) {
         this.logService.error(error);
       });
 
-    // Initialize the FirebaseUI Widget using Firebase.
-    this.firebaseUi = new firebaseui.auth.AuthUI(auth);
+    if (this.authStateSubscription && !this.authStateSubscription.closed) {
+      this.authStateSubscription.unsubscribe();
+      this.authStateSubscription = null;
+    }
+    this.authStateSubscription = this.firebaseAuth.authState.subscribe(
+      (user: firebase.User) => {
+        this.isAnonymous = user !== null ? _.has(user, 'isAnonymous') ? user.isAnonymous : true : true;
+        this.authUser = user;
+        LogRocket.log('authUser', this.authUser)
+        this.authUser$.next(user);
+      },
+      (error: any) => {
+        this.logService.error(error);
+      });
   }
 
   isAuthenticated(): boolean {
@@ -54,13 +59,13 @@ export class AuthService implements IAuthService {
   public async createAnonymous(): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
       await this.firebaseAuth.signInAnonymously()
-      .then(authUser => {
-        resolve(true);
-      })
-      .catch(error => {
-        this.logService.error(error);
-        resolve(false);
-      });
+        .then(authUser => {
+          resolve(true);
+        })
+        .catch(error => {
+          this.logService.error(error);
+          resolve(false);
+        });
     })
   }
 

@@ -40,6 +40,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/groups-tab/groups-tab.module').then(m => m.GroupsTabPageModule)
   },
   {
+    path: 'meetings',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/meetings-tab/meetings-tab.module').then(m => m.MeetingsTabPageModule)
+  },
+  {
     path: 'secretary',
     canActivate: [AuthGuard, FeatureGuard],
     data: {roles: ['Secretary']},

@@ -47,12 +47,10 @@ export class InitializeService implements IInitializeService {
       this.translate.setDefaultLang('en-US');
       this.translate.use(navigator.language);
 
-      await this.settingsService.initialize(false);
+      //await this.settingsService.initialize(false);
 
       //await this.busyService.present();
 
-      // firebase.initializeApp(environment.firebaseConfig);
-      // await this.settingsService.initialize();
       await this.authService.initialize();
       await this.logService.initialize();
       await this.groupsService.initialize();

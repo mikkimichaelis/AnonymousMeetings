@@ -16,7 +16,7 @@ import { ZoomPage } from './zoom/zoom.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/core/login',
+    redirectTo: '/core/landing',
     pathMatch: 'full',
   },
   {

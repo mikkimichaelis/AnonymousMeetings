@@ -36,6 +36,8 @@
     "MEETINGS": "Meetings",
     "MEETINGS.SEARCH": "Search Meetings",
     "MEETINGS.SEARCH.SETTINGS": "Search Settings",
+    "MEETINGS.ADMIN": "Meeting Administration",
+    "ADD.MEETING": "Add Meeting",
     "MEETING": {
       "CHAT": "Meeting Chat",
       "INFO": "Meeting Information",

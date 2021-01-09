@@ -14,7 +14,8 @@ import { Router } from '@angular/router';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
-//import { Zoom } from '@ionic-native/zoom/ngx';
+import { Zoom } from '@ionic-native/zoom/ngx';
+import LogRocket from 'logrocket';
 declare var navigator: any;
 
 @Component({
@@ -43,7 +44,7 @@ export class AppComponent {
     private initializeService: InitializeService,
     private router: Router,
     private translateService: TranslateService,
-    //private zoomService: any, //Zoom,
+    private zoomService: Zoom,
     private toastCtrl: ToastController,
     @Inject(LOG_SERVICE) private logService: ILogService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
@@ -65,10 +66,6 @@ export class AppComponent {
 
       console.log("Platform ready");
       await this.initializeService.initializeServices();
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-
-
 
       if (this.platform.is('hybrid')) { // 'hybrid' detects both Cordova and Capacitor
         // make your native API calls
@@ -76,91 +73,43 @@ export class AppComponent {
         // fallback to browser APIs
       }
 
-      // this.zoomService.initialize(this.SDK_KEY, this.SDK_SECRET)
-      // .then((success) => {
-      //   console.log(success);
-      // })
-      // .catch((error)=>{
-      //   console.log(error);
-      // });
+      this.zoomService.initialize(this.SDK_KEY, this.SDK_SECRET)
+      .then((success) => {
+        console.log(success);
+      })
+      .catch((error)=>{
+        console.log(error);
+      });
 
       let creating = false;
       let pleaseWait = await this.translateService.get('PLEASE_WAIT').toPromise();
       let creatingUser = await this.translateService.get('CREATING_USER').toPromise();
       this.authService.authUser$.subscribe(
         async authUser => {
+          await this.initializeService.initializeServices();
           if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
-            // TODO verify route
+            // TODO config
+            LogRocket.log('auth!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)User', 'navigate', '/home/tab/home');
             this.router.navigateByUrl('/home/tab/home');
           } else if (!_.isEmpty(authUser)) {
-            await this.initializeService.initializeServices();
             let user = await this.userService.getUser(authUser.uid);
             if (user) {
+              LogRocket.log('userService.getUser(authUser.uid)', 'navigate', '/home/tab/home')
               this.router.navigateByUrl('/home/tab/home');
-            } else {
-              this.router.navigateByUrl('/core/logout');
-            }
-          } 
+            } 
+            // else {
+            //   this.router.navigateByUrl('/core/logout');
+            // }
+          }
           // else {
-          //   this.router.navigateByUrl('/core/landing?showLanding=true');
+          //   this.router.navigateByUrl('/core/landing');
           // }
         });
     });
+
+    this.statusBar.styleDefault();
+    this.splashScreen.hide();
   }
-
-  // if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
-  //   // TODO verify route
-  //   this.router.navigateByUrl('/home/tab/home');
-  // } else if (!_.isEmpty(authUser)) {
-
-  //   // reinitialize auth dependent services
-  //   await this.initializeService.initializeServices();
-
-  //   if (!creating) {
-  //     await this.busyService.present(pleaseWait);
-  //   }
-
-  //   let user = await this.userService.getUser(authUser.uid, creating ? 5000 : 0);
-
-  //   if (!_.isEmpty(user)) {
-
-  //     if(_.isEmpty(user.chatUser)) {
-  //       user.chatUser = await this.userService.createChatUser(user);
-  //     }
-
-  //     await this.userService.loginChatUser(user.chatUser);
-
-  //     if(!user.chatUser) {
-  //       // TODO
-  //     }
-
-  //     this.router.navigateByUrl('/group/tab/group');
-  //   } else {
-  //     // We have Auth but no network to retrieve User
-  //     // await this.authService.logout();
-  //     await this.toastService.present('Network Error loading user');
-  //     this.router.navigateByUrl('/core/error');
-  //   }
-  //   await this.busyService.dismiss();
-  // } else {
-  //   if (creating) {
-  // we are in a loop, redirect to landing
-  //   await this.busyService.dismiss();
-  //   this.router.navigateByUrl('/core/login');
-  // } else {
-  //   this.router.navigateByUrl('/core/login');
-  // creating = true;
-  // await this.busyService.present(creatingUser);
-  // let created = await this.authService.createAnonymous();
-  // if(!created) {
-  //   await this.toastService.present('Network Error creating anonymous user');
-  //   await this.busyService.dismiss();
-  // }
-  //         }
-  //       }
-  //       })
-  // });
-  // }
 
   async ngOnInit() {
     this.swUpdate.available.subscribe(async res => {

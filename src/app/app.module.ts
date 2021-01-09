@@ -47,8 +47,8 @@ import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
 import { AuthGuard, FeatureGuard } from './guards';
 import { NbThemeModule } from '@nebular/theme';
 
-// TODO
-// import { Zoom } from '@ionic-native/zoom/ngx';
+import { Zoom } from '@ionic-native/zoom/ngx';
+import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -76,7 +76,8 @@ import { NbThemeModule } from '@nebular/theme';
     NgCalendarModule,
     CoreModule,
     GroupTabPageModule,
-    HomeTabPageModule
+    HomeTabPageModule,
+    MeetingsTabPageModule
   ],
   providers: [
     InAppBrowser,
@@ -91,8 +92,7 @@ import { NbThemeModule } from '@nebular/theme';
     AngularFireAuth,
     AuthGuard,
     FeatureGuard,
-    // TODO
-    //Zoom,
+    Zoom,
 
     { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebaseConfig.useEmulators ? ['localhost', 5001] : undefined },
     { provide: FIRESTORE_SERVICE, useExisting: FirestoreService},

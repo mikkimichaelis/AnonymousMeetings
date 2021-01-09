@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title translate>TITLE.ADD.MEETING</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      Add Meeting
+    </ion-card-header>
+    <ion-card-content>
+      <p>Please add known active meetings or create a new Zoom meeting and add here.  
+        You will become the admin of this meeting within this app.  You may transfer admin responsibilities 
+        at any time.  Thank you for helping build this online community.
+        <!-- You should be the Zoom administrator of the meeting.   -->
+      </p>
+      <ion-item>
+        <ion-label position="stacked">Zoom Meeting ID</ion-label>
+        <ion-input type="text" [(ngModel)]="meetingId"></ion-input>
+      </ion-item>
+      <ion-button (click)="add()">Add</ion-button>
+      <ion-button (click)="dismiss()">Cancel</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+hi

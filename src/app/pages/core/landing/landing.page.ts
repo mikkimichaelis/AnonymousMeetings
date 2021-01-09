@@ -2,6 +2,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import LogRocket from 'logrocket';
 import { from, interval, Observable, of, pipe, Subscription } from 'rxjs';
 import { concatMap, delay, map, take } from 'rxjs/operators';
 import { BusyService } from 'src/app/services/busy.service';
@@ -29,10 +30,11 @@ export class LandingPage {
 
   redirect: Subscription;
   async ionViewDidEnter() {
-    this.redirect = from(['redirect']).pipe(
-      concatMap(item => of(item).pipe(delay(3000)))
+    this.redirect = from(['/core/login']).pipe(
+      concatMap(item => of(item).pipe(delay(5000))) // TODO  config
     ).subscribe(redirect => {
-      this.router.navigateByUrl('/core/login');
+      LogRocket.log('landing.page.ionViewDidEnter().redirect.subscribe() => navigateByUrl("/core/login"')
+      this.router.navigateByUrl(redirect);
     });
   }
 
