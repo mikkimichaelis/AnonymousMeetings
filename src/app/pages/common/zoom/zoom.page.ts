@@ -79,5 +79,7 @@ export class ZoomPage implements OnInit {
           console.log(error);
           this.presentToast(error);
     });
+
+    this.zoomService
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Zoom } from '@ionic-native/zoom/ngx';
 import { ModalController } from '@ionic/angular';
 import { BusyService, BUSY_SERVICE } from 'src/app/services';
 

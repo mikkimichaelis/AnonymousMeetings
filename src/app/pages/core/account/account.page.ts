@@ -35,6 +35,7 @@ export class AccountPage implements OnInit {
    */
   login() {
     this.zoomService.login(this.userName, this.password).then((success) => {
+      console.log(success);
       console.log(success.message);
       this.presentToast(success.message);
       this.loggedIn = true;
