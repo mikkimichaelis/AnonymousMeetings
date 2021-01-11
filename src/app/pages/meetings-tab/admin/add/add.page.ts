@@ -15,6 +15,14 @@ export class AddPage implements OnInit {
   addForm: FormGroup;
   user: IUser;
 
+  get showRecurrence(): boolean {
+    return this.addForm.controls.continuous.value === false;
+  }
+
+  get recurrenceType(): string {
+    return this.addForm.controls.recurrenceType.value;
+  }
+
   constructor(
     private formBuilder: FormBuilder,
     private modalCtrl: ModalController,
@@ -33,17 +41,21 @@ export class AddPage implements OnInit {
 
   initialize() {
     this.addForm = this.formBuilder.group({
-      "recurrenceType": ['', []],
-      "meetingNumber": ['', [Validators.required, Validators.minLength(3)]],
-      "topic": ['', [Validators.required, Validators.minLength(3)]],
-      "continuous": ['', [Validators.required, Validators.min(0)]],
+      "name": ['', [Validators.required, ]],
+      "meetingNumber": ['', [Validators.required, Validators.min(1000000000), Validators.max(9999999999), Validators.minLength(10)]],
+      "topic": ['', [Validators.required, Validators.minLength(5)]],
+      "continuous": [false, [Validators.min(0)]],
 
-      "timezone": ['', [Validators.required, Validators.minLength(3)]],
+      "timezone": ['', [Validators.required]],
       "startTime": ['', [Validators.required, Validators.min(0)]],
-      "duration": ['', [Validators.required, Validators.min(0)]],
+      "duration": ['60', [Validators.required, Validators.min(0)]],
 
-
-      "repeat_interval": ['', []],
+      "recurrenceType": ['1', [Validators.required]],
+      // "repeat_interval_1": ['', [Validators.min(1), Validators.max(90)]],
+      // "repeat_interval_2": ['', [Validators.min(1), Validators.max(12)]],
+      // "repeat_interval_3": ['', [Validators.min(1), Validators.max(3)]],
+      "weekly_day": ['', []],
+      "weekly_days": ['', []],
       "monthly_day": ['', []],
       "monthly_week": ['', []],
       "monthly_week_day": ['', []],

@@ -84,26 +84,23 @@
 
       <ion-item>
         <ion-radio slot="start" value="specific"></ion-radio>
-        <ion-label slot="start" translate>FROM</ion-label>
         
-        <ion-datetime #timePickerStart 
-          slot="start"
-          *ngIf="settings.bySpecificTime"
-          [(value)]="settings.bySpecific.start"
-          (ionChange)="updateBySpecificTime('start', timePickerStart.value)"
+        <ion-label slot="start" translate>FROM</ion-label>
+        <ion-datetime #timePickerStart slot="start" *ngIf="settings.bySpecificTime"
+          [(value)]="settings.bySpecific.start" (ionChange)="updateBySpecificTime('start', timePickerStart.value)"
           display-format="h:mm A" picker-format="h:mm A"></ion-datetime>
-          <ion-label translate>to</ion-label>
-          <ion-datetime #timePickerEnd 
-          *ngIf="settings.bySpecificTime"
-          [(value)]="settings.bySpecific.end"
-          (ionChange)="updateBySpecificTime('end', timePickerEnd.value)"
-          display-format="h:mm A" picker-format="h:mm A"></ion-datetime>
+
+        <ion-label translate>to</ion-label>
+        <ion-datetime #timePickerEnd *ngIf="settings.bySpecificTime" [(value)]="settings.bySpecific.end"
+          (ionChange)="updateBySpecificTime('end', timePickerEnd.value)" display-format="h:mm A" picker-format="h:mm A">
+        </ion-datetime>
       </ion-item>
 
       <ion-item>
         <ion-radio slot="start" value="relative"></ion-radio>
         <ion-label slot="start" translate>STARTS.WITHIN</ion-label>
-        <ion-input slot="end" type="number" [(ngModel)]="settings.byRelative.early" *ngIf="settings.byRelativeTime"></ion-input>
+        <ion-input slot="end" type="number" [(ngModel)]="settings.byRelative.early" *ngIf="settings.byRelativeTime">
+        </ion-input>
         <ion-label slot="end" translate>HOURS</ion-label>
       </ion-item>
     </ion-radio-group>

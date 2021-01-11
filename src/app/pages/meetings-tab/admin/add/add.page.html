@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <!-- <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-title translate>TITLE.ADD.MEETING</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -25,95 +25,132 @@
         </p>
 
         <ion-item lines="full">
-          <ion-label position="floating">Recurrence Type</ion-label>
-          <ion-input formControlName="recurrenceType" type="text" required></ion-input>
-        </ion-item>
-
-        <ion-item lines="full">
           <ion-label position="floating">Meeting Number</ion-label>
           <ion-input formControlName="meetingNumber" type="text" required></ion-input>
         </ion-item>
 
         <ion-item lines="full">
-          <ion-label position="floating">Topic</ion-label>
+          <ion-label position="floating">Meeting Name</ion-label>
+          <ion-input formControlName="name" type="text" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Meeting Topic</ion-label>
           <ion-input formControlName="topic" type="text" required></ion-input>
         </ion-item>
 
         <ion-item lines="full">
-          <ion-label position="floating">Continuous</ion-label>
-          <ion-input formControlName="continuous" type="text" required></ion-input>
+          <ion-label position="start">Continuous 24h Meeting</ion-label>
+          <ion-checkbox slot="end" formControlName="continuous"></ion-checkbox>
         </ion-item>
 
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <ion-card *ngIf="showRecurrence">
       <ion-card-content>
 
         <ion-item lines="full">
           <ion-label position="floating">Timezone</ion-label>
-          <ion-input formControlName="timezone" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.timezone.valid && (addForm.controls.timezone.dirty || submitAttempt)" -->
+          <ion-select placeholder="Select Timezone" formControlName="timezone">
+            <ion-select-option value="-5">Eastern Standard</ion-select-option>
+            <ion-select-option value="-6">Central Standard</ion-select-option>
+            <ion-select-option value="-7">Mountain Standard</ion-select-option>
+            <ion-select-option value="-8">Pacific Standard</ion-select-option>
+            <ion-select-option value="-9">Alaska Standard</ion-select-option>
+            <ion-select-option value="-10">Hawaii Standard</ion-select-option>
+          </ion-select>
         </ion-item>
 
         <ion-item lines="full">
           <ion-label position="floating">Start Time</ion-label>
-          <ion-input formControlName="startTime" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.startTime.valid && (addForm.controls.startTime.dirty || submitAttempt)" -->
+          <ion-datetime #timePickerEnd formControlName="startTime" display-format="h:mm A" picker-format="h:mm A">
+        </ion-datetime>
         </ion-item>
 
         <ion-item lines="full">
           <ion-label position="floating">Duration</ion-label>
-          <ion-input formControlName="duration" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.duration.valid && (addForm.controls.duration.dirty || submitAttempt)" -->
+          <ion-select placeholder="Select Duration" formControlName="duration">
+            <ion-select-option value=30>30 min</ion-select-option>
+            <ion-select-option value=60>60 min</ion-select-option>
+            <ion-select-option value=90>90 min</ion-select-option>
+            <ion-select-option value=120>120 min</ion-select-option>
+          </ion-select>
         </ion-item>
 
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <ion-card *ngIf="showRecurrence">
       <ion-card-content>
 
         <ion-item lines="full">
-          <ion-label position="floating">Repeat Interval</ion-label>
-          <ion-input formControlName="repeat_interval" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.repeat_interval.valid && (addForm.controls.repeat_interval.dirty ||
-          submitAttempt)" -->
+          <ion-label position="floating">Repeat Every</ion-label>
+          <ion-select placeholder="Repeat Every" formControlName="recurrenceType">
+            <ion-select-option value="1">Day</ion-select-option>
+            <ion-select-option value="2">Week</ion-select-option>
+            <!-- <ion-select-option value="3">Month</ion-select-option> -->
+          </ion-select>
         </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Monthly Day</ion-label>
-          <ion-input formControlName="monthly_day" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.monthly_day.valid && (addForm.controls.monthly_day.dirty ||
-          submitAttempt)" -->
+        <!-- <ion-item lines="full" *ngIf="recurrenceType === '1'">
+          <ion-label position="floating">Repeat Daily Interval</ion-label>
+          <ion-input slot="end" type="number" formControlName="repeat_interval_1"></ion-input>
         </ion-item>
 
-        <ion-item lines="full">
+        <ion-item lines="full" *ngIf="recurrenceType === '2'">
+          <ion-label position="floating">Repeat Weekly Interval</ion-label>
+          <ion-input slot="end" type="number" formControlName="repeat_interval_2"></ion-input>
+        </ion-item> -->
+
+        <!-- <ion-item lines="full" *ngIf="recurrenceType === '3'">
+          <ion-label position="floating">Repeat Monthly Interval</ion-label>
+          <ion-input slot="end" type="number" formControlName="repeat_interval_3"></ion-input>
+        </ion-item> -->
+
+        <ion-item lines="full" *ngIf="recurrenceType === '2'">
+          <ion-label position="floating">On Day</ion-label>
+            <ion-select placeholder="Select Day" formControlName="weekly_day">
+              <ion-select-option value=0>Sunday</ion-select-option>
+              <ion-select-option value=1>Monday</ion-select-option>
+              <ion-select-option value=2>Tuesday</ion-select-option>
+              <ion-select-option value=3>Wednesday</ion-select-option>
+              <ion-select-option value=4>Thursday</ion-select-option>
+              <ion-select-option value=5>Friday</ion-select-option>
+              <ion-select-option value=6>Saturday</ion-select-option>
+            </ion-select>
+        </ion-item>
+            <!-- <ion-label>Sun</ion-label>
+          <ion-checkbox slot="start" color="primary">Sun</ion-checkbox>
+
+          <ion-label>Mon</ion-label>
+          <ion-checkbox slot="start" color="primary">Mon</ion-checkbox>
+          <ion-checkbox slot="start" color="primary">T</ion-checkbox>
+          <ion-checkbox slot="start" color="primary">W</ion-checkbox>
+          <ion-checkbox slot="start" color="primary">T</ion-checkbox>
+          <ion-checkbox slot="start" color="primary">F</ion-checkbox>
+          <ion-checkbox slot="start" color="primary">S</ion-checkbox> -->
+        <!-- </ion-item> -->
+
+        <!-- <ion-item lines="full" *ngIf="recurrenceType === '3'">
           <ion-label position="floating">Monthly Week</ion-label>
           <ion-input formControlName="monthly_week" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.monthly_week.valid && (addForm.controls.monthly_week.dirty ||
-          submitAttempt)" -->
         </ion-item>
 
-        <ion-item lines="full">
+        <ion-item lines="full" *ngIf="recurrenceType === '3'">
           <ion-label position="floating">Monthly Week Day</ion-label>
           <ion-input formControlName="monthly_week_day" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.monthly_week_day.valid && (addForm.controls.monthly_week_day.dirty ||
-          submitAttempt)" -->
-        </ion-item>
+        </ion-item> -->
 
-        <ion-item lines="full">
+        <!-- <ion-item lines="full">
           <ion-label position="floating">End Times</ion-label>
           <ion-input formControlName="end_times" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.end_times.valid && (addForm.controls.end_times.dirty || submitAttempt)" -->
         </ion-item>
 
         <ion-item lines="full">
           <ion-label position="floating">End Date Times</ion-label>
           <ion-input formControlName="end_date_time" type="text" required></ion-input>
-          <!-- [class.invalid]="!addForm.controls.end_date_time.valid && (addForm.controls.end_date_time.dirty ||
-          submitAttempt)" -->
-        </ion-item>
+        </ion-item> -->
 
       </ion-card-content>
     </ion-card>
