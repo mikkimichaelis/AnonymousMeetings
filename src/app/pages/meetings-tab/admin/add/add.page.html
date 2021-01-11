@@ -8,24 +8,114 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      Add Meeting
-    </ion-card-header>
-    <ion-card-content>
-      <p>Please add known active meetings or create a new Zoom meeting and add here.  
-        You will become the admin of this meeting within this app.  You may transfer admin responsibilities 
-        at any time.  Thank you for helping build this online community.
-        <!-- You should be the Zoom administrator of the meeting.   -->
-      </p>
-      <ion-item>
-        <ion-label position="stacked">Zoom Meeting ID</ion-label>
-        <ion-input type="text" [(ngModel)]="meetingId"></ion-input>
-      </ion-item>
-      <ion-button (click)="add()">Add</ion-button>
-      <ion-button (click)="dismiss()">Cancel</ion-button>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+  <form [formGroup]="addForm" (ngSubmit)="submitForm()" novalidate>
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" expand="full">Submit</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button (click)="dismiss()">Cancel</ion-button>
+      </ion-col>
+    </ion-row>
+     <ion-card>
+      <ion-card-content>
+        <p>
+          All data provided below is verified by hand, so please be accurate.
+          Please add known actively scheduled Zoom 12-Step meetings.
+        </p>
 
-hi
+        <ion-item lines="full">
+          <ion-label position="floating">Recurrence Type</ion-label>
+          <ion-input formControlName="recurrenceType" type="text" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Meeting Number</ion-label>
+          <ion-input formControlName="meetingNumber" type="text" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Topic</ion-label>
+          <ion-input formControlName="topic" type="text" required></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Continuous</ion-label>
+          <ion-input formControlName="continuous" type="text" required></ion-input>
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Timezone</ion-label>
+          <ion-input formControlName="timezone" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.timezone.valid && (addForm.controls.timezone.dirty || submitAttempt)" -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Start Time</ion-label>
+          <ion-input formControlName="startTime" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.startTime.valid && (addForm.controls.startTime.dirty || submitAttempt)" -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Duration</ion-label>
+          <ion-input formControlName="duration" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.duration.valid && (addForm.controls.duration.dirty || submitAttempt)" -->
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Repeat Interval</ion-label>
+          <ion-input formControlName="repeat_interval" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.repeat_interval.valid && (addForm.controls.repeat_interval.dirty ||
+          submitAttempt)" -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Monthly Day</ion-label>
+          <ion-input formControlName="monthly_day" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.monthly_day.valid && (addForm.controls.monthly_day.dirty ||
+          submitAttempt)" -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Monthly Week</ion-label>
+          <ion-input formControlName="monthly_week" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.monthly_week.valid && (addForm.controls.monthly_week.dirty ||
+          submitAttempt)" -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Monthly Week Day</ion-label>
+          <ion-input formControlName="monthly_week_day" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.monthly_week_day.valid && (addForm.controls.monthly_week_day.dirty ||
+          submitAttempt)" -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">End Times</ion-label>
+          <ion-input formControlName="end_times" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.end_times.valid && (addForm.controls.end_times.dirty || submitAttempt)" -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">End Date Times</ion-label>
+          <ion-input formControlName="end_date_time" type="text" required></ion-input>
+          <!-- [class.invalid]="!addForm.controls.end_date_time.valid && (addForm.controls.end_date_time.dirty ||
+          submitAttempt)" -->
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

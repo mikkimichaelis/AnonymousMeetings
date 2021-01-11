@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared.module';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 
 import { MeetingsTabPageRoutingModule } from './meetings-tab-routing.module';
@@ -17,7 +17,9 @@ import { AddPage } from './admin/add/add.page';
   imports: [
     SharedModule,
     MeetingsTabPageRoutingModule,
-    AgmCoreModule
+    AgmCoreModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   declarations: [
     MeetingsTabPage,

@@ -4,8 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { FormsModule } from '@angular/forms';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -57,7 +55,6 @@ import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module'
     SharedModule,
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
     IonicModule.forRoot(),
     NbThemeModule.forRoot(),
     IonicStorageModule.forRoot(),

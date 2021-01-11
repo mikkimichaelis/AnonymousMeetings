@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Zoom } from '@ionic-native/zoom/ngx';
+import { Location } from '@angular/common';
 import { ModalController } from '@ionic/angular';
-import { BusyService, BUSY_SERVICE } from 'src/app/services';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { BUSY_SERVICE, IBusyService, IToastService, IUserService, TOAST_SERVICE, USER_SERVICE } from '../../../../services';
+import { IUser } from 'src/shared/models';
 
 @Component({
   selector: 'app-add',
@@ -10,11 +12,45 @@ import { BusyService, BUSY_SERVICE } from 'src/app/services';
 })
 export class AddPage implements OnInit {
 
-  meetingId: string = '333 3333 333';
+  addForm: FormGroup;
+  user: IUser;
 
-  constructor(private modalCtrl: ModalController, @Inject(BUSY_SERVICE) private busyService: BusyService ){ }
+  constructor(
+    private formBuilder: FormBuilder,
+    private modalCtrl: ModalController,
+    @Inject(BUSY_SERVICE) private busyService: IBusyService,
+    @Inject(TOAST_SERVICE) private toastService: IToastService,
+    @Inject(USER_SERVICE) private userService: IUserService
+  ) { }
 
   ngOnInit() {
+    this.initialize();
+  }
+
+  ionViewWillEnter() {
+
+  }
+
+  initialize() {
+    this.addForm = this.formBuilder.group({
+      "recurrenceType": ['', []],
+      "meetingNumber": ['', [Validators.required, Validators.minLength(3)]],
+      "topic": ['', [Validators.required, Validators.minLength(3)]],
+      "continuous": ['', [Validators.required, Validators.min(0)]],
+
+      "timezone": ['', [Validators.required, Validators.minLength(3)]],
+      "startTime": ['', [Validators.required, Validators.min(0)]],
+      "duration": ['', [Validators.required, Validators.min(0)]],
+
+
+      "repeat_interval": ['', []],
+      "monthly_day": ['', []],
+      "monthly_week": ['', []],
+      "monthly_week_day": ['', []],
+      "end_times": ['', []],
+      "end_date_time": ['', []],
+
+    })
   }
 
   dismiss() {
@@ -27,6 +63,20 @@ export class AddPage implements OnInit {
 
   add() {
     this.busyService.present("Retrieving Zoom Meeting");
-    
+  }
+
+  async submitForm() {
+    if (this.addForm.valid) {
+      try {
+        await this.busyService.present('Saving New Meeting');
+        // await this.userService.setName(this.userForm.value.firstName, this.userForm.value.lastInitial);
+        this.dismiss();
+      } catch (e) {
+        this.initialize();
+        await this.toastService.present('Error saving meeting, please try again')
+      } finally {
+        await this.busyService.dismiss();
+      }
+    }
   }
 }
