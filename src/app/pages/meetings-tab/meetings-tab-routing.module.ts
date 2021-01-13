@@ -6,7 +6,6 @@ import { MapPage } from './search/map/map.page';
 import { SearchPage } from './search/search.page';
 
 import { MeetingsTabPage } from './meetings-tab.page';
-import { AdminPage } from '../meetings-tab/admin/admin.page';
 
 const routes: Routes = [
   // {
@@ -47,15 +46,6 @@ const routes: Routes = [
           {
             path: '',
             component: FavoritesPage
-          }
-        ]
-      },
-      {
-        path: 'admin',
-        children: [
-          {
-            path: '',
-            component: AdminPage
           }
         ]
       }

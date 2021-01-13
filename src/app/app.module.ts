@@ -37,7 +37,7 @@ import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService, SharedDataService,
   GROUP_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
   LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
-  ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService } from './services';
+  ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService, MEETING_SERVICE, MeetingService } from './services';
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
@@ -99,6 +99,7 @@ import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module'
     { provide: TRANSLATE_SERVICE, useExisting: TranslateService},
     { provide: AUTH_SERVICE, useExisting: AuthService },
     { provide: LOG_SERVICE, useExisting: LogService },
+    { provide: MEETING_SERVICE, useExisting: MeetingService },
     { provide: GROUPS_SERVICE, useExisting: GroupsService },
     { provide: GROUP_SERVICE, useExisting: GroupService },
     { provide: USER_SERVICE, useExisting: UserService },

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { AddPage } from './add/add.page';
+
 
 @Component({
   selector: 'app-admin',
@@ -9,20 +9,10 @@ import { AddPage } from './add/add.page';
 })
 export class AdminPage implements OnInit {
 
-  meetings = [];
+  admin = [];
 
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {
-  }
-
-  async addMeeting() {
-    let modal = await this.modalController.create({
-      component: AddPage,
-    })
-
-    
-    modal.present();
-    const { data } = await modal.onDidDismiss()
   }
 }

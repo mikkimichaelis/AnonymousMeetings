@@ -27,6 +27,9 @@ export * from './location.service';
 export * from './log.service.interface';
 export * from './log.service';
 
+export * from './meeting.service.interface';
+export * from './meeting.service';
+
 export * from './settings.service.interface';
 export * from './settings.service';
 

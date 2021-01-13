@@ -17,3 +17,4 @@ export const TOAST_SERVICE = new InjectionToken<string>('ToastService');
 export const LOCATION_SERVICE = new InjectionToken<string>('LocationService');
 export const LOG_SERVICE = new InjectionToken<string>('LogService');
 export const SETTINGS_SERVICE = new InjectionToken<string>('SettingsService');
+export const MEETING_SERVICE = new InjectionToken<string>('MeetingService');

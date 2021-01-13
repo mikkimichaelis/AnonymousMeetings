@@ -10,8 +10,6 @@ import { FavoritesPage } from './favorites/favorites.page';
 import { SearchPage } from './search/search.page';
 import { MapPage } from './search/map/map.page';
 import { SearchSettingsPage } from './search/search-settings/search-settings.page';
-import { AdminPage } from './admin/admin.page';
-import { AddPage } from './admin/add/add.page';
 
 @NgModule({
   imports: [
@@ -27,8 +25,6 @@ import { AddPage } from './admin/add/add.page';
     SearchPage,
     MapPage,
     SearchSettingsPage,
-    AdminPage,
-    AddPage
   ]
 })
 export class MeetingsTabPageModule {}
