@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-admin-tab',
@@ -10,6 +10,6 @@ export class AdminTabPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
-
 }

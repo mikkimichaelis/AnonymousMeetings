@@ -19,6 +19,7 @@
     <allow-intent href="geo:*" />
     <allow-navigation href="http://*" />
     <allow-navigation href="https://*" />
+    <preference name="AppendUserAgent" value="ipad" />
     <preference name="OverrideUserAgent" value="Mozilla/5.0 Google" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="BackupWebStorage" value="none" />

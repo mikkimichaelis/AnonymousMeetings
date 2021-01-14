@@ -43,9 +43,10 @@ export class AddPage implements OnInit {
 
   initialize() {
     this.addForm = this.formBuilder.group({
+      "id": ['', [Validators.required, Validators.min(1000000000), Validators.max(9999999999), Validators.minLength(10)]],
       "owner": [false, [Validators.min(0)]],
       "name": ["Mikki's Meeting", [Validators.required,]],
-      "zoomMeetingNumber": ['1112223333', [Validators.required, Validators.min(1000000000), Validators.max(9999999999), Validators.minLength(10)]],
+      "password": [''],
       "topic": ['Whatever Mikki wants', [Validators.required, Validators.minLength(5)]],
       "continuous": [false, [Validators.min(0)]],
 
@@ -79,10 +80,11 @@ export class AddPage implements OnInit {
   async submitForm() {
     if (this.addForm.valid) {
       const add = new Meeting(<any>{
-        id: this.userService.user.id,
-        isOwner: this.addForm.controls.owner.value,
+        id: this.addForm.controls.id.value,
+        uid: this.userService.user.id,
+        isZoomOwner: this.addForm.controls.owner.value,
         name: this.addForm.controls.name.value,
-        zoomMeetingNumber: this.addForm.controls.zoomMeetingNumber.value,
+        password: this.addForm.controls.password.value,
         topic: this.addForm.controls.topic.value,
         continuous: this.addForm.controls.continuous.value,
 

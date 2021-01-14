@@ -39,12 +39,13 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-list *ngFor="let meeting of live">
+      <ion-list *ngFor="let meeting of this.meetingService.favoriteMeetings$ | async">
         <ion-item>
           <ion-label>{{meeting.name}}</ion-label>
           <ion-label>{{meeting.topic}}</ion-label>
-          <ion-label>{{meeting.participants}}</ion-label>
-          <ion-label>{{meeting.remainingMinutes}}</ion-label>
+          <ion-label>{{meeting.startTime}}</ion-label>
+          <!-- <ion-label>{{meeting.participants}}</ion-label>
+          <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
           <ion-button (click)="joinMeeting(meeting)">Join</ion-button>
           <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
         </ion-item>
@@ -113,13 +114,13 @@
   </ion-item> -->
 
   <ion-item>
-    <p>
+    <!-- <p>
       AnonymousMeetings relies on your support to fund it's 
       development.  If you find it useful and motivating to
       get and remain in recovery, please consider supporting the
       app by buying me a coffee.  Any tip given will
       also remove all advertisements from the app.
-  </p>
+  </p> -->
     <a href="https://www.buymeacoffee.com/mikkimichaelis"><img
         src="https://img.buymeacoffee.com/button-api/?text=Please buy me a coffee&emoji=&slug=mikkimichaelis&button_colour=f4a4c0&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"></a>
   </ion-item>

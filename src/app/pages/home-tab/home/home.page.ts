@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { BusyService } from '../../../services/busy.service';
 import { UserService } from '../../../services/user.service';
 import { GroupsService } from '../../../services/groups.service';
@@ -8,6 +8,7 @@ import { StreamChat, ChannelData, Message, User } from 'stream-chat';
 import axios from 'axios';
 import { Observable } from 'rxjs';
 import { IUserFriend } from 'src/shared/models';
+import { IMeetingService, IUserService, MEETING_SERVICE, USER_SERVICE } from 'src/app/services';
 
 @Component({
   selector: 'app-home',
@@ -16,38 +17,14 @@ import { IUserFriend } from 'src/shared/models';
 })
 export class HomePage {
 
-  friends = [
-    {name: 'mikki m',
-    avatar: 'http',
-    online: true},
-    {name: 'foo',
-    avatar: 'bar',
-    online: false},
-  ];
-
-  live = [ {
-    name: 'recovery live',
-    viewers: 56,
-    topic: 'selfishness',
-    remainingMinutes: 36
-  },
-  {
-    name: 'touchdown recovery',
-    viewers: 19,
-    topic: 'selfishness',
-    remainingMinutes: 54
-  },
-  {
-    name: '12 Steppers',
-    viewers: 4,
-    topic: '4th step',
-    remainingMinutes: 12
+  constructor(private router: Router, private busySvc: BusyService, 
+    @Inject(USER_SERVICE) private userService: IUserService,
+    @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
+    
   }
-    
-  ]
 
-  constructor(private router: Router, private busySvc: BusyService, public userService: UserService) {
-    
+  ngOnInit() {
+    this.meetingService.favoriteMeetingsValueChanges();
   }
 
   async ionViewDidEnter() {

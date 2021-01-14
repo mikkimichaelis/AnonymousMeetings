@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Zoom } from '@ionic-native/zoom/ngx';
 import { ToastController } from '@ionic/angular';
+import { BUSY_SERVICE, IBusyService, IToastService, TOAST_SERVICE } from 'src/app/services';
 
 @Component({
   selector: 'app-account',
@@ -13,7 +14,13 @@ export class AccountPage implements OnInit {
   userName = '';
   password = '';
 
-  constructor( private zoomService: Zoom, private toastCtrl: ToastController) {
+  constructor( 
+    private zoomService: Zoom, 
+    @Inject(TOAST_SERVICE) private toastService: IToastService,
+    @Inject(BUSY_SERVICE) private busyService: IBusyService) {
+  }
+
+  ngOnInit() {
     this.zoomService.isLoggedIn().then((success) => {
       console.log(success);
       if (success === true) {
@@ -27,13 +34,8 @@ export class AccountPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
-
-  /**
-   * Log user in with Zoom username and password.
-   */
   login() {
+    this.busyService.present('Logging in Zoom user.');
     this.zoomService.login(this.userName, this.password).then((success) => {
       console.log(success);
       console.log(success.message);
@@ -44,6 +46,8 @@ export class AccountPage implements OnInit {
     }).catch((error) => {
       console.log(error);
       this.presentToast(error.message);
+    }).finally(() => {
+      this.busyService.dismiss();
     });
   }
 
@@ -62,13 +66,7 @@ export class AccountPage implements OnInit {
     });
   }
 
-  async presentToast(text) {
-    const toast = await this.toastCtrl.create({
-      message: text,
-      duration: 3000,
-      position: 'top'
-    });
-    toast.present();
+  presentToast(text) {
+    this.toastService.present( text, 3000 );
   }
-
 }

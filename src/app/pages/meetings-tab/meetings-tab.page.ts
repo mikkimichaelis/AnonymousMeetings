@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { IMeetingService, MEETING_SERVICE } from 'src/app/services';
 
 @Component({
   selector: 'app-meetings-tab',
@@ -7,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MeetingsTabPage implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(MEETING_SERVICE) private meetingService: IMeetingService) { }
 
   ngOnInit() {
+    //this.meetingService.favoriteMeetingsValueChanges()
   }
-
 }

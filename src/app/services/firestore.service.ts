@@ -1,3 +1,5 @@
+// https://fireship.io/lessons/firestore-advanced-usage-angularfire/
+
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,

@@ -3,12 +3,12 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title translate>TITLE.ADD.MEETING</ion-title>
+    <ion-title translate>Manage Meeting</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="addForm" (ngSubmit)="submitForm()" novalidate>
+  <form [formGroup]="addForm" (ngSubmit)="submitForm()">
     <ion-row>
       <ion-col>
         <ion-button (click)="submitForm()">Submit</ion-button>
@@ -31,17 +31,22 @@
 
         <ion-item lines="full">
           <ion-label position="floating">Meeting Number</ion-label>
-          <ion-input formControlName="zoomMeetingNumber" type="text" required></ion-input>
+          <ion-input formControlName="id" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Meeting Password</ion-label>
+          <ion-input formControlName="password" type="text"></ion-input>
         </ion-item>
 
         <ion-item lines="full">
           <ion-label position="floating">Meeting Name</ion-label>
-          <ion-input formControlName="name" type="text" required></ion-input>
+          <ion-input formControlName="name" type="text"></ion-input>
         </ion-item>
 
         <ion-item lines="full">
           <ion-label position="floating">Meeting Topic</ion-label>
-          <ion-input formControlName="topic" type="text" required></ion-input>
+          <ion-input formControlName="topic" type="text"></ion-input>
         </ion-item>
 
         
