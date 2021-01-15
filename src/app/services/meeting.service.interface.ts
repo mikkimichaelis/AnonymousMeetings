@@ -3,8 +3,12 @@ import { IGroup, IMeeting, Meeting } from 'src/shared/models';
 
 export interface IMeetingService {
     initialize();
+    
     ownedMeetings$: ReplaySubject<Meeting[]>;
-    meetings: IMeeting[];
+    favoriteMeetings$: ReplaySubject<Meeting[]>;
+    liveMeetings$: ReplaySubject<Meeting[]>;
+    searchMeetings$: ReplaySubject<Meeting[]>;
+
     ownedMeetingsValueChanges();
     favoriteMeetingsValueChanges();
 

@@ -50,6 +50,7 @@ export class SettingsService implements ISettingsService {
 
   async load() {
     try {
+      // TODO browser persist
       const settings = await this.storage.getItem('settings');
       if (settings) {
         Object.assign(this.settings, settings);

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
-import { BUSY_SERVICE, IBusyService } from 'src/app/services';
+import { BUSY_SERVICE, IBusyService, MeetingService } from 'src/app/services';
 import { GroupsService } from 'src/app/services/groups.service';
 import { LocationService } from 'src/app/services/location.service';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -18,7 +18,7 @@ export class SearchPage implements OnInit {
     protected router: Router,
     protected routerOutlet: IonRouterOutlet, 
     protected modalCtrl: ModalController, 
-    protected groupsSvc: GroupsService, 
+    protected meetingService: MeetingService, 
     protected locSvc: LocationService,
     protected settingsSvc: SettingsService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService
@@ -34,11 +34,11 @@ export class SearchPage implements OnInit {
   };
 
   async refresh() {
-
+    this.meetingService.getMeetingsAsync(this.settingsSvc.settings.searchSettings);
   }
 
   details(group: any) {
-    this.router.navigateByUrl(`/group/tab/group?id=${group.id}`);
+    // this.router.navigateByUrl(`/group/tab/group?id=${group.id}`);
   }
 
   async presentSettings() {

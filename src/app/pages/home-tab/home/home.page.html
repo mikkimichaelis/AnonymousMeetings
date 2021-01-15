@@ -9,11 +9,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <!-- <ion-badge (click)="daysSober()" color="primary">69 days sober</ion-badge>
+  <!-- <ion-badge (click)="daysSober()" color="primary">69 days sober</ion-badge>
     <ion-badge color="primary">1.08.24.34 days</ion-badge> -->
+  <!-- <ion-item>
+
     <ion-button>Join a Meeting</ion-button>
-  </ion-item>
+  </ion-item> -->
 
   <!-- <ion-card>
     <ion-card-header>
@@ -35,7 +36,7 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Favorites</ion-card-title>
+      <ion-card-title>Favorite Meetings</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
@@ -53,14 +54,34 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- <ion-card> -->
-    <!-- <ion-card-header>
-      hello, world -->
-      <!-- <ion-card-title>{{group.name}} ({{group.type}})</ion-card-title>
-      <ion-card-subtitle>{{group.tagsString}}</ion-card-subtitle> -->
-    <!-- </ion-card-header> -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Live Meetings</ion-card-title>
+    </ion-card-header>
 
-    <!-- <ion-item>
+    <ion-card-content>
+      <ion-list *ngFor="let meeting of this.meetingService.liveMeetings$ | async">
+        <ion-item>
+          <ion-label>{{meeting.name}}</ion-label>
+          <ion-label>{{meeting.topic}}</ion-label>
+          <ion-label>{{meeting.startTime}}</ion-label>
+          <!-- <ion-label>{{meeting.participants}}</ion-label>
+          <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
+          <ion-button (click)="joinMeeting(meeting)">Join</ion-button>
+          <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- <ion-card> -->
+  <!-- <ion-card-header>
+      hello, world -->
+  <!-- <ion-card-title>{{group.name}} ({{group.type}})</ion-card-title>
+      <ion-card-subtitle>{{group.tagsString}}</ion-card-subtitle> -->
+  <!-- </ion-card-header> -->
+
+  <!-- <ion-item>
       <ion-icon slot="start" name="calendar-outline"></ion-icon>
       <ion-label translate>GROUP.STARTED</ion-label>
       <ion-text>{{group.started}}</ion-text>
@@ -90,7 +111,7 @@
       <ion-text>{{group.membersOnline}}</ion-text>
     </ion-item> -->
 
-    <!-- <ion-card-content *ngFor="let friend of friends$ | async">
+  <!-- <ion-card-content *ngFor="let friend of friends$ | async">
       <ion-item>
         <ion-icon slot="start" name="calendar-outline"></ion-icon>
         <ion-label></ion-label>
