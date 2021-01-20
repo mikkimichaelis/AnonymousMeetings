@@ -76,9 +76,17 @@ export class MeetingService implements IMeetingService {
   favoriteMeetingsValueChanges() {
     if (!_.isEmpty(this._favoriteMeetingsValueChangesSubscription)) this._favoriteMeetingsValueChangesSubscription.unsubscribe();
 
-    // .where('id', 'in', ['USA', 'Japan']);
+
     this._favoriteMeetingsValueChangesSubscription =
-      this.fss.col$<IMeeting[]>(`meetings`, ref => ref.where('id', 'in', this.userService.user.favMeetings))
+      this.fss.col$<IMeeting[]>(`meetings`, ref => {
+        let rv = ref;
+        if (!_.isEmpty(this.userService.user.favMeetings)) {
+          rv = ref.where('id', 'in', this.userService.user.favMeetings)
+        } else {
+          rv = ref.where('false', '==', 'true')
+        }
+        return rv;
+      })
         .subscribe({
           next: async (imeetings: any) => {
             const rv = [];
@@ -93,6 +101,7 @@ export class MeetingService implements IMeetingService {
           },
         });
   }
+
 
   _liveMeetingsValueChangesSubscription: Subscription;
   liveMeetingsValueChanges() {

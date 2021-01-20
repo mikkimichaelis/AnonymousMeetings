@@ -44,7 +44,7 @@ export class AuthService implements IAuthService {
       (user: firebase.User) => {
         this.isAnonymous = user !== null ? _.has(user, 'isAnonymous') ? user.isAnonymous : true : true;
         this.authUser = user;
-        LogRocket.log('authUser', this.authUser)
+        LogRocket.log('authUser', this.authUser);
         this.authUser$.next(user);
       },
       (error: any) => {
@@ -70,7 +70,7 @@ export class AuthService implements IAuthService {
   }
 
   async logout() {
-    await this.firebaseAuth.signOut();
+    this.firebaseAuth.signOut()
   }
 
   // TODO customize prompts for both "signin" and "signup"

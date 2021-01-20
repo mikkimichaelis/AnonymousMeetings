@@ -14,6 +14,7 @@
       Zoom Login
     </ion-card-header>
     <ion-card-content padding>
+      <p *ngIf="!loggedIn">Click to create a Zoom account</p>
       <p *ngIf="!loggedIn">Enter your Zoom username and password</p>
       <ion-list *ngIf="!loggedIn">
         <ion-item>

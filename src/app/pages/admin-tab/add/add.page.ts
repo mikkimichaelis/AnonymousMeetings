@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ModalController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BUSY_SERVICE, IBusyService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE } from '../../../services';
-import { IUser, Meeting } from 'src/shared/models';
+import { SharedDataService, BUSY_SERVICE, IBusyService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE } from '../../../services';
+import { IMeeting, IUser, Meeting } from 'src/shared/models';
 import { IMeetingService } from 'src/app/services/meeting.service.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -25,46 +26,56 @@ export class AddPage implements OnInit {
   }
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private modalCtrl: ModalController,
+    private sharedDataService: SharedDataService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(MEETING_SERVICE) private meetingService: IMeetingService
   ) { }
 
+  edit = false;
+  meeting: IMeeting = null;
+
   ngOnInit() {
     this.initialize();
   }
 
   ionViewWillEnter() {
-
+    this.edit = this.route.snapshot.queryParamMap.get('edit') === 'true' ? true : false;
+    if (this.edit) {
+      this.meeting = this.sharedDataService.data;
+    } else {
+      this.meeting = new Meeting();
+    }
   }
 
   initialize() {
     this.addForm = this.formBuilder.group({
-      "id": ['', [Validators.required, Validators.min(1000000000), Validators.max(9999999999), Validators.minLength(10)]],
-      "owner": [false, [Validators.min(0)]],
-      "name": ["Mikki's Meeting", [Validators.required,]],
-      "password": [''],
-      "topic": ['Whatever Mikki wants', [Validators.required, Validators.minLength(5)]],
-      "continuous": [false, [Validators.min(0)]],
+      "id": [this.meeting.id, [Validators.required, Validators.min(1000000000), Validators.max(9999999999), Validators.minLength(10)]],
+      "owner": [this.meeting.isZoomOwner, [Validators.min(0)]],
+      "name": [this.meeting.name, [Validators.required,]],
+      "password": [this.meeting.password],
+      "topic": [this.meeting.topic, [Validators.required, Validators.minLength(5)]],
+      "continuous": [this.meeting.continuous, [Validators.min(0)]],
 
-      "timezone": ["-5", [Validators.required]],
-      "startTime": ['12:00', [Validators.required, Validators.min(0)]],
-      "duration": ['60', [Validators.required, Validators.min(0)]],
+      "timezone": [this.meeting.timezone, [Validators.required]],
+      "startTime": [this.meeting.startTime, [Validators.required, Validators.min(0)]],
+      "duration": [this.meeting.duration, [Validators.required, Validators.min(0)]],
 
-      "recurrenceType": ['1', [Validators.required]],
+      "recurrenceType": [this.meeting.recurrence.type, [Validators.required]],
       // "repeat_interval_1": ['', [Validators.min(1), Validators.max(90)]],
       // "repeat_interval_2": ['', [Validators.min(1), Validators.max(12)]],
       // "repeat_interval_3": ['', [Validators.min(1), Validators.max(3)]],
-      "weekly_day": ['', []],
-      "weekly_days": ['', []],
-      "monthly_day": ['', []],
-      "monthly_week": ['', []],
-      "monthly_week_day": ['', []],
-      "end_times": ['', []],
-      "end_date_time": ['', []],
+      "weekly_day": [this.meeting.recurrence.weekly_day, []],
+      "weekly_days": [this.meeting.recurrence.weekly_days, []],
+      "monthly_day": [this.meeting.recurrence.monthly_day, []],
+      "monthly_week": [this.meeting.recurrence.monthly_week, []],
+      "monthly_week_day": [this.meeting.recurrence.monthly_week_day, []],
+      "end_times": [this.meeting.recurrence.end_times, []],
+      "end_date_time": [this.meeting.recurrence.end_date_time, []],
 
     })
   }
@@ -80,7 +91,7 @@ export class AddPage implements OnInit {
   async submitForm() {
     if (this.addForm.valid) {
       const add = new Meeting(<any>{
-        id: this.addForm.controls.id.value,
+        zid: this.addForm.controls.id.value,
         uid: this.userService.user.id,
         isZoomOwner: this.addForm.controls.owner.value,
         name: this.addForm.controls.name.value,
@@ -108,6 +119,7 @@ export class AddPage implements OnInit {
       this.busyService.present('Saving Meeting');
       this.meetingService.add(add);
       this.busyService.dismiss();
+
 
       // TODO 
       // toast confirmation of saved meeting

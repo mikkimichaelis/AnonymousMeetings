@@ -92,6 +92,7 @@ export class AppComponent {
             LogRocket.log('auth!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)User', 'navigate', '/home/tab/home');
             this.router.navigateByUrl('/home/tab/home');
           } else if (!_.isEmpty(authUser)) {
+            // TODO research fb offline and how auth is persisted and the below getUser from cache
             let user = await this.userService.getUser(authUser.uid);
             if (user) {
               LogRocket.log('userService.getUser(authUser.uid)', 'navigate', '/home/tab/home')
