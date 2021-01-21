@@ -71,12 +71,12 @@ export class AddPage implements OnInit {
 
       "recurrenceType": [this.meeting.recurrence.type.toString(), [Validators.required]],
       "weekly_day": [this.meeting.recurrence.weekly_day, []],
-      "weekly_days": [this.meeting.recurrence.weekly_days, []],
-      "monthly_day": [this.meeting.recurrence.monthly_day, []],
-      "monthly_week": [this.meeting.recurrence.monthly_week, []],
-      "monthly_week_day": [this.meeting.recurrence.monthly_week_day, []],
-      "end_times": [this.meeting.recurrence.end_times, []],
-      "end_date_time": [this.meeting.recurrence.end_date_time, []],
+      // "weekly_days": [this.meeting.recurrence.weekly_days, []],
+      // "monthly_day": [this.meeting.recurrence.monthly_day, []],
+      // "monthly_week": [this.meeting.recurrence.monthly_week, []],
+      // "monthly_week_day": [this.meeting.recurrence.monthly_week_day, []],
+      // "end_times": [this.meeting.recurrence.end_times, []],
+      // "end_date_time": [this.meeting.recurrence.end_date_time, []],
 
     })
   }
@@ -132,19 +132,24 @@ export class AddPage implements OnInit {
         timezone: this.meetingForm.controls.timezone.value,
         startTime: this.meetingForm.controls.startTime.value,
         duration: this.meetingForm.controls.duration.value,
+        mills: 0,
 
         recurrence: {
           type: this.meetingForm.controls.recurrenceType.value,
           repeat_interval: null,
-          weekly_day: this.meetingForm.controls.weekly_day.value,
-          weekly_days: this.meetingForm.controls.weekly_days.value,
-          monthly_day: this.meetingForm.controls.monthly_day.value,
-          monthly_week: this.meetingForm.controls.monthly_week.value,
-          monthly_week_day: this.meetingForm.controls.monthly_week_day.value,
-          end_times: this.meetingForm.controls.end_times.value,
-          end_date_time: this.meetingForm.controls.end_date_time.value,
+
+          //weekly_day: this.meetingForm.controls.weekly_day.value,
+          weekly_days: [this.meetingForm.controls.weekly_day.value],
+
+          // monthly_day: this.meetingForm.controls.monthly_day.value,
+          // monthly_week: this.meetingForm.controls.monthly_week.value,
+          // monthly_week_day: this.meetingForm.controls.monthly_week_day.value,
+          // end_times: this.meetingForm.controls.end_times.value,
+          // end_date_time: this.meetingForm.controls.end_date_time.value,
         }
       });
+
+      meeting.updateDayTime();
 
       let rv: boolean;
       this.busyService.present('Saving Meeting');

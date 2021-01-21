@@ -90,13 +90,14 @@ export class AppComponent {
           if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
             // TODO config
             LogRocket.log('auth!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)User', 'navigate', '/home/tab/home');
-            this.router.navigateByUrl('/home/tab/home');
+            this.router.navigateByUrl('/admin/tab/admin');
           } else if (!_.isEmpty(authUser)) {
             // TODO research fb offline and how auth is persisted and the below getUser from cache
+            // TODO cancel this call if a subsequent auth event happens before it completes
             let user = await this.userService.getUser(authUser.uid);
             if (user) {
               LogRocket.log('userService.getUser(authUser.uid)', 'navigate', '/home/tab/home')
-              this.router.navigateByUrl('/home/tab/home');
+              this.router.navigateByUrl('/admin/tab/admin');
             } 
             // else {
             //   this.router.navigateByUrl('/core/logout');

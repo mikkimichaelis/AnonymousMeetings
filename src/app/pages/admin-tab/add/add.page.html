@@ -5,19 +5,19 @@
       <ion-button (click)="dismiss()" translate>CANCEL</ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button type="submit" color="danger" expand="block" translate>SAVE</ion-button>
+      <ion-button (click)="submitForm()" color="danger" expand="block" translate>SAVE</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<form [formGroup]="meetingForm" (ngSubmit)="submitForm()" novalidate>
-  <ion-content>
-    <ion-card>
+<ion-content>
+  <form [formGroup]="meetingForm" (ngSubmit)="submitForm()" novalidate>
+     <ion-card>
       <ion-card-content>
         <p>
           All data provided below is verified by hand, so please be accurate.
-          Please add only known actively scheduled Zoom 12-Step meetings.
-
+          Please add only known actively scheduled Zoom 12-Step meetings.  
+          
           Note, this does not create a Zoom Meeting, that must be done first in Zoom.
         </p>
 
@@ -46,7 +46,7 @@
           <ion-input formControlName="topic" type="text"></ion-input>
         </ion-item>
 
-
+        
 
         <ion-item lines="full">
           <ion-label position="start">Continuous 24h Meeting</ion-label>
@@ -74,7 +74,7 @@
         <ion-item lines="full">
           <ion-label position="floating">Start Time</ion-label>
           <ion-datetime #timePickerEnd formControlName="startTime" display-format="h:mm A" picker-format="h:mm A">
-          </ion-datetime>
+        </ion-datetime>
         </ion-item>
 
         <ion-item lines="full">
@@ -103,18 +103,18 @@
 
         <ion-item lines="full" *ngIf="recurrenceType === '2'">
           <ion-label position="floating">On Day</ion-label>
-          <ion-select placeholder="Select Day" formControlName="weekly_day">
-            <ion-select-option value=0>Sunday</ion-select-option>
-            <ion-select-option value=1>Monday</ion-select-option>
-            <ion-select-option value=2>Tuesday</ion-select-option>
-            <ion-select-option value=3>Wednesday</ion-select-option>
-            <ion-select-option value=4>Thursday</ion-select-option>
-            <ion-select-option value=5>Friday</ion-select-option>
-            <ion-select-option value=6>Saturday</ion-select-option>
-          </ion-select>
+            <ion-select placeholder="Select Day" formControlName="weekly_day">
+              <ion-select-option value="Sunday">Sunday</ion-select-option>
+              <ion-select-option value="Monday">Monday</ion-select-option>
+              <ion-select-option value="Tuesday">Tuesday</ion-select-option>
+              <ion-select-option value="Wednesday">Wednesday</ion-select-option>
+              <ion-select-option value="Thursday">Thursday</ion-select-option>
+              <ion-select-option value="Friday">Friday</ion-select-option>
+              <ion-select-option value="Saturday">Saturday</ion-select-option>
+            </ion-select>
         </ion-item>
 
       </ion-card-content>
     </ion-card>
-  </ion-content>
-</form>
+  </form>
+</ion-content>
