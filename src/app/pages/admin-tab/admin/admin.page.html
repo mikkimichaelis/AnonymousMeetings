@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title translate>TITLE.ADMIN</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="addMeeting()">
+      <ion-button (click)="editMeeting()">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -21,7 +21,7 @@
         <ion-icon name="heart" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
       </ion-item>
       <ion-item-options side="end">
-        <ion-item-option (click)="edit(meeting)">Edit</ion-item-option>
+        <ion-item-option (click)="editMeeting(meeting)">Edit</ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

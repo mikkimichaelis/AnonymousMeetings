@@ -40,13 +40,28 @@ export class MeetingService implements IMeetingService {
 
   }
 
-  async add(meeting: Meeting) {
+  async add(meeting: Meeting): Promise<boolean> {
     if (meeting) {
       try {
         await this.afs.doc<IMeeting>(`meetings/${meeting.id}`).set(meeting.toObject());
+        return true;
       } catch (e) {
         console.error(e);
         LogRocket.error(e);
+        return false;
+      }
+    }
+  }
+
+  async update(meeting: Meeting): Promise<boolean> {
+    if (meeting) {
+      try {
+        await this.afs.doc<IMeeting>(`meetings/${meeting.id}`).update(meeting.toObject());
+        return true;
+      } catch (e) {
+        console.error(e);
+        LogRocket.error(e);
+        return false;
       }
     }
   }
