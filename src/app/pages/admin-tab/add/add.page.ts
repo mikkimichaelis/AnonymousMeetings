@@ -130,26 +130,40 @@ export class AddPage implements OnInit {
         continuous: this.meetingForm.controls.continuous.value,
 
         timezone: this.meetingForm.controls.timezone.value,
+
+        // the following time string does not belong in he data!
+        // we need 
         startTime: this.meetingForm.controls.startTime.value,
         duration: this.meetingForm.controls.duration.value,
-        mills: 0,
 
         recurrence: {
           type: this.meetingForm.controls.recurrenceType.value,
           repeat_interval: null,
 
-          //weekly_day: this.meetingForm.controls.weekly_day.value,
+          weekly_day: this.meetingForm.controls.weekly_day.value,
+          
+          //
+          // Here, if user selected a specific day of the week (type 2),
+          // we set an array of the single selected day
+          // to weekly_days -- essentially setting the single selected day
+          // to weekly_days.
+          //
+          // What this accomplishes is that we never have to query
+          // the db on both weekly_day or weekly_days, just weekly_days
+          // The query logic becomes much simpler.
+          //
           weekly_days: [this.meetingForm.controls.weekly_day.value],
 
+          //
+          // Not implemented
           // monthly_day: this.meetingForm.controls.monthly_day.value,
           // monthly_week: this.meetingForm.controls.monthly_week.value,
           // monthly_week_day: this.meetingForm.controls.monthly_week_day.value,
           // end_times: this.meetingForm.controls.end_times.value,
           // end_date_time: this.meetingForm.controls.end_date_time.value,
+          //
         }
       });
-
-      meeting.updateDayTime();
 
       let rv: boolean;
       this.busyService.present('Saving Meeting');

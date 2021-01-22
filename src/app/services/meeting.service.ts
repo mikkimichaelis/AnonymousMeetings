@@ -3,6 +3,7 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import _ from 'lodash';
 import LogRocket from 'logrocket';
+import { DateTime } from 'luxon';
 import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ILogService, IUserService } from '.';
@@ -158,25 +159,78 @@ export class MeetingService implements IMeetingService {
 
   async getMeetingsAsync(search: ISearchSettings) {
     this.logService.trace('getMeetingsAsync()', search);
+    console.log(`getMeetingsAsync( ${JSON.stringify(search)} )`);
 
     let query = this.fss.col$('meetings', ref => {
 
       let rv = ref.where('active', '==', true);
-      // if (!search.bySpecificTime) {
-      //   rv = rv.where('mills', '>=', 0)
-      //     .where('mills', '<=', 10000)
-      // }
-      // if (!search.byRelativeTime) {
-      //   rv = rv.where('mills', '>=', 0)
-      //     .where('mills', '<=', 10000)
+      // rv = rv.where('continuous', '==', true);
+      //rv = rv.where('start')
+      if (search.bySpecificTime) {
+        console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
+        let start = DateTime.fromObject({
+          year: 1970,
+          month: 1,
+          day: 2,
+          hour: DateTime.fromISO(search.bySpecific.start).hour,
+          minute: DateTime.fromISO(search.bySpecific.start).minute,
+          zone: DateTime.local().zone
+        }).toUTC().toMillis();
+
+        ////////////////////////////////////////////////////////////////////
+        console.log(`search.bySpecific.start: ${search.bySpecific.start}`);
+        console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
+        // console.log(`DateTime.fromISO(search.bySpecific.start).hour: ${DateTime.fromISO(search.bySpecific.start).hour}`);
+        // console.log(`DateTime.fromISO(search.bySpecific.start).toUTC().hour: ${DateTime.fromISO(search.bySpecific.start).toUTC().hour}`);
+
+        console.log({
+          name: 'start',
+          year: 1970,
+          month: 1,
+          day: 2,
+          hour: DateTime.fromISO(search.bySpecific.start).hour,
+          minute: DateTime.fromISO(search.bySpecific.start).minute,
+          zone: DateTime.local().zone.name
+        })
+        let end = DateTime.fromObject({
+          year: 1970,
+          month: 1,
+          day: 2,
+          hour: DateTime.fromISO(search.bySpecific.end).hour,
+          minute: DateTime.fromISO(search.bySpecific.end).minute,
+          zone: DateTime.local().zone.name
+        }).toUTC().toMillis();
+
+        console.log({
+          name: 'end',
+          year: 1970,
+          month: 1,
+          day: 2,
+          hour: DateTime.fromISO(search.bySpecific.end).hour,
+          minute: DateTime.fromISO(search.bySpecific.end).minute,
+          zone: DateTime.local().zone.name
+        })
+        console.log(`${start} <= (start) <= ${end}`)
+        console.log(`rv.where('start', '>=', ${start}).where('start', '<=', ${end}`)
+        rv = rv.where('start', '>=', start).where('start', '<=', end)
+      }
+      // TODO
+      // if (search.byRelativeTime) {
+      //   let start = 0;
+      //   let end = 0;
+      //   rv = rv.where('start', '>=', start)
+      //     .where('end', '<=', end)
       // }
       if (!search.byAnyDay) {
-        rv = rv.where('recurrence.weekly_days', 'array-contains', search.byDay)
+        const dow = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]
+        rv = rv.where('recurrence.weekly_days', 'array-contains', search.byDay == 'today' ? dow : search.byDay)
       }
       return rv;
     })
       .subscribe({
         next: async (imeetings: any) => {
+          // TODO too much logging remove
+          console.log(imeetings);
           const rv = [];
           for (let i = 0; i < imeetings.length; i++) {
             rv.push(new Meeting(imeetings[i]));

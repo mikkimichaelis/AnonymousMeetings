@@ -62,18 +62,18 @@
         <ion-item lines="full">
           <ion-label position="floating">Timezone</ion-label>
           <ion-select placeholder="Select Timezone" formControlName="timezone">
-            <ion-select-option value="-5">Eastern Standard</ion-select-option>
-            <ion-select-option value="-6">Central Standard</ion-select-option>
-            <ion-select-option value="-7">Mountain Standard</ion-select-option>
-            <ion-select-option value="-8">Pacific Standard</ion-select-option>
-            <ion-select-option value="-9">Alaska Standard</ion-select-option>
-            <ion-select-option value="-10">Hawaii Standard</ion-select-option>
+            <ion-select-option value="America/New_York">America/New_York</ion-select-option>
+            <ion-select-option value="America/Chicago">America/Chicago</ion-select-option>
+          <ion-select-option value="America/Denver">America/Denver</ion-select-option>Pacific/Honolulu 
+            <ion-select-option value="America/Los_Angeles">America/Los_Angeles</ion-select-option>
+            <ion-select-option value="America/Anchorage">America/Anchorage</ion-select-option>
+            <ion-select-option value="Pacific/Honolulu">Pacific/Honolulu</ion-select-option>
           </ion-select>
         </ion-item>
 
         <ion-item lines="full">
           <ion-label position="floating">Start Time</ion-label>
-          <ion-datetime #timePickerEnd formControlName="startTime" display-format="h:mm A" picker-format="h:mm A">
+          <ion-datetime formControlName="startTime" display-format="h:mm A" picker-format="h:mm A">
         </ion-datetime>
         </ion-item>
 
