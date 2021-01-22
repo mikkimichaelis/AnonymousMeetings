@@ -9,6 +9,8 @@ import { FriendsPage } from './friends/friends.page';
 import { AttendancePage } from './attendance/attendance.page';
 
 import { NbThemeModule } from '@nebular/theme';
+import { LivePage } from './live/live.page';
+import { FavoritesPage } from './favorites/favorites.page';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { NbThemeModule } from '@nebular/theme';
     HomeTabPage, 
     HomePage,
     FriendsPage,
-    AttendancePage
+    AttendancePage,
+    LivePage,
+    FavoritesPage
   ],
   providers: [
   ]

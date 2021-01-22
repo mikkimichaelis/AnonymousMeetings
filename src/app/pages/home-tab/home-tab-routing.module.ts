@@ -6,6 +6,8 @@ import { HomePage } from './home/home.page';
 import { MessagesPage } from '../common/messages/messages.page';
 import { AttendancePage } from './attendance/attendance.page';
 import { FriendsPage } from './friends/friends.page';
+import { FavoritesPage } from './favorites/favorites.page';
+import { LivePage } from './live/live.page';
 
 const routes: Routes = [
   {
@@ -47,8 +49,34 @@ const routes: Routes = [
             component: FriendsPage
           }
         ]
+      },
+      {
+        path: 'favorites',
+        children: [
+          {
+            path: '',
+            component: FavoritesPage
+          }
+        ]
+      },
+      {
+        path: 'live',
+        children: [
+          {
+            path: '',
+            component: LivePage
+          }
+        ]
       }
     ]
+  },
+  {
+    path: 'favorites',
+    loadChildren: () => import('./favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },
+  {
+    path: 'live',
+    loadChildren: () => import('./live/live.module').then( m => m.LivePageModule)
   }
 ];
 

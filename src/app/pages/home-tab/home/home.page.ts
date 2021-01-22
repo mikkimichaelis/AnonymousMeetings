@@ -54,4 +54,8 @@ export class HomePage {
   videoWithFriend(friend: IUserFriend) {
     console.log('videoWithFriend()');
   }
+
+  click() {
+    console.log('click');
+  }
 }

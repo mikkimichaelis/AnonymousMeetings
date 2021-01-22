@@ -50,7 +50,7 @@ export class SearchPage implements OnInit {
     const modal = await this.modalController.create({
       component: SearchSettingsPage,
       cssClass: 'search-options-class',
-      componentProps: { input: Object.assign( {}, this.settingsSvc.settings.searchSettings) },
+      componentProps: { input: this.settingsSvc.settings.searchSettings },
       swipeToClose: true,
       presentingElement: this.routerOutlet.nativeEl
     });
@@ -61,16 +61,6 @@ export class SearchPage implements OnInit {
       await this.settingsSvc.save()
       await this.refresh();
     }
-  }
-
-  async editMeeting(meeting?: Meeting) {
-    // const modal = await this.modalController.create({
-    //   component: AddPage,
-    //   componentProps: {
-    //     meeting: meeting
-    //   }
-    // });
-    // return await modal.present();
   }
 
   isFavorite(meeting: Meeting): boolean {
