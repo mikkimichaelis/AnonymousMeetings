@@ -11,108 +11,82 @@
 </ion-header>
 
 <ion-content>
-     <ion-card>
-      <ion-card-content>
-        <p>
-          <!-- All data provided below is verified by hand, so please be accurate.
+  <ion-card>
+    <ion-card-content>
+      <p>
+        <!-- All data provided below is verified by hand, so please be accurate.
           Please add only known actively scheduled Zoom 12-Step meetings.  
           
           Note, this does not create a Zoom Meeting, that must be done first in Zoom. -->
-        </p>
+      </p>
 
-        <ion-item lines="full">
-          <ion-label position="start">Zoom Meeting Owner</ion-label>
-          <ion-checkbox slot="end" [checked]="this.meeting.owner"></ion-checkbox>
-        </ion-item>
+      <ion-item>
+        <ion-label>Zoom Meeting Owner</ion-label>
+        <ion-label>{{meeting.isZoomOwner}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Meeting Number</ion-label>
-          <ion-input type="text" class="form-controll">123</ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label>Meeting Number</ion-label>
+        <ion-label>{{meeting.zid}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Meeting Password</ion-label>
-          <ion-input type="text"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label>Meeting Password</ion-label>
+        <ion-label>{{meeting.password}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Meeting Name</ion-label>
-          <ion-input type="text"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label>Meeting Name</ion-label>
+        <ion-label>{{meeting.name}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Meeting Topic</ion-label>
-          <ion-input type="text"></ion-input>
-        </ion-item>
+      <ion-item>
+        <ion-label>Meeting Topic</ion-label>
+        <ion-label>{{meeting.topic}}</ion-label>
+      </ion-item>
 
-        
+      <ion-item>
+        <ion-label>Continuous 24h Meeting</ion-label>
+        <ion-label>{{meeting.continuous}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="start">Continuous 24h Meeting</ion-label>
-          <ion-checkbox slot="end" ></ion-checkbox>
-        </ion-item>
+    </ion-card-content>
+  </ion-card>
 
-      </ion-card-content>
-    </ion-card>
+  <ion-card *ngIf="showRecurrence">
+    <ion-card-content>
 
-    <ion-card *ngIf="showRecurrence">
-      <ion-card-content>
+      <ion-item>
+        <ion-label>Timezone</ion-label>
+        <ion-text>{{meeting.timezone}}</ion-text>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Timezone</ion-label>
-          <ion-select placeholder="Select Timezone" >
-            <ion-select-option value="America/New_York">America/New_York</ion-select-option>
-            <ion-select-option value="America/Chicago">America/Chicago</ion-select-option>
-            <ion-select-option value="America/Denver">America/Denver</ion-select-option>Pacific/Honolulu 
-            <ion-select-option value="America/Los_Angeles">America/Los_Angeles</ion-select-option>
-            <ion-select-option value="America/Anchorage">America/Anchorage</ion-select-option>
-            <ion-select-option value="Pacific/Honolulu">Pacific/Honolulu</ion-select-option>
-          </ion-select>
-        </ion-item>
+      <ion-item>
+        <ion-label>Start Time</ion-label>
+        <ion-label>{{meeting.startTime}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Start Time</ion-label>
-          <ion-datetime display-format="h:mm A" picker-format="h:mm A">
-        </ion-datetime>
-        </ion-item>
+      <ion-item>
+        <ion-label>Duration</ion-label>
+        <ion-label>{{meeting.duration}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Duration</ion-label>
-          <ion-select placeholder="Select Duration" >
-            <ion-select-option value=30>30 min</ion-select-option>
-            <ion-select-option value=60>60 min</ion-select-option>
-            <ion-select-option value=90>90 min</ion-select-option>
-            <ion-select-option value=120>120 min</ion-select-option>
-          </ion-select>
-        </ion-item>
+    </ion-card-content>
+  </ion-card>
 
-      </ion-card-content>
-    </ion-card>
+  <ion-card *ngIf="showRecurrence">
+    <ion-card-content>
 
-    <ion-card *ngIf="showRecurrence">
-      <ion-card-content>
+      <ion-item>
+        <ion-label>Repeat Every</ion-label>
+        <ion-label>{{meeting.recurrence.type}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="floating">Repeat Every</ion-label>
-          <ion-select placeholder="Repeat Every" >
-            <ion-select-option value="1">Day</ion-select-option>
-            <ion-select-option value="2">Week</ion-select-option>
-          </ion-select>
-        </ion-item>
+      <ion-item *ngIf="recurrenceType === '2'">
+        <ion-label>On Day</ion-label>
+        <ion-label>{{meeting.recurrence.weekly_day}}</ion-label>
+      </ion-item>
 
-        <ion-item lines="full" *ngIf="recurrenceType === '2'">
-          <ion-label position="floating">On Day</ion-label>
-            <ion-select placeholder="Select Day" >
-              <ion-select-option value="Sunday">Sunday</ion-select-option>
-              <ion-select-option value="Monday">Monday</ion-select-option>
-              <ion-select-option value="Tuesday">Tuesday</ion-select-option>
-              <ion-select-option value="Wednesday">Wednesday</ion-select-option>
-              <ion-select-option value="Thursday">Thursday</ion-select-option>
-              <ion-select-option value="Friday">Friday</ion-select-option>
-              <ion-select-option value="Saturday">Saturday</ion-select-option>
-            </ion-select>
-        </ion-item>
-
-      </ion-card-content>
-    </ion-card>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

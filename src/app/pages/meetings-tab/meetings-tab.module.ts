@@ -8,6 +8,7 @@ import { MeetingsTabPageRoutingModule } from './meetings-tab-routing.module';
 import { MeetingsTabPage } from './meetings-tab.page';
 import { FavoritesPage } from './favorites/favorites.page';
 import { SearchPage } from './search/search.page';
+import { ViewPage } from './view/view.page';
 import { SearchSettingsPage } from './search/search-settings/search-settings.page';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SearchSettingsPage } from './search/search-settings/search-settings.pag
     MeetingsTabPage,
     FavoritesPage,
     SearchPage,
+    ViewPage,
     SearchSettingsPage,
   ]
 })
