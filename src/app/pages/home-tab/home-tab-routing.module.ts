@@ -69,14 +69,6 @@ const routes: Routes = [
         ]
       }
     ]
-  },
-  {
-    path: 'favorites',
-    loadChildren: () => import('./favorites/favorites.module').then( m => m.FavoritesPageModule)
-  },
-  {
-    path: 'live',
-    loadChildren: () => import('./live/live.module').then( m => m.LivePageModule)
   }
 ];
 

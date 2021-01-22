@@ -55,6 +55,14 @@ export class HomePage {
     console.log('videoWithFriend()');
   }
 
+  viewFavorites() {
+    this.router.navigateByUrl('/home/tab/favorites');
+  }
+
+  viewLive() {
+    this.router.navigateByUrl('/home/tab/live');
+  }
+
   click() {
     console.log('click');
   }

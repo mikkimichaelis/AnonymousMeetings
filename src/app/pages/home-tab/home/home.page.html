@@ -12,9 +12,9 @@
   <!-- <ion-badge (click)="daysSober()" color="primary">69 days sober</ion-badge>
     <ion-badge color="primary">1.08.24.34 days</ion-badge> -->
 
-    
 
-    <ion-button expand="full" (click)="click()">I Need 2 Talk</ion-button>
+
+  <ion-button expand="full" (click)="click()">I Need 2 Talk</ion-button>
 
 
   <!-- <ion-card>
@@ -39,21 +39,26 @@
     <ion-card-header>
       <ion-item>
         <ion-card-title slot="start">Favorite Meetings</ion-card-title>
-        <ion-button slot="end" (click)="click()">View All</ion-button>
-      </ion-item> 
+        <ion-button slot="end" (click)="viewFavorites()">View All</ion-button>
+      </ion-item>
     </ion-card-header>
 
     <ion-card-content>
       <ion-list *ngFor="let meeting of this.meetingService.favoriteMeetings$ | async">
-        <ion-item>
-          <ion-label>{{meeting.name}}</ion-label>
-          <ion-label>{{meeting.topic}}</ion-label>
-          <ion-label>{{meeting.startTime}}</ion-label>
-          <!-- <ion-label>{{meeting.participants}}</ion-label>
+        <ion-item-sliding>
+          <ion-item>
+            <ion-label>{{meeting.name}}</ion-label>
+            <!-- <ion-label>{{meeting.topic}}</ion-label> -->
+            <ion-label>{{meeting.startTimeFormatLocal | date:'h:mm a'}}</ion-label>
+            <!-- <ion-label>{{meeting.participants}}</ion-label>
           <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
-          <ion-button (click)="joinMeeting(meeting)">Join</ion-button>
-          <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
-        </ion-item>
+            <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="viewMeeting(meeting)">View</ion-item-option>
+            <ion-item-option (click)="joinMeeting(meeting)" *ngIf="meeting.isLive">Join</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-list>
     </ion-card-content>
   </ion-card>
@@ -62,21 +67,26 @@
     <ion-card-header>
       <ion-item>
         <ion-card-title slot="start">Live Meetings</ion-card-title>
-        <ion-button slot="end" (click)="click()">View All</ion-button>
+        <ion-button slot="end" (click)="viewLive()">View All</ion-button>
       </ion-item>
     </ion-card-header>
 
     <ion-card-content>
       <ion-list *ngFor="let meeting of this.meetingService.liveMeetings$ | async">
-        <ion-item> 
-          <ion-label>{{meeting.name}}</ion-label>
-          <ion-label>{{meeting.topic}}</ion-label>
-          <ion-label>{{meeting.startTime}}</ion-label>
-          <!-- <ion-label>{{meeting.participants}}</ion-label>
+        <ion-item-sliding>
+          <ion-item>
+            <ion-label>{{meeting.name}}</ion-label>
+            <!-- <ion-label>{{meeting.topic}}</ion-label> -->
+            <ion-label>{{meeting.startTime}}</ion-label>
+            <!-- <ion-label>{{meeting.participants}}</ion-label>
           <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
-          <ion-button (click)="joinMeeting(meeting)">Join</ion-button>
-          <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
-        </ion-item>
+            <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="viewMeeting(meeting)">View</ion-item-option>
+            <ion-item-option (click)="joinMeeting(meeting)" *ngIf="meeting.isLive">Join</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
       </ion-list>
     </ion-card-content>
   </ion-card>

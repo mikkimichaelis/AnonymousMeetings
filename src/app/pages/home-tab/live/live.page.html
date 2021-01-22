@@ -1,9 +1,28 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>live</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title translate>TITLE.LIVE</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list *ngFor="let meeting of this.meetingService.liveMeetings$ | async">
+    <ion-item-sliding>
+      <ion-item>
+        <ion-label>{{meeting.name}}</ion-label>
+        <ion-label>{{meeting.topic}}</ion-label>
+        <ion-label>{{meeting.startTimeFormatLocal | date:'h:mm a'}}</ion-label>
+        <!-- <ion-label>{{meeting.participants}}</ion-label>
+      <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
+        <ion-button (click)="joinMeeting(meeting)">Join</ion-button>
+        <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option (click)="viewMeeting(meeting)">View</ion-item-option>
+        <ion-item-option (click)="joinMeeting(meeting)" *ngIf="meeting.isLive">Join</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
