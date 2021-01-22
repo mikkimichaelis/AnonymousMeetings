@@ -6,7 +6,8 @@ import { BUSY_SERVICE, IBusyService, IUserService, MeetingService, USER_SERVICE 
 import { GroupsService } from 'src/app/services/groups.service';
 import { LocationService } from 'src/app/services/location.service';
 import { SettingsService } from 'src/app/services/settings.service';
-import { Meeting } from 'src/shared/models';
+import { IMeeting, Meeting } from 'src/shared/models';
+import { ViewPage } from '../view/view.page';
 import { SearchSettingsPage } from './search-settings/search-settings.page';
 
 @Component({
@@ -19,7 +20,7 @@ export class SearchPage implements OnInit {
   constructor( 
     protected router: Router,
     protected routerOutlet: IonRouterOutlet, 
-    protected modalCtrl: ModalController, 
+    private modalController: ModalController,
     protected meetingService: MeetingService, 
     protected locSvc: LocationService,
     protected settingsSvc: SettingsService,
@@ -40,17 +41,13 @@ export class SearchPage implements OnInit {
     this.meetingService.getMeetingsAsync(this.settingsSvc.settings.searchSettings);
   }
 
-  details(group: any) {
-    // this.router.navigateByUrl(`/group/tab/group?id=${group.id}`);
-  }
-
   async presentSettings() {
     if( (<any>this)._infoWindow ) { 
       (<any>this)._infoWindow.close(); 
       (<any>this)._infoWindow = null; 
     }
     
-    const modal = await this.modalCtrl.create({
+    const modal = await this.modalController.create({
       component: SearchSettingsPage,
       cssClass: 'search-options-class',
       componentProps: { input: Object.assign( {}, this.settingsSvc.settings.searchSettings) },
@@ -87,8 +84,18 @@ export class SearchPage implements OnInit {
     }
   }
 
-  async removeFavorite(meeting: Meeting) {
+  async removeFavorite(meeting: IMeeting) {
     _.pull(this.userService.user.favMeetings, meeting.id);
       await this.userService.saveUserAsync(this.userService.user);
+  }
+
+  async viewMeeting(meeting: IMeeting) {
+    const modal = await this.modalController.create({
+      component: ViewPage,
+      componentProps: {
+        meeting: meeting
+      }
+    });
+    return await modal.present();
   }
 }
