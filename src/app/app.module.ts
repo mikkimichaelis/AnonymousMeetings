@@ -19,6 +19,7 @@ import { environment } from '../environments/environment';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing';
 import { Contacts } from '@ionic-native/contacts/ngx';
 
 import { google } from '@google/maps';
@@ -68,7 +69,7 @@ import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module'
     AgmCoreModule.forRoot({ apiKey: environment.googleCloudConfig.agmKey }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireFunctionsModule,
-    AngularFirestoreModule,     // AngularFirestoreModule.enablePersistence(),
+    AngularFirestoreModule,     // TODO AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     NgCalendarModule,
     CoreModule,
@@ -83,6 +84,7 @@ import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module'
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Geolocation,
     NativeStorage,
+    SocialSharing,
     Contacts,
     AngularFirestore,
     TranslateService,
