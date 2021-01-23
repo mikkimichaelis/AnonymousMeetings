@@ -55,7 +55,7 @@
             <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option (click)="viewMeeting(meeting)">View</ion-item-option>
+            <ion-item-option (click)="viewMeeting(meeting)">Info</ion-item-option>
             <ion-item-option (click)="joinMeeting(meeting)" *ngIf="meeting.isLive">Join</ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
@@ -82,9 +82,22 @@
           <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
             <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
           </ion-item>
+
+
+          <ion-item>
+            <ion-label>{{meeting.name}}</ion-label>
+            <ion-label slot="end" *ngIf="meeting.isLive">{{meeting.topic}}</ion-label>
+            <ion-label slot="end">{{meeting.startTimeFormatLocal | date:'h:mm a'}}</ion-label>
+            <ion-icon slot="end" name="videocam-outline" *ngIf="meeting.isLive"></ion-icon>
+            <ion-label slot="end" *ngIf="meeting.isLive">{{meeting.participants}}</ion-label>
+            <ion-icon slot="end" name="heart"></ion-icon>
+          </ion-item>
+
+
           <ion-item-options side="end">
-            <ion-item-option (click)="viewMeeting(meeting)">View</ion-item-option>
+            <ion-item-option (click)="viewMeeting(meeting)">Info</ion-item-option>
             <ion-item-option (click)="joinMeeting(meeting)" *ngIf="meeting.isLive">Join</ion-item-option>
+            <ion-item-option (click)="remindMeeting(meeting)">Remind</ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>

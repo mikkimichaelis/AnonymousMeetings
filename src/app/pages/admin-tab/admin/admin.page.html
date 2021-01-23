@@ -18,6 +18,7 @@
       <ion-item>
         <ion-label>{{meeting.name}}</ion-label>
         <ion-label slot="end">{{meeting.startTimeFormat}}</ion-label>
+        <ion-icon slot="end" name="checkmark-done-circle-outline" *ngIf="meeting.verified"></ion-icon>
         <ion-icon slot="end" name="heart-outline" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)"></ion-icon>
         <ion-icon slot="end" name="heart" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
       </ion-item>
