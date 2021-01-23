@@ -11,6 +11,7 @@ export interface IMeetingService {
 
     ownedMeetingsValueChanges();
     favoriteMeetingsValueChanges();
+    liveMeetingsValueChanges();
 
     add(meeting: IMeeting): Promise<boolean>;
     update(meeting: IMeeting): Promise<boolean>;

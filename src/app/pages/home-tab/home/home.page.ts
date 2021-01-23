@@ -25,6 +25,7 @@ export class HomePage {
 
   ngOnInit() {
     this.meetingService.favoriteMeetingsValueChanges();
+    this.meetingService.liveMeetingsValueChanges();
   }
 
   async ionViewDidEnter() {

@@ -72,7 +72,10 @@ export class MeetingService implements IMeetingService {
     if (!_.isEmpty(this._ownedMeetingsValueChangesSubscription)) this._ownedMeetingsValueChangesSubscription.unsubscribe();
 
     this._ownedMeetingsValueChangesSubscription =
-      this.fss.col$<IMeeting[]>(`meetings`, ref => ref.where('uid', '==', this.userService.user.id))
+      this.fss.col$<IMeeting[]>(`meetings`, ref =>
+        ref.where('active', '==', true)
+          //.where('verified', '==', true)
+          .where('uid', '==', this.userService.user.id))
         .subscribe({
           next: async (imeetings: any) => {
             const rv = [];
@@ -95,7 +98,7 @@ export class MeetingService implements IMeetingService {
 
     this._favoriteMeetingsValueChangesSubscription =
       this.fss.col$<IMeeting[]>(`meetings`, ref => {
-        let rv = ref;
+        let rv = ref.where('active', '==', true).where('verified', '==', true);
         if (!_.isEmpty(this.userService.user.favMeetings)) {
           rv = ref.where('id', 'in', this.userService.user.favMeetings)
         } else {
@@ -123,8 +126,17 @@ export class MeetingService implements IMeetingService {
   liveMeetingsValueChanges() {
     if (!_.isEmpty(this._liveMeetingsValueChangesSubscription)) this._liveMeetingsValueChangesSubscription.unsubscribe();
 
+    const w1 = DateTime.utc();
+    const w2 = w1.plus({ hours: 1 });
+
     this._liveMeetingsValueChangesSubscription =
-      this.fss.col$<IMeeting[]>(`meetings`, ref => ref.where('verified', '==', true))
+      this.fss.col$<IMeeting[]>(`meetings`, ref => ref
+        .where('active', '==', true)
+        .where('verified', '==', true)
+        .where('end', '>=', w1.toMillis())
+        .where('end', '<=', w2.toMillis()))
+        // OR
+        // .where('continuous', '==', true)
         .subscribe({
           next: async (imeetings: any) => {
             const rv = [];
@@ -132,7 +144,7 @@ export class MeetingService implements IMeetingService {
               rv.push(new Meeting(imeetings[i]));
             }
 
-            this.favoriteMeetings$.next(rv);
+            this.liveMeetings$.next(rv);
           },
           error: async (error) => {
             this.logService.error(error);
@@ -163,9 +175,7 @@ export class MeetingService implements IMeetingService {
 
     let query = this.fss.col$('meetings', ref => {
 
-      let rv = ref.where('active', '==', true);
-      // rv = rv.where('continuous', '==', true);
-      //rv = rv.where('start')
+      let rv = ref.where('active', '==', true).where('verified', '==', true);
       if (search.bySpecificTime) {
         console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
         let start = DateTime.fromObject({
@@ -242,29 +252,6 @@ export class MeetingService implements IMeetingService {
           this.logService.error(error);
         },
       });
-
-    // }
-    // );
-
-    // query = query.pipe(
-    //   map(meetings => {
-    //     const rv = [];
-    //     meetings.forEach(meeting => {
-    //       rv.push(new Meeting(<any>meeting))
-    //     });
-    //     return rv;
-    //   }));
-
-    // return new Promise((resolve, reject) => {
-    //   query.subscribe(async (meetings: Meeting[]) => {
-    //     this.searchMeetings$.next(meetings);
-    //     resolve(meetings);
-    //   },
-    //     async error => {
-    //       LogRocket.error(error);
-    //       reject(error);
-    //     });
-    // });
 
     // if (!search.byAnyDay) {
     // const dayVerbose = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay

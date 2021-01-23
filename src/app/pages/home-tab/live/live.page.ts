@@ -16,6 +16,7 @@ export class LivePage implements OnInit {
   }
 
   ngOnInit() {
+    this.meetingService.liveMeetingsValueChanges();
   }
 
 }
