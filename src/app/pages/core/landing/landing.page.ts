@@ -2,7 +2,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
-import LogRocket from 'logrocket';
+
 import { from, interval, Observable, of, pipe, Subscription } from 'rxjs';
 import { concatMap, delay, map, take } from 'rxjs/operators';
 import { BusyService } from 'src/app/services/busy.service';
@@ -28,19 +28,30 @@ export class LandingPage {
   constructor(private router: Router, private route: ActivatedRoute, private busySvc: BusyService, private authService: AuthService) {
   }
 
+  ngOnInit() {
+    console.log('LandingPage.ngOnInit()');
+  }
+
+  spinner: boolean = true;
   redirect: Subscription;
   async ionViewDidEnter() {
+    console.log('LandingPage.ionViewDidEnter()');
+    this.spinner = true;
     this.redirect = from(['/core/login']).pipe(
       concatMap(item => of(item).pipe(delay(5000))) // TODO  config
     ).subscribe(redirect => {
-      LogRocket.log('landing.page.ionViewDidEnter().redirect.subscribe() => navigateByUrl("/core/login"')
+      this.spinner = false;
+      console.log(`landingPage.ionViewDidEnter().redirect => navigateByUrl(${redirect}`);
       this.router.navigateByUrl(redirect);
     });
   }
 
   async ionViewWillLeave() {
-    if( !this.redirect.closed ){
+    if (this.redirect.closed) {
+      console.log('LandingPage.ionViewWillLeave():');
+    } else {
       this.redirect.unsubscribe();
+      console.log('LandingPage.ionViewWillLeave().redirect.unsubscribe()');
     }
   }
 }

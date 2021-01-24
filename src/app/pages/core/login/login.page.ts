@@ -5,6 +5,7 @@ import firebase from 'firebase/app'
 import { from, of } from 'rxjs';
 import { concatMap, delay } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -18,13 +19,18 @@ export class LoginPage implements OnInit {
     
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    console.log('LoginPage.ngOnInit()');
     // https://github.com/firebase/firebaseui-web/issues/559
-    this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig())
+    await this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig())
     this.logout = this.route.snapshot.queryParamMap.get('logout') === 'true' ? true : false;
+    console.log(`LoginPage.ngOnInit().firebaseUi.start()`);
   }
 
   ionViewWillEnter() {
-    
+  }
+
+  ionViewWillLeave() {
+    console.log(`LoginPage.ionViewWillLeave()`);
   }
 }

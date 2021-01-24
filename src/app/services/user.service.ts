@@ -6,11 +6,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { IUser } from '../../shared/models';
 import { User } from '../../shared/models';
 
-import { IAuthService, IUserService, ILogService, ITranslateService, IFirestoreService } from './';
-import { LOG_SERVICE, AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS, SETTINGS_SERVICE } from './injection-tokens';
+import { IAuthService, IUserService, ITranslateService, IFirestoreService } from './';
+import { AUTH_SERVICE, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS, SETTINGS_SERVICE } from './injection-tokens';
 import { IAngularFirestore } from './angular-firestore.interface';
 import _ from 'lodash';
-import LogRocket from 'logrocket';
+
 import { IAngularFireFunctions } from './angular-fire-functions.interface';
 import { ISettingsService } from './settings.service.interface';
 
@@ -33,7 +33,6 @@ export class UserService implements IUserService {
     @Inject(ANGULAR_FIRESTORE) private afs: IAngularFirestore,
     @Inject(ANGULAR_FIRE_FUNCTIONS) private aff: IAngularFireFunctions,
     @Inject(TRANSLATE_SERVICE) private translate: ITranslateService,
-    @Inject(LOG_SERVICE) private logService: ILogService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(SETTINGS_SERVICE) private settingsService: ISettingsService) { }
 
@@ -51,7 +50,7 @@ export class UserService implements IUserService {
             throw new Error(`Unable to find User ${id}`);
           }
         } catch (e) {
-          this.logService.error(e);
+          console.error(e);
           resolve(null);
         }
       }, timeout);
@@ -68,7 +67,7 @@ export class UserService implements IUserService {
         this.user$.next(this.user);
       },
       error: async (error) => {
-        this.logService.error(error);
+        console.error(error);
       },
     });
   }
@@ -79,7 +78,7 @@ export class UserService implements IUserService {
         await this.afs.doc<IUser>(`users/${this.user.id}`).update(user.toObject());
       } catch (e) {
         console.error(e);
-        LogRocket.error(e);
+        console.error(e);
       }
     }
   }
@@ -107,8 +106,7 @@ export class UserService implements IUserService {
       let rv = await callable(data).toPromise().then((result) => {
         resolve(result);
       }, (error) => {
-        LogRocket.error(error);
-        console.log(error);
+        console.error(error);
         reject(error);
       })
     })

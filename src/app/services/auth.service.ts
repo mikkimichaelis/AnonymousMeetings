@@ -5,12 +5,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app'
 import * as firebaseui from 'firebaseui';
 import _ from 'lodash';
-import LogRocket from 'logrocket';
+
 
 import { Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';
 
-import { IAngularFireAuth, IAuthService, ILogService } from './';
-import { LOG_SERVICE, ANGULAR_FIRE_AUTH } from './injection-tokens';
+import { IAngularFireAuth, IAuthService,  } from './';
+import { ANGULAR_FIRE_AUTH } from './injection-tokens';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,6 @@ export class AuthService implements IAuthService {
 
   private authStateSubscription: Subscription;
   constructor(
-    @Inject(LOG_SERVICE) private logService: ILogService,
     @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth) { }
 
   async initialize() {
@@ -33,7 +32,7 @@ export class AuthService implements IAuthService {
     this.firebaseUi = new firebaseui.auth.AuthUI(auth);
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .catch(function (error) {
-        this.logService.error(error);
+        console.error(error);
       });
 
     if (this.authStateSubscription && !this.authStateSubscription.closed) {
@@ -44,11 +43,11 @@ export class AuthService implements IAuthService {
       (user: firebase.User) => {
         this.isAnonymous = user !== null ? _.has(user, 'isAnonymous') ? user.isAnonymous : true : true;
         this.authUser = user;
-        LogRocket.log('authUser', this.authUser);
+        console.log('authUser', this.authUser);
         this.authUser$.next(user);
       },
       (error: any) => {
-        this.logService.error(error);
+        console.error(error);
       });
   }
 
@@ -63,7 +62,7 @@ export class AuthService implements IAuthService {
           resolve(true);
         })
         .catch(error => {
-          this.logService.error(error);
+          console.error(error);
           resolve(false);
         });
     })

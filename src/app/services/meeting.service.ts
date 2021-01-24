@@ -2,16 +2,16 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import _ from 'lodash';
-import LogRocket from 'logrocket';
+
 import { DateTime } from 'luxon';
 import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ILogService, IUserService } from '.';
+import { IUserService } from '.';
 
 import { Group, IGroup, IMeeting, ISchedule, Meeting } from '../../shared/models';
 import { ISearchSettings } from '../models';
 import { FirestoreService } from './firestore.service';
-import { FIRESTORE_SERVICE, LOG_SERVICE, USER_SERVICE } from './injection-tokens';
+import { FIRESTORE_SERVICE, USER_SERVICE } from './injection-tokens';
 import { IMeetingService } from './meeting.service.interface';
 
 @Injectable({
@@ -29,7 +29,7 @@ export class MeetingService implements IMeetingService {
     private afs: AngularFirestore,
     @Inject(FIRESTORE_SERVICE) private fss: FirestoreService,
     @Inject(USER_SERVICE) private userService: IUserService,
-    @Inject(LOG_SERVICE) private logService: ILogService) {
+) {
 
   }
 
@@ -48,7 +48,7 @@ export class MeetingService implements IMeetingService {
         return true;
       } catch (e) {
         console.error(e);
-        LogRocket.error(e);
+        console.error(e);
         return false;
       }
     }
@@ -61,7 +61,7 @@ export class MeetingService implements IMeetingService {
         return true;
       } catch (e) {
         console.error(e);
-        LogRocket.error(e);
+        console.error(e);
         return false;
       }
     }
@@ -86,7 +86,7 @@ export class MeetingService implements IMeetingService {
             this.ownedMeetings$.next(rv);
           },
           error: async (error) => {
-            this.logService.error(error);
+            console.error(error);
           },
         });
   }
@@ -116,7 +116,7 @@ export class MeetingService implements IMeetingService {
             this.favoriteMeetings$.next(rv);
           },
           error: async (error) => {
-            this.logService.error(error);
+            console.error(error);
           },
         });
   }
@@ -147,7 +147,7 @@ export class MeetingService implements IMeetingService {
             this.liveMeetings$.next(rv);
           },
           error: async (error) => {
-            this.logService.error(error);
+            console.error(error);
           },
         });
   }
@@ -170,7 +170,7 @@ export class MeetingService implements IMeetingService {
   }
 
   async getMeetingsAsync(search: ISearchSettings) {
-    this.logService.trace('getMeetingsAsync()', search);
+    console.trace('getMeetingsAsync()', search);
     console.log(`getMeetingsAsync( ${JSON.stringify(search)} )`);
 
     let query = this.fss.col$('meetings', ref => {
@@ -249,7 +249,7 @@ export class MeetingService implements IMeetingService {
           this.searchMeetings$.next(rv);
         },
         error: async (error) => {
-          this.logService.error(error);
+          console.error(error);
         },
       });
 

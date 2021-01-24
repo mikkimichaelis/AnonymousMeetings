@@ -58,7 +58,7 @@ export class AddPage implements OnInit {
 
   initialize() {
     this.meetingForm = this.formBuilder.group({
-      "id": [this.meeting.zid, [Validators.required, Validators.minLength(10), Validators.maxLength(12)]],
+      "id": [this.meeting.zid, [Validators.required, Validators.minLength(10), Validators.maxLength(13)]],
       "owner": [this.meeting.isZoomOwner, [Validators.min(0)]],
       "name": [this.meeting.name, [Validators.required,]],
       "password": [this.meeting.password],

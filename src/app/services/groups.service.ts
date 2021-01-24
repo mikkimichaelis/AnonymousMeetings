@@ -6,15 +6,13 @@ import * as geofirex from 'geofirex';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DateTime } from 'luxon';
-import LogRocket from 'logrocket';
+
 
 import { Group, IGroup, ISchedule } from '../../shared/models';
 import { IGroupsService, IBusyService } from './';
-import { BUSY_SERVICE, FIRESTORE_SERVICE, LOG_SERVICE } from './injection-tokens'
+import { BUSY_SERVICE, FIRESTORE_SERVICE } from './injection-tokens'
 import { ISearchSettings } from '../models';
 import { FirestoreService } from './firestore.service';
-import { ILogService } from './log.service.interface';
-
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +29,6 @@ export class GroupsService implements IGroupsService {
   constructor(
     private afs: AngularFirestore,
     private transSvc: TranslateService,
-    @Inject(LOG_SERVICE) private logService: ILogService,
     @Inject(FIRESTORE_SERVICE) private fss: FirestoreService) { }
 
   initialize() {
@@ -39,7 +36,7 @@ export class GroupsService implements IGroupsService {
   }
 
   async getGroupsAsync(search: ISearchSettings): Promise<IGroup[]> {
-    this.logService.trace('getGroupsAsyn()', search);
+    console.trace('getGroupsAsyn()', search);
     //var position: GeolocationPosition = await Geolocation.getCurrentPosition();
     //const center = this.geo.point(position.coords.latitude, position.coords.longitude); 
     //const center = this.geo.point(39.8249268571429, -84.8946604285714);
@@ -188,7 +185,7 @@ export class GroupsService implements IGroupsService {
         resolve(this.groups);
       },
         async error => {
-          LogRocket.error(error);
+          console.error(error);
           reject(error);
         });
     });

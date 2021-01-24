@@ -9,13 +9,16 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { InitializeService } from './services/initialize.service';
 
-import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService, ISettingsService, SETTINGS_SERVICE, TOAST_SERVICE, IToastService, ILogService, LOG_SERVICE } from './services';
+import { AUTH_SERVICE, IAuthService, IBusyService, IUserService, BUSY_SERVICE, USER_SERVICE, BusyService, ISettingsService, SETTINGS_SERVICE, TOAST_SERVICE, IToastService} from './services';
 import { Router } from '@angular/router';
 import _ from 'lodash';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { Zoom } from '@ionic-native/zoom/ngx';
+
 import LogRocket from 'logrocket';
+
+import { log } from '../shared/core/log';
 declare var navigator: any;
 
 @Component({
@@ -25,6 +28,7 @@ declare var navigator: any;
 })
 export class AppComponent {
 
+  // TODO
   SDK_KEY = 'd1BznmF4HfrvRZmabIyCcp2a6bpcZYbqmCXB';
   SDK_SECRET = 'U0j5w2XB4CURvIhIpwf6cJnjRknjCZdG4Sva';
 
@@ -46,22 +50,33 @@ export class AppComponent {
     private translateService: TranslateService,
     private zoomService: Zoom,
     private toastCtrl: ToastController,
-    @Inject(LOG_SERVICE) private logService: ILogService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(SETTINGS_SERVICE) private settingsService: ISettingsService
   ) {
+
+    LogRocket.init("tdzfnj/anonymous-meetings",
+      {
+        release: '[TODO insert build info here]',
+        console: {
+          isEnabled: true,
+          shouldAggregateConsoleErrors: true
+        }
+      });
+    console.log(`AppComponent()`);  // TODO
     if (environment.production) {
       enableProdMode();
+      console.log(`AppComponent().enableProdMode()`);  // TODO
     }
     this.initializeApp();
     this.settingsService.initialize(false);
+    console.log(`~AppComponent()`);
   }
 
   async initializeApp() {
-    this.logService.trace("initializeApp()");
+    console.trace("initializeApp()");
     this.platform.ready().then(async () => {
 
       console.log("Platform ready");
@@ -74,12 +89,12 @@ export class AppComponent {
       }
 
       this.zoomService.initialize(this.SDK_KEY, this.SDK_SECRET)
-      .then((success) => {
-        console.log(success);
-      })
-      .catch((error)=>{
-        console.log(error);
-      });
+        .then((success) => {
+          console.log(success);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       let creating = false;
       let pleaseWait = await this.translateService.get('PLEASE_WAIT').toPromise();
@@ -88,17 +103,21 @@ export class AppComponent {
         async authUser => {
           await this.initializeService.initializeServices();
           if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
+            console.log('authService.authUser$.subscribe()', authUser.uid, this.userService.user.id);
             // TODO config
-            LogRocket.log('auth!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)User', 'navigate', '/home/tab/home');
+            console.log('auth!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)User', 'navigate', '/home/tab/home');
             this.router.navigateByUrl('/home/tab/home');
           } else if (!_.isEmpty(authUser)) {
+            console.log('authService.authUser$.subscribe()', authUser.uid)
             // TODO research fb offline and how auth is persisted and the below getUser from cache
             // TODO cancel this call if a subsequent auth event happens before it completes
             let user = await this.userService.getUser(authUser.uid);
             if (user) {
-              LogRocket.log('userService.getUser(authUser.uid)', 'navigate', '/home/tab/home')
+              console.log('authService.authUser$.subscribe().getUser(authUser.uid)', authUser.uid, this.userService.user.id)
+
+              console.log('userService.getUser(authUser.uid)', 'navigate', '/home/tab/home')
               this.router.navigateByUrl('/home/tab/home');
-            } 
+            }
             // else {
             //   this.router.navigateByUrl('/core/logout');
             // }

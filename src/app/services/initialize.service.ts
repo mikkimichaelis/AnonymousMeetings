@@ -2,16 +2,17 @@ import { Inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import * as firebase from 'firebase/app';
+
 import { environment } from 'src/environments/environment';
 
 import {
-  IInitializeService, IAuthService, IBusyService, ILogService, IGroupsService,
+  IInitializeService, IAuthService, IBusyService, IGroupsService,
   ISettingsService, IUserService, IGroupService, IMeetingService
 } from './';
 
 import {
   GROUP_SERVICE, USER_SERVICE, GROUPS_SERVICE,
-  LOG_SERVICE, BUSY_SERVICE, AUTH_SERVICE, SETTINGS_SERVICE, MEETING_SERVICE
+  BUSY_SERVICE, AUTH_SERVICE, SETTINGS_SERVICE, MEETING_SERVICE
 } from './injection-tokens'
 
 declare var navigator: any;
@@ -28,7 +29,6 @@ export class InitializeService implements IInitializeService {
     @Inject(SETTINGS_SERVICE) private settingsService: ISettingsService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
-    @Inject(LOG_SERVICE) private logService: ILogService,
     @Inject(GROUP_SERVICE) private groupsService: IGroupsService,
     @Inject(GROUPS_SERVICE) private groupService: IGroupService,
     @Inject(USER_SERVICE) private userService: IUserService,
@@ -38,10 +38,12 @@ export class InitializeService implements IInitializeService {
   async initializeServices() {
 
     if (this.initialized) {
+      console.log('initializeServices() <again>');
       // Post Auth Init
       // TODO check this list periodically
       await this.settingsService.initialize(true);
     } else {
+      console.log('initializeServices()');
       // Pre Auth init
       await this.busyService.initialize();
 
@@ -53,7 +55,6 @@ export class InitializeService implements IInitializeService {
       //await this.busyService.present();
 
       await this.authService.initialize();
-      await this.logService.initialize();
       await this.groupsService.initialize();
       await this.groupService.initialize();
       await this.meetingService.initialize();

@@ -24,9 +24,6 @@ export * from './busy.service';
 export * from './location.service.interface';
 export * from './location.service';
 
-export * from './log.service.interface';
-export * from './log.service';
-
 export * from './meeting.service.interface';
 export * from './meeting.service';
 

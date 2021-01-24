@@ -19,7 +19,7 @@ import { environment } from '../environments/environment';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { SocialSharing } from '@ionic-native/social-sharing';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Contacts } from '@ionic-native/contacts/ngx';
 
 import { google } from '@google/maps';
@@ -35,9 +35,9 @@ import { FirestoreService } from './services/firestore.service';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
-import { GroupService, GroupsService, LogService, UserService, AuthService, BusyService, SettingsService, SharedDataService,
+import { GroupService, GroupsService, UserService, AuthService, BusyService, SettingsService, SharedDataService,
   GROUP_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
-  LOG_SERVICE, AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
+  AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
   ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService, MEETING_SERVICE, MeetingService } from './services';
 
 import { CoreModule } from './pages/core/core.module';
@@ -100,7 +100,6 @@ import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module'
     { provide: ANGULAR_FIRE_FUNCTIONS, useExisting: AngularFireFunctions },
     { provide: TRANSLATE_SERVICE, useExisting: TranslateService},
     { provide: AUTH_SERVICE, useExisting: AuthService },
-    { provide: LOG_SERVICE, useExisting: LogService },
     { provide: MEETING_SERVICE, useExisting: MeetingService },
     { provide: GROUPS_SERVICE, useExisting: GroupsService },
     { provide: GROUP_SERVICE, useExisting: GroupService },
