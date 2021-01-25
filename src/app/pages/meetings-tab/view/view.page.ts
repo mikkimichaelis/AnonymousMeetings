@@ -8,6 +8,7 @@ import { IMeeting, IUser, Meeting } from 'src/shared/models';
 import { IMeetingService } from 'src/app/services/meeting.service.interface';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-view',
@@ -64,6 +65,10 @@ export class ViewPage implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
+  buymeacoffee(url: string) {
+    window.open(url, "_blank");
+  }
+
   options = {
     message: 'share this', // not supported on some apps (Facebook, Instagram)
     subject: 'the subject', // fi. for email
@@ -82,4 +87,20 @@ export class ViewPage implements OnInit {
   onError = function(msg) {
     console.log("Sharing failed with message: " + msg);
   };
+
+  isFavorite(meeting: Meeting): boolean {
+    return -1 !== _.indexOf(this.userService.user.favMeetings, meeting.id)
+  }
+
+  async addFavorite(meeting: Meeting) {
+    if( !this.isFavorite(meeting) ) {
+      this.userService.user.favMeetings.push(meeting.id);
+      await this.userService.saveUserAsync(this.userService.user);
+    }
+  }
+
+  async removeFavorite(meeting: IMeeting) {
+    _.pull(this.userService.user.favMeetings, meeting.id);
+      await this.userService.saveUserAsync(this.userService.user);
+  }
 }

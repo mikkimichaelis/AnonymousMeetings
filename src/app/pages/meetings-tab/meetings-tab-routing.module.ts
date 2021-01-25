@@ -16,11 +16,10 @@ const routes: Routes = [
     path: 'tab',
     component: MeetingsTabPage,
     children: [
-      // {
-      //   path: '',
-      //   redirectTo: 'meetings/tab/search',
-      //   pathMatch: 'full'
-      // },
+      {
+        path: 'home',
+        redirectTo: '/home/tab/home',
+      },
       {
         path: 'search',
         children: [

@@ -23,30 +23,16 @@ const routes: Routes = [
           }
         ]
       },
-      // {
-      //   path: 'messages',
-      //   children: [
-      //     {
-      //       path: '',
-      //       component: CometchatEmbeddedComponent
-      //     }
-      //   ]
-      // },
       {
-        path: 'attendance',
-        children: [
-          {
-            path: '',
-            component: AttendancePage
-          }
-        ]
+        path: 'search',
+        redirectTo: '/meetings/tab/search',
       },
       {
-        path: 'friends',
+        path: 'live',
         children: [
           {
             path: '',
-            component: FriendsPage
+            component: LivePage
           }
         ]
       },
@@ -58,16 +44,43 @@ const routes: Routes = [
             component: FavoritesPage
           }
         ]
-      },
-      {
-        path: 'live',
-        children: [
-          {
-            path: '',
-            component: LivePage
-          }
-        ]
       }
+      // {
+      //   path: 'messages',
+      //   children: [
+      //     {
+      //       path: '',
+      //       component: CometchatEmbeddedComponent
+      //     }
+      //   ]
+      // },
+      // {
+      //   path: 'attendance',
+      //   children: [
+      //     {
+      //       path: '',
+      //       component: AttendancePage
+      //     }
+      //   ]
+      // },
+      // {
+      //   path: 'friends',
+      //   children: [
+      //     {
+      //       path: '',
+      //       component: FriendsPage
+      //     }
+      //   ]
+      // },
+      // {
+      //   path: 'favorites',
+      //   children: [
+      //     {
+      //       path: '',
+      //       component: FavoritesPage
+      //     }
+      //   ]
+      // },
     ]
   }
 ];

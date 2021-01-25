@@ -4,8 +4,11 @@
     <ion-buttons slot="start">
       <ion-button (click)="dismiss()" translate>CLOSE</ion-button>
     </ion-buttons>
+
     <ion-buttons slot="end">
-      <ion-button color="pink" expand="block" translate>FAV</ion-button>
+      <ion-icon slot="end" name="share-outline" style="margin-right: 50px;"></ion-icon>
+      <ion-icon slot="end" name="heart-outline" style="margin-right: 50px;" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)"></ion-icon>
+      <ion-icon slot="end" name="heart" style="margin-right: 50px;" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -15,10 +18,7 @@
     <ion-card-content>
 
       <ion-item *ngIf="meeting.buymeacoffee">
-        <a [href]="sanitize(meeting.buymeacoffee.url)">
-        <!-- <a [href]="meeting.buymeacoffee.url"> -->
-          <img src={{meeting.buymeacoffee.src}}>
-        </a>
+        <img src={{meeting.buymeacoffee.src}} (click)="buymeacoffee(meeting.buymeacoffee.url)">
       </ion-item>
 
       <ion-item>

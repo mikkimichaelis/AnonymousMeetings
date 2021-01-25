@@ -17,6 +17,14 @@ const routes: Routes = [
     component: AdminTabPage,
     children: [
       {
+        path: 'home',
+        redirectTo: '/home/tab/home',
+      },
+      {
+        path: 'search',
+        redirectTo: '/meetings/tab/search',
+      },
+      {
         path: 'admin',
         children: [
           {

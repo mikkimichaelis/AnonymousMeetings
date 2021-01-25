@@ -7,8 +7,10 @@ import { Router } from '@angular/router';
 import { StreamChat, ChannelData, Message, User } from 'stream-chat';
 import axios from 'axios';
 import { Observable } from 'rxjs';
-import { IUserFriend } from 'src/shared/models';
+import { IUserFriend, Meeting } from 'src/shared/models';
 import { IMeetingService, IUserService, MEETING_SERVICE, USER_SERVICE } from 'src/app/services';
+import { ModalController } from '@ionic/angular';
+import { ViewPage } from '../../meetings-tab/view/view.page';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +19,9 @@ import { IMeetingService, IUserService, MEETING_SERVICE, USER_SERVICE } from 'sr
 })
 export class HomePage {
 
-  constructor(private router: Router, private busySvc: BusyService, 
+  constructor(private router: Router, 
+    private modalController: ModalController, 
+    private busySvc: BusyService, 
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
     
@@ -64,7 +68,13 @@ export class HomePage {
     this.router.navigateByUrl('/home/tab/live');
   }
 
-  click() {
-    console.log('click');
+  async viewMeeting(meeting: Meeting) {
+    const modal = await this.modalController.create({
+      component: ViewPage,
+      componentProps: {
+        meeting: meeting
+      }
+    });
+    return await modal.present();
   }
 }
