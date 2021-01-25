@@ -38,11 +38,14 @@ export class HomePage {
     this.userService.user$.subscribe(user => {
       this.meetingService.favoriteMeetingsValueChanges();
     })
-    this.meetingService.liveMeetingsValueChanges();
-
+    
     this.meetingService.liveMeetings$.subscribe(live => {
       this._showLiveMeetings = (live && live.length > 0);
     })
+
+    setInterval(() => {
+      this.meetingService.liveMeetingsValueChanges();
+    }, 60000);
   }
 
   async ionViewDidEnter() {
