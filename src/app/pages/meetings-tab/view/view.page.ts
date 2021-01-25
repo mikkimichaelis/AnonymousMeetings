@@ -35,20 +35,20 @@ export class ViewPage implements OnInit {
     private modalCtrl: ModalController,
     private alertController: AlertController,
     private socialSharing: SocialSharing,
-    private sanitizer:DomSanitizer,
+    private sanitizer: DomSanitizer,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(MEETING_SERVICE) private meetingService: IMeetingService
   ) {
     // this.buymeacoffee_url = this.sanitizer.bypassSecurityTrustUrl(this.meeting.buymeacoffee.url);
-   }
+  }
 
   buymeacoffee_url;
   update = false;
 
   ngOnInit() {
-  
+
   }
 
   ionViewDidEnter() {
@@ -78,22 +78,38 @@ export class ViewPage implements OnInit {
     appPackageName: 'com.apple.social.facebook', // Android only, you can provide id of the App you want to share with
     iPadCoordinates: '0,0,0,0' //IOS only iPadCoordinates for where the popover should be point.  Format with x,y,width,height
   };
-  
-  onSuccess = function(result) {
+
+  onSuccess = function (result) {
     console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
     console.log("Shared to app: " + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
   };
-  
-  onError = function(msg) {
+
+  onError = function (msg) {
     console.log("Sharing failed with message: " + msg);
   };
+
+  isHome(meeting: Meeting): boolean {
+    return this.userService.user.homeMeeting.id === meeting.id;
+  }
+
+  async addHome(meeting: Meeting) {
+    this.userService.user.homeMeeting = meeting;
+    await this.userService.saveUserAsync(this.userService.user);
+  }
+
+  async removeHome(meeting: IMeeting) {
+    if (this.userService.user.homeMeeting.id === meeting.id) {
+      this.userService.user.homeMeeting = null;
+      await this.userService.saveUserAsync(this.userService.user);
+    }
+  }
 
   isFavorite(meeting: Meeting): boolean {
     return -1 !== _.indexOf(this.userService.user.favMeetings, meeting.id)
   }
 
   async addFavorite(meeting: Meeting) {
-    if( !this.isFavorite(meeting) ) {
+    if (!this.isFavorite(meeting)) {
       this.userService.user.favMeetings.push(meeting.id);
       await this.userService.saveUserAsync(this.userService.user);
     }
@@ -101,6 +117,6 @@ export class ViewPage implements OnInit {
 
   async removeFavorite(meeting: IMeeting) {
     _.pull(this.userService.user.favMeetings, meeting.id);
-      await this.userService.saveUserAsync(this.userService.user);
+    await this.userService.saveUserAsync(this.userService.user);
   }
 }

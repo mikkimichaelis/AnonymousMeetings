@@ -5,6 +5,9 @@
     </ion-buttons>
     <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span>
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-icon slot="end" name="share-outline" style="margin-right: 50px;"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -38,8 +41,8 @@
   <ion-card>
     <ion-card-header>
       <ion-item>
-        <!-- <ion-card-title slot="start">Favorite Meetings</ion-card-title> -->
-        <ion-button slot="start" (click)="viewFavorites()">Favorite Meetings</ion-button>
+        <ion-label translate>FAVORITE.MEETINGS</ion-label>
+        <ion-icon slot="end" name="list-outline" (click)="viewFavorites()"></ion-icon>
       </ion-item>
     </ion-card-header>
 
@@ -66,8 +69,8 @@
   <ion-card>
     <ion-card-header>
       <ion-item>
-        <!-- <ion-card-title slot="start">Live Meetings</ion-card-title> -->
-        <ion-button slot="start" (click)="viewLive()">Live Meetings</ion-button>
+        <ion-label translate>LIVE.MEETINGS</ion-label>
+        <ion-icon slot="end" name="list-outline" (click)="viewLive()"></ion-icon>
       </ion-item>
     </ion-card-header>
 

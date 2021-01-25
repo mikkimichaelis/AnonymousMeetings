@@ -173,6 +173,7 @@ export class AddPage implements OnInit {
         rv = await this.meetingService.add(meeting);
       }
       this.busyService.dismiss();
+      // TODO "Adding to Favorites"
       if (rv) {
         this.toastService.present('Meeting Saved');
         this.modalCtrl.dismiss({

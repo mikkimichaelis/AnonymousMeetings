@@ -91,5 +91,8 @@
     "MEMBERS.ONLINE": "Members Online",
     "MAKE.HOMEGROUP": "Make Homegroup"
   },
-  "CLOSE": "close"
+  "CLOSE": "close",
+  "SEARCH.BUTTON": "search",
+  "LIVE.MEETINGS": "Live Meetings",
+  "FAVORITE.MEETINGS": "Favorite Meetings"
 }
