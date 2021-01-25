@@ -18,7 +18,6 @@ import { Zoom } from '@ionic-native/zoom/ngx';
 
 import LogRocket from 'logrocket';
 
-import { log } from '../shared/core/log';
 declare var navigator: any;
 
 @Component({

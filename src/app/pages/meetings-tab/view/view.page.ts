@@ -7,6 +7,7 @@ import { BUSY_SERVICE, IBusyService, IToastService, IUserService, MEETING_SERVIC
 import { IMeeting, IUser, Meeting } from 'src/shared/models';
 import { IMeetingService } from 'src/app/services/meeting.service.interface';
 import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-view',
@@ -33,12 +34,16 @@ export class ViewPage implements OnInit {
     private modalCtrl: ModalController,
     private alertController: AlertController,
     private socialSharing: SocialSharing,
+    private sanitizer:DomSanitizer,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(MEETING_SERVICE) private meetingService: IMeetingService
-  ) { }
+  ) {
+    // this.buymeacoffee_url = this.sanitizer.bypassSecurityTrustUrl(this.meeting.buymeacoffee.url);
+   }
 
+  buymeacoffee_url;
   update = false;
 
   ngOnInit() {
@@ -53,6 +58,10 @@ export class ViewPage implements OnInit {
     this.modalCtrl.dismiss({
       'dismissed': true
     });
+  }
+
+  sanitize(url: string): any {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   options = {

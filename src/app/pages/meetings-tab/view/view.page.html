@@ -13,12 +13,13 @@
 <ion-content>
   <ion-card>
     <ion-card-content>
-      <p>
-        <!-- All data provided below is verified by hand, so please be accurate.
-          Please add only known actively scheduled Zoom 12-Step meetings.  
-          
-          Note, this does not create a Zoom Meeting, that must be done first in Zoom. -->
-      </p>
+
+      <ion-item *ngIf="meeting.buymeacoffee">
+        <a [href]="sanitize(meeting.buymeacoffee.url)">
+        <!-- <a [href]="meeting.buymeacoffee.url"> -->
+          <img src={{meeting.buymeacoffee.src}}>
+        </a>
+      </ion-item>
 
       <ion-item>
         <ion-label>Zoom Meeting Owner</ion-label>
