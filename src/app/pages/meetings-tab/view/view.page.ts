@@ -25,7 +25,7 @@ export class ViewPage implements OnInit {
     return this.meeting.continuous == false;
   }
 
-  get recurrenceType(): number {
+  get recurrenceType(): string {
     return this.meeting.recurrence.type;
   }
 

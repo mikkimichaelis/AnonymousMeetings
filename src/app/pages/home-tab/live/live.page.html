@@ -12,12 +12,12 @@
     <ion-item-sliding>
       <ion-item>
         <ion-label>{{meeting.name}}</ion-label>
-        <ion-label>{{meeting.topic}}</ion-label>
-        <ion-label>{{meeting.startTimeFormatLocal | date:'h:mm a'}}</ion-label>
-        <!-- <ion-label>{{meeting.participants}}</ion-label>
-      <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
-        <!-- <ion-button (click)="joinMeeting(meeting)">Join</ion-button> -->
-        <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
+        <ion-label *ngIf="!meeting.continuous">{{meeting.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
+        <ion-icon name="infinite-outline" *ngIf="meeting.continuous"></ion-icon>
+        <ion-icon slot="end" name="videocam-outline" *ngIf="meeting.isLive"></ion-icon>
+        <ion-icon slot="end" name="heart-outline" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)">
+        </ion-icon>
+        <ion-icon slot="end" name="heart" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="viewMeeting(meeting)">Info</ion-item-option>

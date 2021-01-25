@@ -110,7 +110,9 @@ export class AppComponent {
             console.log('authService.authUser$.subscribe()', authUser.uid)
             // TODO research fb offline and how auth is persisted and the below getUser from cache
             // TODO cancel this call if a subsequent auth event happens before it completes
+            this.busyService.present(pleaseWait);
             let user = await this.userService.getUser(authUser.uid);
+            this.busyService.dismiss();
             if (user) {
               console.log('authService.authUser$.subscribe().getUser(authUser.uid)', authUser.uid, this.userService.user.id)
 

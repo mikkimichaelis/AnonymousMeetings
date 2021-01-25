@@ -23,6 +23,7 @@ export class MeetingService implements IMeetingService {
   liveMeetings$: ReplaySubject<Meeting[]> = new ReplaySubject<Meeting[]>(1);
   searchMeetings$: ReplaySubject<Meeting[]> = new ReplaySubject<Meeting[]>(1);
 
+
   meetingQuery: Subscription;
 
   constructor(

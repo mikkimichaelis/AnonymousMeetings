@@ -12,64 +12,66 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-badge (click)="daysSober()" color="primary">69 days sober</ion-badge>
-    <ion-badge color="primary">1.08.24.34 days</ion-badge> -->
 
-
-
-  <!-- <ion-button expand="full" (click)="click()">I Need 2 Talk</ion-button> -->
-
-
-  <!-- <ion-card>
-    <ion-card-header>
-      <ion-card-title>Friends</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      <ion-list *ngFor="let friend of friends">
-        <ion-item>
-          <ion-label>{{friend.name}}</ion-label>
-          <ion-label>{{friend.avatar}}</ion-label>
-          <ion-label>{{friend.online}}</ion-label>
-          <ion-button (click)="videoWithFriend(friend)">1:1</ion-button>
-          <ion-button (click)="chatWithFriend(friend)">Chat</ion-button>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card> -->
-
-  <ion-card>
+  <ion-card *ngIf="(userService.user$ | async).homeMeeting">
     <ion-card-header>
       <ion-item>
-        <ion-label translate>FAVORITE.MEETINGS</ion-label>
-        <ion-icon slot="end" name="list-outline" (click)="viewFavorites()"></ion-icon>
+        <ion-label style="background-color: rgb(44, 42, 42);" translate>HOME.MEETING</ion-label>
+        <ion-icon slot="end" name="information-circle-outline" (click)="viewHomeMeeting()"></ion-icon>
       </ion-item>
     </ion-card-header>
 
     <ion-card-content>
-      <ion-list *ngFor="let meeting of this.meetingService.favoriteMeetings$ | async">
+      <ion-list>
         <ion-item-sliding>
           <ion-item>
-            <ion-label>{{meeting.name}}</ion-label>
-            <!-- <ion-label>{{meeting.topic}}</ion-label> -->
-            <ion-label>{{meeting.startTimeFormatLocal | date:'h:mm a'}}</ion-label>
-            <!-- <ion-label>{{meeting.participants}}</ion-label>
-          <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
-            <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
+            <ion-label>{{(userService.user$ | async).homeMeeting.name}}</ion-label>
+            <ion-label>{{(userService.user$ | async).homeMeeting.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option (click)="viewMeeting(meeting)">Info</ion-item-option>
-            <ion-item-option (click)="joinMeeting(meeting)" *ngIf="meeting.isLive">Join</ion-item-option>
+            <ion-item-option (click)="viewMeeting(userService.user.homeMeeting)">Info</ion-item-option>
+            <ion-item-option (click)="joinMeeting(userService.user.homeMeeting)"
+              *ngIf="(userService.user$ | async).homeMeeting.isLive">Join</ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card *ngIf="meetingService.favoriteMeetings$ | async">
     <ion-card-header>
       <ion-item>
-        <ion-label translate>LIVE.MEETINGS</ion-label>
+        <ion-label style="background-color: rgb(44, 42, 42);" translate>FAVORITE.MEETINGS</ion-label>
+        <ion-icon slot="end" name="list-outline" (click)="viewFavorites()"></ion-icon>
+      </ion-item>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list *ngFor="let favorite of meetingService.favoriteMeetings$ | async">
+        <ion-item-sliding>
+          <ion-item>
+            <ion-label>{{favorite.name}}</ion-label>
+            <ion-label *ngIf="!favorite.continuous">{{favorite.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
+            <ion-icon name="infinite-outline" *ngIf="favorite.continuous"></ion-icon>
+            <ion-icon slot="end" name="videocam-outline" *ngIf="favorite.isLive"></ion-icon>
+            <ion-icon slot="end" name="heart-outline" (click)="addFavorite(favorite)" *ngIf="!isFavorite(favorite)">
+            </ion-icon>
+            <ion-icon slot="end" name="heart" (click)="removeFavorite(favorite)" *ngIf="isFavorite(favorite)">
+            </ion-icon>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option (click)="viewMeeting(favorite)">Info</ion-item-option>
+            <ion-item-option (click)="joinMeeting(favorite)" *ngIf="favorite.isLive">Join</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="showLiveMeetings">
+    <ion-card-header>
+      <ion-item>
+        <ion-label style="background-color: rgb(44, 42, 42);" translate>LIVE.MEETINGS</ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewLive()"></ion-icon>
       </ion-item>
     </ion-card-header>
@@ -79,23 +81,18 @@
         <ion-item-sliding>
           <ion-item>
             <ion-label>{{meeting.name}}</ion-label>
-            <!-- <ion-label>{{meeting.topic}}</ion-label> -->
             <ion-label>{{meeting.startTime}}</ion-label>
-            <!-- <ion-label>{{meeting.participants}}</ion-label>
-          <ion-label>{{meeting.remainingMinutes}}</ion-label> -->
-            <!-- <ion-button (click)="chatWithFriend(friend)">Chat</ion-button> -->
           </ion-item>
-
 
           <ion-item>
             <ion-label>{{meeting.name}}</ion-label>
-            <ion-label slot="end" *ngIf="meeting.isLive">{{meeting.topic}}</ion-label>
-            <ion-label slot="end">{{meeting.startTimeFormatLocal | date:'h:mm a'}}</ion-label>
+            <ion-label>{{meeting.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
             <ion-icon slot="end" name="videocam-outline" *ngIf="meeting.isLive"></ion-icon>
-            <ion-label slot="end" *ngIf="meeting.isLive">{{meeting.participants}}</ion-label>
-            <ion-icon slot="end" name="heart"></ion-icon>
+            <ion-icon slot="end" name="infinite-outline" *ngIf="meeting.continuous"></ion-icon>
+            <ion-icon slot="end" name="heart-outline" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)">
+            </ion-icon>
+            <ion-icon slot="end" name="heart" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
           </ion-item>
-
 
           <ion-item-options side="end">
             <ion-item-option (click)="viewMeeting(meeting)">Info</ion-item-option>
@@ -107,66 +104,6 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- <ion-card> -->
-  <!-- <ion-card-header>
-      hello, world -->
-  <!-- <ion-card-title>{{group.name}} ({{group.type}})</ion-card-title>
-      <ion-card-subtitle>{{group.tagsString}}</ion-card-subtitle> -->
-  <!-- </ion-card-header> -->
-
-  <!-- <ion-item>
-      <ion-icon slot="start" name="calendar-outline"></ion-icon>
-      <ion-label translate>GROUP.STARTED</ion-label>
-      <ion-text>{{group.started}}</ion-text>
-    </ion-item>
-
-    <ion-item>
-      <ion-icon slot="start" name="arrow-up-circle-outline"></ion-icon>
-      <ion-label translate>LAST.ACTIVITY</ion-label>
-      <ion-text>{{group.lastActivity}}</ion-text>
-    </ion-item>
-
-    <ion-item>
-      <ion-icon slot="start" name="people-outline"></ion-icon>
-      <ion-label translate>GROUP.MEMBERS</ion-label>
-      <ion-text>{{group.memberCount}}</ion-text>
-    </ion-item>
-
-    <ion-item>
-      <ion-icon slot="start" name="calendar-outline"></ion-icon>
-      <ion-label translate>GROUP.YEARS.SOBRIETY</ion-label>
-      <ion-text>{{group.yearsSobriety}}</ion-text>
-    </ion-item>
-
-    <ion-item>
-      <ion-icon slot="start" name="people-circle-outline"></ion-icon>
-      <ion-label translate>GROUP.MEMBERS.ONLINE</ion-label>
-      <ion-text>{{group.membersOnline}}</ion-text>
-    </ion-item> -->
-
-  <!-- <ion-card-content *ngFor="let friend of friends$ | async">
-      <ion-item>
-        <ion-icon slot="start" name="calendar-outline"></ion-icon>
-        <ion-label></ion-label>
-        <ion-text></ion-text>
-      </ion-item>
-
-      <ion-item>
-        Friend Name
-        Online Status Indicator
-        Current Meeting if any
-        Go to Chat
-        Go to 1:1
-      </ion-item>
-
-    </ion-card-content>
-
-  </ion-card> -->
-
-  <!-- <ion-item>
-    <ion-button>Start a Meeting</ion-button>
-  </ion-item> -->
-
   <ion-item>
     <!-- <p>
       AnonymousMeetings relies on your support to fund it's 
@@ -176,7 +113,8 @@
       also remove all advertisements from the app.
   </p> -->
     <a href="https://www.buymeacoffee.com/mikkimichaelis">
-      <img src="https://img.buymeacoffee.com/button-api/?text=Please buy me a coffee&emoji=&slug=mikkimichaelis&button_colour=f4a4c0&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"/>
+      <img
+        src="https://img.buymeacoffee.com/button-api/?text=Please buy me a coffee&emoji=&slug=mikkimichaelis&button_colour=f4a4c0&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" />
     </a>
   </ion-item>
 

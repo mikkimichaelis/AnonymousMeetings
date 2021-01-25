@@ -82,12 +82,12 @@
     <ion-card-content>
 
       <ion-item>
-        <ion-label>Repeat Every</ion-label>
+        <ion-label>Repeat</ion-label>
         <ion-label>{{meeting.recurrence.type}}</ion-label>
       </ion-item>
 
       <ion-item *ngIf="recurrenceType === '2'">
-        <ion-label>On Day</ion-label>
+        <ion-label>On</ion-label>
         <ion-label>{{meeting.recurrence.weekly_day}}</ion-label>
       </ion-item>
 
