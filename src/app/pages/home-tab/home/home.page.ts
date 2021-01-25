@@ -30,6 +30,7 @@ export class HomePage {
     private busySvc: BusyService, 
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
+      // debugger;
   }
 
   ngOnInit() {
@@ -38,22 +39,26 @@ export class HomePage {
     this.userService.user$.subscribe(user => {
       this.meetingService.favoriteMeetingsValueChanges();
     })
-    
+    console.log('HomePage.ngOnInit():user$.subscribe()');
+
     this.meetingService.liveMeetings$.subscribe(live => {
       this._showLiveMeetings = (live && live.length > 0);
     })
+    console.log('HomePage.ngOnInit():liveMeetings$.subscribe()');
 
     setInterval(() => {
       this.meetingService.liveMeetingsValueChanges();
     }, 60000);
+    console.log('HomePage.ngOnInit():setInterval()');
   }
 
   async ionViewDidEnter() {
     // TODO time delay the present to smooth app progression
     //await this.busySvc.present('Loading....');
-    await this.userService.user$.subscribe(user => {
+    await this.userService.user$.subscribe(user => {  // TODO BUG
       if (user) this.busySvc.dismiss();
     })
+    console.log('HomePage.ionViewDidEnter():user$.subscribe()');
   }
 
   async ionViewWillLeave() {
