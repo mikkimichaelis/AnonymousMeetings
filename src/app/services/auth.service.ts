@@ -1,15 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
-// import * as firebase from 'firebase';
-import firebase from 'firebase/app'
-import * as firebaseui from 'firebaseui';
 import _ from 'lodash';
-
+import firebase from 'firebase/app';      // import * as firebase from 'firebase';
+import * as firebaseui from 'firebaseui';
 
 import { Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';
 
-import { IAngularFireAuth, IAuthService,  } from './';
+import { IAngularFireAuth, IAuthService, } from './';
 import { ANGULAR_FIRE_AUTH } from './injection-tokens';
 
 @Injectable({
@@ -30,7 +28,7 @@ export class AuthService implements IAuthService {
   async initialize() {
     let auth = firebase.auth();
     this.firebaseUi = new firebaseui.auth.AuthUI(auth);
-    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .catch(function (error) {
         console.error(error);
       });
@@ -69,7 +67,7 @@ export class AuthService implements IAuthService {
   }
 
   async logout() {
-    this.firebaseAuth.signOut()
+    await this.firebaseAuth.signOut()
   }
 
   // TODO customize prompts for both "signin" and "signup"
@@ -118,8 +116,8 @@ export class AuthService implements IAuthService {
             'public_profile',
           ]
         },
-        'microsoft.com',
-        'yahoo.com',
+        // 'microsoft.com',
+        // 'yahoo.com',
         // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
         // firebase.auth.GithubAuthProvider.PROVIDER_ID,
         firebase.auth.EmailAuthProvider.PROVIDER_ID,

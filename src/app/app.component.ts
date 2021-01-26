@@ -74,6 +74,10 @@ export class AppComponent {
     console.log(`~AppComponent()`);
   }
 
+  async logout() {
+    await this.authService.logout();
+  }
+
   async initializeApp() {
     console.trace("initializeApp()");
     this.platform.ready().then(async () => {
@@ -97,6 +101,7 @@ export class AppComponent {
         });
 
       let creating = false;
+      let initializing = await this.translateService.get('INITIALIZING').toPromise();
       let pleaseWait = await this.translateService.get('PLEASE_WAIT').toPromise();
       let creatingUser = await this.translateService.get('CREATING_USER').toPromise();
       this.authService.authUser$.subscribe(
@@ -105,13 +110,13 @@ export class AppComponent {
           if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
             console.log('authService.authUser$.subscribe()', authUser.uid, this.userService.user.id);
             // TODO config
-            console.log('auth!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)User', 'navigate', '/home/tab/home');
+            console.log('navigate /home/tab/home');
             this.router.navigateByUrl('/home/tab/home');
           } else if (!_.isEmpty(authUser)) {
             console.log('authService.authUser$.subscribe()', authUser.uid)
             // TODO research fb offline and how auth is persisted and the below getUser from cache
             // TODO cancel this call if a subsequent auth event happens before it completes
-            this.busyService.present(pleaseWait);
+            this.busyService.present(initializing);
             let user = await this.userService.getUser(authUser.uid);
             this.busyService.dismiss();
             if (user) {
@@ -119,14 +124,10 @@ export class AppComponent {
 
               console.log('userService.getUser(authUser.uid)', 'navigate', '/home/tab/home')
               this.router.navigateByUrl('/home/tab/home');
-            }
-            // else {
-            //   this.router.navigateByUrl('/core/logout');
-            // }
+            } 
+          } else {
+            this.router.navigateByUrl('/core/login');
           }
-          // else {
-          //   this.router.navigateByUrl('/core/landing');
-          // }
         });
     });
 

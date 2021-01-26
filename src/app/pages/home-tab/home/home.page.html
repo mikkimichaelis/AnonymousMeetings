@@ -44,7 +44,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="meetingService.favoriteMeetings$ | async">
+  <ion-card  *ngIf="showFavoriteMeetings">
     <ion-card-header>
       <ion-item>
         <ion-label style="color:rgb(196, 61, 196)"><h1 translate>FAVORITE.MEETINGS</h1></ion-label>

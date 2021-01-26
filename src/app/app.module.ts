@@ -32,6 +32,8 @@ import { AngularFireFunctions, AngularFireFunctionsModule, USE_EMULATOR as USE_F
 
 import { FirestoreService } from './services/firestore.service';
 
+import { TagInputModule } from 'ngx-chips';
+import { Zoom } from '@ionic-native/zoom/ngx';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
@@ -43,12 +45,9 @@ import { GroupService, GroupsService, UserService, AuthService, BusyService, Set
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
 import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
+import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module';
 import { AuthGuard, FeatureGuard } from './guards';
 import { NbThemeModule } from '@nebular/theme';
-
-import { Zoom } from '@ionic-native/zoom/ngx';
-import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module';
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -72,6 +71,7 @@ import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module'
     AngularFirestoreModule,     // TODO AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
     NgCalendarModule,
+    TagInputModule,
     CoreModule,
     GroupTabPageModule,
     HomeTabPageModule,

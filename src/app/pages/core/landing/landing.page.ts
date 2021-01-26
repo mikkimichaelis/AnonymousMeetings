@@ -38,7 +38,7 @@ export class LandingPage {
     console.log('LandingPage.ionViewDidEnter()');
     this.spinner = true;
     this.redirect = from(['/core/login']).pipe(
-      concatMap(item => of(item).pipe(delay(5000))) // TODO  config
+      concatMap(item => of(item).pipe(delay(8000))) // TODO  config
     ).subscribe(redirect => {
       this.spinner = false;
       console.log(`landingPage.ionViewDidEnter().redirect => navigateByUrl(${redirect}`);

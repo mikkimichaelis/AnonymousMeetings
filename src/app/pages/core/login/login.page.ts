@@ -13,21 +13,24 @@ import { concatMap, delay } from 'rxjs/operators';
 })
 export class LoginPage implements OnInit {
 
-  logout: boolean;
-
   constructor(private route: ActivatedRoute, private authService: AuthService) {
     
   }
 
+  started = false;
   async ngOnInit() {
     console.log('LoginPage.ngOnInit()');
+    //await this.authService.initialize();
     // https://github.com/firebase/firebaseui-web/issues/559
-    await this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig())
-    this.logout = this.route.snapshot.queryParamMap.get('logout') === 'true' ? true : false;
-    console.log(`LoginPage.ngOnInit().firebaseUi.start()`);
+    if (!this.started) {
+      await this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig())
+      this.started = true;
+      console.log(`LoginPage.ngOnInit().firebaseUi.start()`);
+    }
   }
 
   ionViewWillEnter() {
+    console.log(`LoginPage.ionViewWillEnter()`);
   }
 
   ionViewWillLeave() {

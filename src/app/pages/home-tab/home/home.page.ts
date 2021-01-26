@@ -9,7 +9,7 @@ import { StreamChat, ChannelData, Message, User } from 'stream-chat';
 import axios from 'axios';
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { IMeeting, IUserFriend, Meeting } from 'src/shared/models';
-import { IMeetingService, IUserService, MEETING_SERVICE, USER_SERVICE } from 'src/app/services';
+import { AUTH_SERVICE, IAuthService, IMeetingService, IUserService, MEETING_SERVICE, USER_SERVICE } from 'src/app/services';
 import { ModalController } from '@ionic/angular';
 import { ViewPage } from '../../meetings-tab/view/view.page';
 import _ from 'lodash';
@@ -30,10 +30,15 @@ export class HomePage {
     return !_.isEmpty(this.userService.user.homeMeeting);
   }
 
+  get showFavoriteMeetings(): boolean {
+    return this.userService.user.favMeetings.length > 0;
+  }
+
   constructor(private router: Router, 
     private modalController: ModalController, 
     private busySvc: BusyService, 
     private socialSharing: SocialSharing,
+    @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
       // debugger;
@@ -81,7 +86,7 @@ export class HomePage {
   }
 
   async logout() {
-    this.router.navigateByUrl('/core/logout');
+    await this.authService.logout();
   }
 
   options = {
