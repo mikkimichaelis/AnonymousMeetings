@@ -6,12 +6,14 @@
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-icon slot="end" name="share-outline" style="margin-right: 50px;"></ion-icon>
-      <ion-icon slot="end" name="heart-outline" style="margin-right: 50px;" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)"></ion-icon>
-      <ion-icon slot="end" name="heart" style="margin-right: 50px;" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
+      <ion-icon slot="end" name="share-outline" style="margin-right: 20px;"></ion-icon>
+      <ion-icon slot="end" name="heart-outline" style="margin-right: 20px;" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)"></ion-icon>
+      <ion-icon slot="end" name="heart" style="margin-right: 20px;" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
 
-      <ion-icon slot="end" name="home-outline" style="margin-right: 50px;" (click)="addHome(meeting)" *ngIf="!isHome(meeting)"></ion-icon>
-      <ion-icon slot="end" name="home" style="margin-right: 50px;" (click)="removeHome(meeting)" *ngIf="isHome(meeting)"></ion-icon>
+      <ion-icon slot="end" name="home-outline" style="margin-right: 20px;" (click)="addHome(meeting)" *ngIf="!isHome(meeting)"></ion-icon>
+      <ion-icon slot="end" name="home" style="margin-right: 20px;" (click)="removeHome(meeting)" *ngIf="isHome(meeting)"></ion-icon>
+
+      <ion-icon slot="end" name="pencil-outline" style="margin-right: 20px;" (click)="editMeeting(meeting)" *ngIf="isOwner(meeting)"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

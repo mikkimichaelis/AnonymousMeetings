@@ -31,6 +31,8 @@ export class AddPage implements OnInit {
     return this.meetingForm.controls;
   }
 
+  tags = ['Ionic', 'Angular', 'TypeScript'];
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -115,6 +117,10 @@ export class AddPage implements OnInit {
 
       await alert.present();
     }
+  }
+
+  onChange(val){
+    console.log(this.tags)
   }
 
   async submitForm() {

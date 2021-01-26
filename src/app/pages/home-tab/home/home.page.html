@@ -16,7 +16,7 @@
   <ion-card *ngIf="userService.user.homeMeeting">
     <ion-card-header>
       <ion-item>
-        <ion-label style="background-color: rgb(44, 42, 42);" translate>HOME.MEETING</ion-label>
+        <ion-label style="color:rgb(196, 61, 196)"><h1 translate>HOME.MEETING</h1></ion-label>
         <ion-icon slot="end" name="information-circle-outline" (click)="viewHomeMeeting()"></ion-icon>
       </ion-item>
     </ion-card-header>
@@ -46,7 +46,7 @@
   <ion-card *ngIf="meetingService.favoriteMeetings$ | async">
     <ion-card-header>
       <ion-item>
-        <ion-label style="background-color: rgb(44, 42, 42);" translate>FAVORITE.MEETINGS</ion-label>
+        <ion-label style="color:rgb(196, 61, 196)"><h1 translate>FAVORITE.MEETINGS</h1></ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewFavorites()"></ion-icon>
       </ion-item>
     </ion-card-header>
@@ -76,7 +76,7 @@
   <ion-card *ngIf="showLiveMeetings">
     <ion-card-header>
       <ion-item>
-        <ion-label style="background-color: rgb(44, 42, 42);" translate>LIVE.MEETINGS</ion-label>
+        <ion-label style="color:rgb(196, 61, 196)"><h1 translate>LIVE.MEETINGS</h1></ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewLive()"></ion-icon>
       </ion-item>
     </ion-card-header>

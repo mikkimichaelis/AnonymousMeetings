@@ -9,6 +9,7 @@ import { IMeetingService } from 'src/app/services/meeting.service.interface';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import _ from 'lodash';
+import { AddPage } from '../../admin-tab/add/add.page';
 
 @Component({
   selector: 'app-view',
@@ -36,6 +37,7 @@ export class ViewPage implements OnInit {
     private alertController: AlertController,
     private socialSharing: SocialSharing,
     private sanitizer: DomSanitizer,
+    private modalController: ModalController, 
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(USER_SERVICE) private userService: IUserService,
@@ -88,8 +90,14 @@ export class ViewPage implements OnInit {
     console.log("Sharing failed with message: " + msg);
   };
 
+  isOwner(meeting: Meeting): boolean {
+    return this.userService.user.id === meeting.uid;
+  }
+
   isHome(meeting: Meeting): boolean {
-    return this.userService.user.homeMeeting.id === meeting.id;
+    return _.has(this.userService.user, 'homeMeeting') 
+      && this.userService.user.homeMeeting != null 
+      && this.userService.user.homeMeeting.id === meeting.id
   }
 
   async addHome(meeting: Meeting) {
@@ -97,7 +105,7 @@ export class ViewPage implements OnInit {
     await this.userService.saveUserAsync(this.userService.user);
   }
 
-  async removeHome(meeting: IMeeting) {
+  async removeHome(meeting: Meeting) {
     if (this.userService.user.homeMeeting.id === meeting.id) {
       this.userService.user.homeMeeting = null;
       await this.userService.saveUserAsync(this.userService.user);
@@ -115,8 +123,19 @@ export class ViewPage implements OnInit {
     }
   }
 
-  async removeFavorite(meeting: IMeeting) {
+  async removeFavorite(meeting: Meeting) {
     _.pull(this.userService.user.favMeetings, meeting.id);
     await this.userService.saveUserAsync(this.userService.user);
   }
+
+  
+    async editMeeting(meeting?: Meeting) {
+      const modal = await this.modalController.create({
+        component: AddPage,
+        componentProps: {
+          meeting: meeting
+        }
+      });
+      return await modal.present();
+    }
 }
