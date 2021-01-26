@@ -33,7 +33,15 @@ export class HomePage {
       // debugger;
   }
 
+  get live$(): ReplaySubject<Meeting[]> {
+    return this.meetingService.liveMeetings$;
+  }
+
   ngOnInit() {
+    this.meetingService.liveMeetings$.subscribe(mtgs => {
+      console.log(mtgs);
+    })
+
     // refresh favs when user is updated 
     // TODO move to meeting service
     this.userService.user$.subscribe(user => {
@@ -46,7 +54,8 @@ export class HomePage {
     })
     console.log('HomePage.ngOnInit():liveMeetings$.subscribe()');
 
-    setInterval(() => {
+    this.meetingService.liveMeetingsValueChanges();
+    const interval = setInterval(() => {
       this.meetingService.liveMeetingsValueChanges();
     }, 60000);
     console.log('HomePage.ngOnInit():setInterval()');

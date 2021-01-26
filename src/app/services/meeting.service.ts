@@ -30,7 +30,7 @@ export class MeetingService implements IMeetingService {
     private afs: AngularFirestore,
     @Inject(FIRESTORE_SERVICE) private fss: FirestoreService,
     @Inject(USER_SERVICE) private userService: IUserService,
-) {
+  ) {
 
   }
 
@@ -49,7 +49,6 @@ export class MeetingService implements IMeetingService {
         return true;
       } catch (e) {
         console.error(e);
-        console.error(e);
         return false;
       }
     }
@@ -61,7 +60,6 @@ export class MeetingService implements IMeetingService {
         await this.afs.doc<IMeeting>(`meetings/${meeting.id}`).update(meeting.toObject());
         return true;
       } catch (e) {
-        console.error(e);
         console.error(e);
         return false;
       }
@@ -76,6 +74,7 @@ export class MeetingService implements IMeetingService {
       this.fss.col$<IMeeting[]>(`meetings`, ref =>
         ref.where('active', '==', true)
           //.where('verified', '==', true)
+          //.where('authorized', '==', true)
           .where('uid', '==', this.userService.user.id))
         .subscribe({
           next: async (imeetings: any) => {
@@ -99,7 +98,10 @@ export class MeetingService implements IMeetingService {
 
     this._favoriteMeetingsValueChangesSubscription =
       this.fss.col$<IMeeting[]>(`meetings`, ref => {
-        let rv = ref.where('active', '==', true).where('verified', '==', true);
+        let rv = ref
+          .where('active', '==', true)
+          .where('verified', '==', true)
+          .where('authorized', '==', true);
         if (!_.isEmpty(this.userService.user.favMeetings)) {
           rv = ref.where('id', 'in', this.userService.user.favMeetings)
         } else {
@@ -124,8 +126,12 @@ export class MeetingService implements IMeetingService {
 
 
   _liveMeetingsValueChangesSubscription: Subscription;
+  _continuousMeetingsValueChangesSubscription: Subscription;
   liveMeetingsValueChanges() {
     if (!_.isEmpty(this._liveMeetingsValueChangesSubscription)) this._liveMeetingsValueChangesSubscription.unsubscribe();
+
+    let live: any = null;
+    let continuous: any = null;
 
     const w1 = DateTime.utc();
     const w2 = w1.plus({ hours: 1 });
@@ -134,18 +140,49 @@ export class MeetingService implements IMeetingService {
       this.fss.col$<IMeeting[]>(`meetings`, ref => ref
         .where('active', '==', true)
         .where('verified', '==', true)
+        .where('authorized', '==', true)
         .where('end', '>=', w1.toMillis())
         .where('end', '<=', w2.toMillis()))
-        // OR
-        // .where('continuous', '==', true)
         .subscribe({
           next: async (imeetings: any) => {
             const rv = [];
             for (let i = 0; i < imeetings.length; i++) {
               rv.push(new Meeting(imeetings[i]));
             }
+            if (!continuous) {
+              live = rv;
+            } else {
+              const u = _.union(rv, continuous);
+              this.liveMeetings$.next(u);
+              continuous = null;
+              live = null;
+            }
+          },
+          error: async (error) => {
+            console.error(error);
+          },
+        });
 
-            this.liveMeetings$.next(rv);
+    this._continuousMeetingsValueChangesSubscription =
+      this.fss.col$<IMeeting[]>(`meetings`, ref => ref
+        .where('active', '==', true)
+        .where('verified', '==', true)
+        .where('authorized', '==', true)
+        .where('continuous', '==', true))
+        .subscribe({
+          next: async (imeetings: any) => {
+            const rv = [];
+            for (let i = 0; i < imeetings.length; i++) {
+              rv.push(new Meeting(imeetings[i]));
+            }
+            if (!live) {
+              continuous = rv;
+            } else {
+              const u = _.union(rv, live);
+              this.liveMeetings$.next(u);
+              continuous = null;
+              live = null;
+            }
           },
           error: async (error) => {
             console.error(error);
@@ -171,14 +208,13 @@ export class MeetingService implements IMeetingService {
   }
 
   async getMeetingsAsync(search: ISearchSettings) {
-    console.trace('getMeetingsAsync()', search);
-    console.log(`getMeetingsAsync( ${JSON.stringify(search)} )`);
+    // console.log(`getMeetingsAsync( ${JSON.stringify(search)} )`);
 
     let query = this.fss.col$('meetings', ref => {
 
       let rv = ref.where('active', '==', true).where('verified', '==', true);
       if (search.bySpecificTime) {
-        console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
+        // console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
         let start = DateTime.fromObject({
           year: 1970,
           month: 1,
@@ -189,20 +225,20 @@ export class MeetingService implements IMeetingService {
         }).toUTC().toMillis();
 
         ////////////////////////////////////////////////////////////////////
-        console.log(`search.bySpecific.start: ${search.bySpecific.start}`);
-        console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
+        // console.log(`search.bySpecific.start: ${search.bySpecific.start}`);
+        // console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
         // console.log(`DateTime.fromISO(search.bySpecific.start).hour: ${DateTime.fromISO(search.bySpecific.start).hour}`);
         // console.log(`DateTime.fromISO(search.bySpecific.start).toUTC().hour: ${DateTime.fromISO(search.bySpecific.start).toUTC().hour}`);
 
-        console.log({
-          name: 'start',
-          year: 1970,
-          month: 1,
-          day: 2,
-          hour: DateTime.fromISO(search.bySpecific.start).hour,
-          minute: DateTime.fromISO(search.bySpecific.start).minute,
-          zone: DateTime.local().zone.name
-        })
+        // console.log({
+        //   name: 'start',
+        //   year: 1970,
+        //   month: 1,
+        //   day: 2,
+        //   hour: DateTime.fromISO(search.bySpecific.start).hour,
+        //   minute: DateTime.fromISO(search.bySpecific.start).minute,
+        //   zone: DateTime.local().zone.name
+        // })
         let end = DateTime.fromObject({
           year: 1970,
           month: 1,
@@ -212,17 +248,18 @@ export class MeetingService implements IMeetingService {
           zone: DateTime.local().zone.name
         }).toUTC().toMillis();
 
-        console.log({
-          name: 'end',
-          year: 1970,
-          month: 1,
-          day: 2,
-          hour: DateTime.fromISO(search.bySpecific.end).hour,
-          minute: DateTime.fromISO(search.bySpecific.end).minute,
-          zone: DateTime.local().zone.name
-        })
-        console.log(`${start} <= (start) <= ${end}`)
-        console.log(`rv.where('start', '>=', ${start}).where('start', '<=', ${end}`)
+        // console.log({
+        //   name: 'end',
+        //   year: 1970,
+        //   month: 1,
+        //   day: 2,
+        //   hour: DateTime.fromISO(search.bySpecific.end).hour,
+        //   minute: DateTime.fromISO(search.bySpecific.end).minute,
+        //   zone: DateTime.local().zone.name
+        // })
+        // console.log(`${start} <= (start) <= ${end}`)
+        // console.log(`rv.where('start', '>=', ${start}).where('start', '<=', ${end}`)
+
         rv = rv.where('start', '>=', start).where('start', '<=', end)
       }
       // TODO
@@ -241,7 +278,7 @@ export class MeetingService implements IMeetingService {
       .subscribe({
         next: async (imeetings: any) => {
           // TODO too much logging remove
-          console.log(imeetings);
+          //console.log(imeetings);
           const rv = [];
           for (let i = 0; i < imeetings.length; i++) {
             rv.push(new Meeting(imeetings[i]));
