@@ -6,7 +6,7 @@
     </ion-buttons>
 
     <ion-buttons slot="end" *ngIf="meeting">
-      <ion-icon slot="end" name="share-outline" style="margin-right: 20px;"></ion-icon>
+      <ion-icon slot="end" name="share-outline" style="margin-right: 20px;" (click)="share(meeting)"></ion-icon>
       <ion-icon slot="end" name="heart-outline" style="margin-right: 20px;" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)"></ion-icon>
       <ion-icon slot="end" name="heart" style="margin-right: 20px;" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
 

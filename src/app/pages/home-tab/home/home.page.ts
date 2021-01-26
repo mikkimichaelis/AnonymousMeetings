@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { BusyService } from '../../../services/busy.service';
 import { UserService } from '../../../services/user.service';
 import { GroupsService } from '../../../services/groups.service';
@@ -32,6 +33,7 @@ export class HomePage {
   constructor(private router: Router, 
     private modalController: ModalController, 
     private busySvc: BusyService, 
+    private socialSharing: SocialSharing,
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
       // debugger;
@@ -80,6 +82,20 @@ export class HomePage {
 
   async logout() {
     this.router.navigateByUrl('/core/logout');
+  }
+
+  options = {
+    message: 'share this', // not supported on some apps (Facebook, Instagram)
+    subject: 'the subject', // fi. for email
+    files: ['', ''], // an array of filenames either locally or remotely
+    url: 'https://www.website.com/foo/#bar?a=b',
+    chooserTitle: 'Pick an app', // Android only, you can override the default share sheet title
+    appPackageName: 'com.apple.social.facebook', // Android only, you can provide id of the App you want to share with
+    iPadCoordinates: '0,0,0,0' //IOS only iPadCoordinates for where the popover should be point.  Format with x,y,width,height
+  };
+  share() {
+    //this.socialSharing.shareWithOptions(this.options);
+    this.socialSharing.share('hello, world');
   }
 
   daysSober() {

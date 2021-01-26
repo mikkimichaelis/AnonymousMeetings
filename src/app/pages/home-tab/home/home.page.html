@@ -6,7 +6,7 @@
     <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span>
     </ion-title>
     <ion-buttons slot="end">
-      <ion-icon slot="end" name="share-outline" style="margin-right: 50px;"></ion-icon>
+      <ion-icon slot="end" name="share-outline" style="margin-right: 50px;" (click)="share()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
