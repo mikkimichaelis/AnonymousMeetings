@@ -5,7 +5,7 @@
       <ion-button (click)="dismiss()" translate>CLOSE</ion-button>
     </ion-buttons>
 
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" *ngIf="meeting">
       <ion-icon slot="end" name="share-outline" style="margin-right: 20px;"></ion-icon>
       <ion-icon slot="end" name="heart-outline" style="margin-right: 20px;" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)"></ion-icon>
       <ion-icon slot="end" name="heart" style="margin-right: 20px;" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
@@ -18,7 +18,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="meeting">
   <ion-card>
     <ion-card-content>
 
@@ -88,7 +88,7 @@
         <ion-label>{{meeting.recurrence.type}}</ion-label>
       </ion-item>
 
-      <ion-item *ngIf="recurrenceType === '2'">
+      <ion-item *ngIf="recurrenceType === 'Weekly'">
         <ion-label>On</ion-label>
         <ion-label>{{meeting.recurrence.weekly_day}}</ion-label>
       </ion-item>

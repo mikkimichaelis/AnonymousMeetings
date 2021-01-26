@@ -46,15 +46,11 @@ export class ViewPage implements OnInit {
     // this.buymeacoffee_url = this.sanitizer.bypassSecurityTrustUrl(this.meeting.buymeacoffee.url);
   }
 
-  buymeacoffee_url;
-  update = false;
-
   ngOnInit() {
-
   }
 
   ionViewDidEnter() {
-    this.socialSharing.shareWithOptions(this.options);
+    // this.socialSharing.shareWithOptions(this.options);
   }
 
   async dismiss() {

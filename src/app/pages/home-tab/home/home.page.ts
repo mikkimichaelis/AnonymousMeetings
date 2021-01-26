@@ -25,6 +25,10 @@ export class HomePage {
     return this._showLiveMeetings;
   }
 
+  get homeMeeting(): boolean {
+    return !_.isEmpty(this.userService.user.homeMeeting);
+  }
+
   constructor(private router: Router, 
     private modalController: ModalController, 
     private busySvc: BusyService, 
@@ -130,5 +134,12 @@ export class HomePage {
   async removeFavorite(meeting: Meeting) {
     _.pull(this.userService.user.favMeetings, meeting.id);
       await this.userService.saveUserAsync(this.userService.user);
+  }
+
+  async removeHomeMeeting(meeting: Meeting) {
+    if (this.userService.user.homeMeeting.id === meeting.id) {
+      this.userService.user.homeMeeting = null,
+      await this.userService.saveUserAsync(this.userService.user);
+    }
   }
 }

@@ -13,7 +13,7 @@
 
 <ion-content>
 
-  <ion-card *ngIf="userService.user.homeMeeting">
+  <ion-card *ngIf="homeMeeting">
     <ion-card-header>
       <ion-item>
         <ion-label style="color:rgb(196, 61, 196)"><h1 translate>HOME.MEETING</h1></ion-label>
@@ -29,11 +29,12 @@
             <ion-label>{{userService.user.homeMeeting.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
             <ion-icon slot="end" name="infinite-outline" *ngIf="userService.user.homeMeeting.continuous"></ion-icon>
             <ion-icon slot="end" name="videocam-outline" *ngIf="userService.user.homeMeeting.isLive"></ion-icon>
-            <ion-icon slot="end" name="heart-outline" (click)="addFavorite(userService.user.homeMeeting)" *ngIf="!isFavorite(userService.user.homeMeeting)">
+            <!-- <ion-icon slot="end" name="heart-outline" (click)="addFavorite(userService.user.homeMeeting)" *ngIf="!isFavorite(userService.user.homeMeeting)">
             </ion-icon>
-            <ion-icon slot="end" name="heart" (click)="removeFavorite(userService.user.homeMeeting)" *ngIf="isFavorite(userService.user.homeMeeting)"></ion-icon>
+            <ion-icon slot="end" name="heart" (click)="removeFavorite(userService.user.homeMeeting)" *ngIf="isFavorite(userService.user.homeMeeting)"></ion-icon> -->
           </ion-item>
           <ion-item-options side="end">
+            <ion-item-option (click)="removeHomeMeeting(userService.user.homeMeeting)">Remove</ion-item-option>
             <ion-item-option (click)="viewMeeting(userService.user.homeMeeting)">Info</ion-item-option>
             <ion-item-option (click)="joinMeeting(userService.user.homeMeeting)"
               *ngIf="(userService.user$ | async).homeMeeting.isLive">Join</ion-item-option>
@@ -59,12 +60,13 @@
             <ion-label *ngIf="!favorite.continuous">{{favorite.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
             <ion-icon name="infinite-outline" *ngIf="favorite.continuous"></ion-icon>
             <ion-icon slot="end" name="videocam-outline" *ngIf="favorite.isLive"></ion-icon>
-            <ion-icon slot="end" name="heart-outline" (click)="addFavorite(favorite)" *ngIf="!isFavorite(favorite)">
+            <!-- <ion-icon slot="end" name="heart-outline" (click)="addFavorite(favorite)" *ngIf="!isFavorite(favorite)">
             </ion-icon>
             <ion-icon slot="end" name="heart" (click)="removeFavorite(favorite)" *ngIf="isFavorite(favorite)">
-            </ion-icon>
+            </ion-icon> --->
           </ion-item>
           <ion-item-options side="end">
+            <ion-item-option (click)="removeFavorite(favorite)">Remove</ion-item-option>
             <ion-item-option (click)="viewMeeting(favorite)">Info</ion-item-option>
             <ion-item-option (click)="joinMeeting(favorite)" *ngIf="favorite.isLive">Join</ion-item-option>
           </ion-item-options>
@@ -95,6 +97,7 @@
           </ion-item>
 
           <ion-item-options side="end">
+            <ion-item-option (click)="blockeeting(meeting)">Block</ion-item-option>
             <ion-item-option (click)="viewMeeting(meeting)">Info</ion-item-option>
             <ion-item-option (click)="joinMeeting(meeting)" *ngIf="meeting.isLive">Join</ion-item-option>
             <ion-item-option (click)="remindMeeting(meeting)">Remind</ion-item-option>
