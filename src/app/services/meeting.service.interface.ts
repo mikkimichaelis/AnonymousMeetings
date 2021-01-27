@@ -1,5 +1,6 @@
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { IGroup, IMeeting, Meeting } from 'src/shared/models';
+import { ISearchSettings } from '../models';
 
 export interface IMeetingService {
     initialize();
@@ -15,4 +16,7 @@ export interface IMeetingService {
 
     add(meeting: IMeeting): Promise<boolean>;
     update(meeting: IMeeting): Promise<boolean>;
+
+    getMeetingAsync(id: string): Promise<Meeting[]>;
+    searchMeetingsAsync(search: ISearchSettings);
 }

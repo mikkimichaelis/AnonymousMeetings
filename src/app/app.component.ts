@@ -107,8 +107,8 @@ export class AppComponent {
       this.authService.authUser$.subscribe(
         async authUser => {
           await this.initializeService.initializeServices();
-          if (!_.isEmpty(authUser) && !_.isEmpty(this.userService.user)) {
-            console.log('authService.authUser$.subscribe()', authUser.uid, this.userService.user.id);
+          if (!_.isEmpty(authUser) && !_.isEmpty(this.userService._user)) {
+            console.log('authService.authUser$.subscribe()', authUser.uid, this.userService._user.id);
             // TODO config
             console.log('navigate /home/tab/home');
             this.router.navigateByUrl('/home/tab/home');
@@ -120,7 +120,7 @@ export class AppComponent {
             let user = await this.userService.getUser(authUser.uid);
             this.busyService.dismiss();
             if (user) {
-              console.log('authService.authUser$.subscribe().getUser(authUser.uid)', authUser.uid, this.userService.user.id)
+              console.log('authService.authUser$.subscribe().getUser(authUser.uid)', authUser.uid, this.userService._user.id)
 
               console.log('userService.getUser(authUser.uid)', 'navigate', '/home/tab/home')
               this.router.navigateByUrl('/home/tab/home');

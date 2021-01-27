@@ -20,7 +20,7 @@ export class ZoomPage implements OnInit {
     @Inject(USER_SERVICE) private userService: UserService) { }
 
   ngOnInit() {
-    this.displayName = this.userService.user.name;
+    this.displayName = this.userService._user.name;
   }
 
   ionViewDidEnter() {

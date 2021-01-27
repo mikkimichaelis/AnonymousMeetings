@@ -38,7 +38,7 @@ export class SearchPage implements OnInit {
   };
 
   async refresh() {
-    this.meetingService.getMeetingsAsync(this.settingsSvc.settings.searchSettings);
+    this.meetingService.searchMeetingsAsync(this.settingsSvc.settings.searchSettings);
   }
 
   async presentSettings() {
@@ -64,19 +64,19 @@ export class SearchPage implements OnInit {
   }
 
   isFavorite(meeting: Meeting): boolean {
-    return -1 !== _.indexOf(this.userService.user.favMeetings, meeting.id)
+    return -1 !== _.indexOf(this.userService._user.favMeetings, meeting.id)
   }
 
   async addFavorite(meeting: Meeting) {
     if( !this.isFavorite(meeting) ) {
-      this.userService.user.favMeetings.push(meeting.id);
-      await this.userService.saveUserAsync(this.userService.user);
+      this.userService._user.favMeetings.push(meeting.id);
+      await this.userService.saveUserAsync(this.userService._user);
     }
   }
 
   async removeFavorite(meeting: IMeeting) {
-    _.pull(this.userService.user.favMeetings, meeting.id);
-      await this.userService.saveUserAsync(this.userService.user);
+    _.pull(this.userService._user.favMeetings, meeting.id);
+      await this.userService.saveUserAsync(this.userService._user);
   }
 
   async viewMeeting(meeting: IMeeting) {

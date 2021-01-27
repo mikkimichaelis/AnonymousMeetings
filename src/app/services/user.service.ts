@@ -3,7 +3,7 @@ import { Observable, ReplaySubject, Subscription } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { IUser } from '../../shared/models';
+import { IMeeting, IUser, Meeting } from '../../shared/models';
 import { User } from '../../shared/models';
 
 import { IAuthService, IUserService, ITranslateService, IFirestoreService } from './';
@@ -19,13 +19,14 @@ import { ISettingsService } from './settings.service.interface';
 })
 export class UserService implements IUserService {
 
-  chatUser!: any; // CometChat.User;
+  _user: User;
   user$: ReplaySubject<User> = new ReplaySubject<User>(1);
 
-  public user: User;
+  _homeMeeting: Meeting;
+  homeMeeting$: ReplaySubject<Meeting> = new ReplaySubject<Meeting>(1);
+  
+  
   private userDocPath: string;
-  private _userValueChanges: Observable<IUser>;
-  private _userValueChangesSubscription: Subscription;
 
   private authStateSubscription: Subscription;
   constructor(
@@ -42,10 +43,10 @@ export class UserService implements IUserService {
         try {
           const user = await this.fss.col(`users`).doc<IUser>(id).get().toPromise();
           if (user.exists) {
-            this.user = new User(user.data());
+            this._user = new User(user.data());
             this.userValueChanges();
-            this.user$.next(this.user);
-            resolve(this.user);
+            this.user$.next(this._user);
+            resolve(this._user);
           } else {
             throw new Error(`Unable to find User ${id}`);
           }
@@ -57,14 +58,17 @@ export class UserService implements IUserService {
     })
   }
 
+  private _userValueChanges: Observable<IUser>;
+  private _userValueChangesSubscription: Subscription;
   userValueChanges() {
     if (!_.isEmpty(this._userValueChangesSubscription)) this._userValueChangesSubscription.unsubscribe();
 
-    this._userValueChanges = this.afs.doc<IUser>(`users/${this.user.id}`).valueChanges();
+    this._userValueChanges = this.afs.doc<IUser>(`users/${this._user.id}`).valueChanges();
     this._userValueChangesSubscription = this._userValueChanges.subscribe({
       next: async (user) => {
-        this.user = new User(user);
-        this.user$.next(this.user);
+        this._user = new User(user);
+        this.user$.next(this._user);
+        this.homeMeetingValueChanges();
       },
       error: async (error) => {
         console.error(error);
@@ -72,10 +76,29 @@ export class UserService implements IUserService {
     });
   }
 
+  private _homeMeetingValueChanges: Observable<IUser>;
+  private _homeMeetingValueChangesSubscription: Subscription;
+  homeMeetingValueChanges() {
+    if (!_.isEmpty(this._homeMeetingValueChangesSubscription)) this._homeMeetingValueChangesSubscription.unsubscribe();
+
+    if (!_.isEmpty(this._user.homeMeeting)) {
+      this._homeMeetingValueChanges = this.afs.doc<IUser>(`meetings/${this._user.homeMeeting}`).valueChanges();
+      this._homeMeetingValueChangesSubscription = this._homeMeetingValueChanges.subscribe({
+        next: async (meeting: any) => {
+          this._homeMeeting = new Meeting(meeting);
+          this.homeMeeting$.next(this._homeMeeting);
+        },
+        error: async (error) => {
+          console.error(error);
+        },
+      });
+    }
+  }
+
   async saveUserAsync(user: User) {
     if (user) {
       try {
-        await this.afs.doc<IUser>(`users/${this.user.id}`).update(user.toObject());
+        await this.afs.doc<IUser>(`users/${this._user.id}`).update(user.toObject());
       } catch (e) {
         console.error(e);
         console.error(e);
@@ -136,7 +159,7 @@ export class UserService implements IUserService {
   async loginChatUser(chatUser: any) {
     // TODO disabled for testing login code
     const loggedIn = false; //const loggedIn = await CometChat.getLoggedinUser();
-    
+
     if (!loggedIn && chatUser) {
       // await CometChat.login(chatUser.authToken).then(
       //   chatUser => {

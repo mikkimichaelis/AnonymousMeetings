@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { AlertController, ModalController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { BUSY_SERVICE, IBusyService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE } from '../../../services';
+import { BUSY_SERVICE, FirestoreService, FIRESTORE_SERVICE, IBusyService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE } from '../../../services';
 import { IMeeting, IUser, Meeting } from 'src/shared/models';
 import { IMeetingService } from 'src/app/services/meeting.service.interface';
 import { ActivatedRoute } from '@angular/router';
@@ -38,6 +38,7 @@ export class ViewPage implements OnInit {
     private socialSharing: SocialSharing,
     private sanitizer: DomSanitizer,
     private modalController: ModalController, 
+    @Inject(FIRESTORE_SERVICE) private fss: FirestoreService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(USER_SERVICE) private userService: IUserService,
@@ -47,6 +48,9 @@ export class ViewPage implements OnInit {
   }
 
   ngOnInit() {
+    this.fss.doc$(`meetings/${this.meeting.id}`).subscribe((meeting: IMeeting) => {
+      this.meeting = meeting;
+    })
   }
 
   ionViewDidEnter() {
@@ -91,41 +95,41 @@ export class ViewPage implements OnInit {
   };
 
   isOwner(meeting: Meeting): boolean {
-    return this.userService.user.id === meeting.uid;
+    return this.userService._user.id === meeting.uid;
   }
 
   isHome(meeting: Meeting): boolean {
-    return _.has(this.userService.user, 'homeMeeting') 
-      && this.userService.user.homeMeeting != null 
-      && this.userService.user.homeMeeting.id === meeting.id
+    return _.has(this.userService._user, 'homeMeeting') 
+      && this.userService._user.homeMeeting != null 
+      && this.userService._user.homeMeeting === meeting.id
   }
 
   async addHome(meeting: Meeting) {
-    this.userService.user.homeMeeting = meeting;
-    await this.userService.saveUserAsync(this.userService.user);
+    this.userService._user.homeMeeting = meeting.id;
+    await this.userService.saveUserAsync(this.userService._user);
   }
 
   async removeHome(meeting: Meeting) {
-    if (this.userService.user.homeMeeting.id === meeting.id) {
-      this.userService.user.homeMeeting = null;
-      await this.userService.saveUserAsync(this.userService.user);
+    if (this.userService._user.homeMeeting === meeting.id) {
+      this.userService._user.homeMeeting = null;
+      await this.userService.saveUserAsync(this.userService._user);
     }
   }
 
   isFavorite(meeting: Meeting): boolean {
-    return -1 !== _.indexOf(this.userService.user.favMeetings, meeting.id)
+    return -1 !== _.indexOf(this.userService._user.favMeetings, meeting.id)
   }
 
   async addFavorite(meeting: Meeting) {
     if (!this.isFavorite(meeting)) {
-      this.userService.user.favMeetings.push(meeting.id);
-      await this.userService.saveUserAsync(this.userService.user);
+      this.userService._user.favMeetings.push(meeting.id);
+      await this.userService.saveUserAsync(this.userService._user);
     }
   }
 
   async removeFavorite(meeting: Meeting) {
-    _.pull(this.userService.user.favMeetings, meeting.id);
-    await this.userService.saveUserAsync(this.userService.user);
+    _.pull(this.userService._user.favMeetings, meeting.id);
+    await this.userService.saveUserAsync(this.userService._user);
   }
 
   

@@ -75,7 +75,7 @@ export class MeetingService implements IMeetingService {
         ref.where('active', '==', true)
           //.where('verified', '==', true)
           //.where('authorized', '==', true)
-          .where('uid', '==', this.userService.user.id))
+          .where('uid', '==', this.userService._user.id))
         .subscribe({
           next: async (imeetings: any) => {
             const rv = [];
@@ -102,8 +102,8 @@ export class MeetingService implements IMeetingService {
           .where('active', '==', true)
           .where('verified', '==', true)
           .where('authorized', '==', true);
-        if (!_.isEmpty(this.userService.user.favMeetings)) {
-          rv = ref.where('id', 'in', this.userService.user.favMeetings)
+        if (!_.isEmpty(this.userService._user.favMeetings)) {
+          rv = ref.where('id', 'in', this.userService._user.favMeetings)
         } else {
           rv = ref.where('false', '==', 'true')
         }
@@ -207,7 +207,7 @@ export class MeetingService implements IMeetingService {
     });
   }
 
-  async getMeetingsAsync(search: ISearchSettings) {
+  async searchMeetingsAsync(search: ISearchSettings) {
     // console.log(`getMeetingsAsync( ${JSON.stringify(search)} )`);
 
     let query = this.fss.col$('meetings', ref => {

@@ -1,11 +1,14 @@
 import { ReplaySubject } from 'rxjs';
-import { User } from '../../shared/models';
+import { Meeting, User } from '../../shared/models';
 
 export interface IUserService {
     
-    chatUser: any; // CometChat.User;
-    user: User;
+    _user: User;
     user$: ReplaySubject<User>;
+
+    _homeMeeting: Meeting;
+    homeMeeting$: ReplaySubject<Meeting>;
+
     getUser(id: string, timeout?: number);
     saveUserAsync(user: User);
 

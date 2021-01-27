@@ -15,11 +15,11 @@ import { BusyService, BUSY_SERVICE, GROUP_SERVICE, IBusyService, IGroupService, 
 export class GroupPage implements OnInit {
 
   public get isHomeGroup(): boolean {
-    return this.groupSvc.group.isHomeGroup(this.userService.user);
+    return this.groupSvc.group.isHomeGroup(this.userService._user);
   }
 
   public get isFavorite(): boolean {
-    return this.groupSvc.group.isFavorite(this.userService.user);
+    return this.groupSvc.group.isFavorite(this.userService._user);
   }
 
   constructor(
@@ -39,7 +39,7 @@ export class GroupPage implements OnInit {
   async ionViewWillEnter() {
     let id = this.route.snapshot.queryParamMap.get('id');
     if (!id) {
-      id = _.get(this.userService.user, 'homeGroup.id');
+      id = _.get(this.userService._user, 'homeGroup.id');
     }
     try {
       await this.busySvc.present();

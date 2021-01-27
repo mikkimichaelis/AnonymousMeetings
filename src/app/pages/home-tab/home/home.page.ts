@@ -27,11 +27,11 @@ export class HomePage {
   }
 
   get homeMeeting(): boolean {
-    return !_.isEmpty(this.userService.user.homeMeeting);
+    return !_.isEmpty(this.userService._user.homeMeeting);
   }
 
   get showFavoriteMeetings(): boolean {
-    return this.userService.user.favMeetings.length > 0;
+    return this.userService._user.favMeetings.length > 0;
   }
 
   constructor(private router: Router, 
@@ -124,7 +124,7 @@ export class HomePage {
   }
 
   async viewHomeMeeting() {
-    this.viewMeeting(this.userService.user.homeMeeting)
+    this.viewMeeting(this.userService._homeMeeting)
   }
 
   joinMeeting(meeting: Meeting) {
@@ -142,25 +142,25 @@ export class HomePage {
   }
 
   isFavorite(meeting: Meeting): boolean {
-    return -1 !== _.indexOf(this.userService.user.favMeetings, meeting.id)
+    return -1 !== _.indexOf(this.userService._user.favMeetings, meeting.id)
   }
 
   async addFavorite(meeting: Meeting) {
     if( !this.isFavorite(meeting) ) {
-      this.userService.user.favMeetings.push(meeting.id);
-      await this.userService.saveUserAsync(this.userService.user);
+      this.userService._user.favMeetings.push(meeting.id);
+      await this.userService.saveUserAsync(this.userService._user);
     }
   }
 
   async removeFavorite(meeting: Meeting) {
-    _.pull(this.userService.user.favMeetings, meeting.id);
-      await this.userService.saveUserAsync(this.userService.user);
+    _.pull(this.userService._user.favMeetings, meeting.id);
+      await this.userService.saveUserAsync(this.userService._user);
   }
 
   async removeHomeMeeting(meeting: Meeting) {
-    if (this.userService.user.homeMeeting.id === meeting.id) {
-      this.userService.user.homeMeeting = null,
-      await this.userService.saveUserAsync(this.userService.user);
+    if (this.userService._user.homeMeeting=== meeting.id) {
+      this.userService._user.homeMeeting = null,
+      await this.userService.saveUserAsync(this.userService._user);
     }
   }
 }

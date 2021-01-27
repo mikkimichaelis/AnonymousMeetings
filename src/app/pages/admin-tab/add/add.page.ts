@@ -128,7 +128,7 @@ export class AddPage implements OnInit {
       const meeting = new Meeting(<any>{
         id: this.meeting.id,
         zid: this.meetingForm.controls.id.value,
-        uid: this.userService.user.id,
+        uid: this.userService._user.id,
         isZoomOwner: this.meetingForm.controls.owner.value,
         name: this.meetingForm.controls.name.value,
         password: this.meetingForm.controls.password.value,

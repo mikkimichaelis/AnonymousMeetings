@@ -29,7 +29,7 @@ export class ProfilePage implements OnInit {
   }
 
   initialize() {
-    this.user = this.userService.user.toObject();
+    this.user = this.userService._user.toObject();
     this.userForm = this.formBuilder.group({
       "firstName": [this.user.profile.firstName, [Validators.required, Validators.minLength(3)]],
       "lastInitial": [this.user.profile.lastInitial, [Validators.required, Validators.maxLength(1)]],
