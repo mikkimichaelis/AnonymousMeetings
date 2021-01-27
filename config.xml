@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="us.anonymousmeetings.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <universal-links>
-        <host name="app.anonymousmeetings.us" scheme="https" />
+        <host name="us.anonymousmeetings.ios" scheme="https" />
         <host name="anonymousmeetings.firebaseapp.com" scheme="https">
-            <path url="/__/auth/callback" />
+            <path url="/__/auth/handler" />
         </host>
     </universal-links>
     <name>AnonymousMeetings.Zoom</name>
@@ -30,7 +30,7 @@
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
         <preference name="android-minSdkVersion" value="22" />
-        <preference name="AndroidLaunchMode" value="singleInstance" />
+        <preference name="AndroidLaunchMode" value="singleTask" />
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
             <application android:networkSecurityConfig="@xml/network_security_config" />
         </edit-config>
@@ -119,7 +119,7 @@
     <plugin name="cordova-plugin-buildinfo" spec="4.0.0" />
     <plugin name="cordova-plugin-contacts" spec="^3.0.1" />
     <plugin name="cordova-plugin-customurlscheme" spec="5.0.2">
-        <variable name="URL_SCHEME" value="us.anonymousmeetings.app" />
+        <variable name="URL_SCHEME" value="us.anonymousmeetings.ios" />
         <variable name="ANDROID_SCHEME" value=" " />
         <variable name="ANDROID_HOST" value=" " />
         <variable name="ANDROID_PATHPREFIX" value="/" />
