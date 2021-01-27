@@ -27,6 +27,11 @@
         </ion-item>
 
         <ion-item lines="full">
+          <ion-label position="start">Continuous 24h Meeting</ion-label>
+          <ion-checkbox slot="end" formControlName="continuous"></ion-checkbox>
+        </ion-item>
+
+        <ion-item lines="full">
           <ion-label position="floating">Meeting Number</ion-label>
           <ion-input formControlName="id" type="text" class="form-controll" required></ion-input>
         </ion-item>
@@ -47,8 +52,8 @@
         </ion-item>
 
         <ion-item lines="full">
-          <ion-label position="start">Continuous 24h Meeting</ion-label>
-          <ion-checkbox slot="end" formControlName="continuous"></ion-checkbox>
+          <ion-label position="floating">Meeting Tags</ion-label>
+          <ion-textarea formControlName="tags" placeholder="tags entered here will be censored"></ion-textarea>
         </ion-item>
 
       </ion-card-content>
@@ -112,7 +117,7 @@
           </ion-select>
         </ion-item>
 
-        
+
 
       </ion-card-content>
     </ion-card>

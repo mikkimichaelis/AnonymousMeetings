@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
@@ -70,8 +71,9 @@ import { NbThemeModule } from '@nebular/theme';
     AngularFireFunctionsModule,
     AngularFirestoreModule,     // TODO AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
-    NgCalendarModule,
+    BrowserAnimationsModule,
     TagInputModule,
+    NgCalendarModule,
     CoreModule,
     GroupTabPageModule,
     HomeTabPageModule,

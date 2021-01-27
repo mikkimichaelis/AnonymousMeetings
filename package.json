@@ -67,6 +67,7 @@
     "firebaseui": "^4.7.1",
     "firestore": "^1.1.6",
     "geofirex": "file:../geofirex",
+    "ionic-tags-input": "^0.1.2",
     "ionic2-calendar": "^0.6.6",
     "leaflet": "^1.6.0",
     "lodash": "^4.17.20",

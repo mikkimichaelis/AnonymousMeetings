@@ -46,6 +46,8 @@ export class AddPage implements OnInit {
 
   update = false;
 
+  items = ['Pizza', 'Pasta', 'Parmesan'];
+
   ngOnInit() {
 
     if (this.meeting) {
@@ -59,12 +61,14 @@ export class AddPage implements OnInit {
   }
 
   initialize() {
+    this.meeting.tags = ['Pizza', 'Pasta', 'Parmesan'];
     this.meetingForm = this.formBuilder.group({
       "id": [this.meeting.zid, [Validators.required, Validators.minLength(10), Validators.maxLength(13)]],
       "owner": [this.meeting.isZoomOwner, [Validators.min(0)]],
       "name": [this.meeting.name, [Validators.required,]],
       "password": [this.meeting.password],
       "topic": [this.meeting.topic],
+      "tags": [this.meeting.tags],
       "continuous": [this.meeting.continuous, [Validators.min(0)]],
 
       "timezone": [this.meeting.timezone, [Validators.required]],
@@ -133,6 +137,7 @@ export class AddPage implements OnInit {
         name: this.meetingForm.controls.name.value,
         password: this.meetingForm.controls.password.value,
         topic: this.meetingForm.controls.topic.value,
+        tags: [`${this.meetingForm.controls.tags.value}`],
         continuous: this.meetingForm.controls.continuous.value,
 
         timezone: this.meetingForm.controls.timezone.value,
@@ -179,7 +184,7 @@ export class AddPage implements OnInit {
         rv = await this.meetingService.add(meeting);
       }
       this.busyService.dismiss();
-      // TODO "Adding to Favorites"
+
       if (rv) {
         this.toastService.present('Meeting Saved');
         this.modalCtrl.dismiss({

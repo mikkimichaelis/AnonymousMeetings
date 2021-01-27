@@ -8,7 +8,6 @@ import { AdminTabPageRoutingModule } from './admin-tab-routing.module';
 import { AdminTabPage } from './admin-tab.page';
 import { AdminPage } from './admin/admin.page';
 import { AddPage } from './add/add.page';
-
 @NgModule({
   imports: [
     SharedModule,
