@@ -101,7 +101,6 @@ export class UserService implements IUserService {
         await this.afs.doc<IUser>(`users/${this._user.id}`).update(user.toObject());
       } catch (e) {
         console.error(e);
-        console.error(e);
       }
     }
   }

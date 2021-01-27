@@ -37,7 +37,7 @@ import { Zoom } from '@ionic-native/zoom/ngx';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
-import { GroupService, GroupsService, UserService, AuthService, BusyService, SettingsService, SharedDataService,
+import { GroupService, GroupsService, UserService, AuthService, BusyService, SettingsService, SharedDataService, ZoomService,
   GROUP_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
   AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
   ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService, MEETING_SERVICE, MeetingService } from './services';
@@ -107,6 +107,7 @@ import { NbThemeModule } from '@nebular/theme';
     { provide: BUSY_SERVICE, useExisting: BusyService },
     { provide: TOAST_SERVICE, useExisting: ToastService },
     { provide: SETTINGS_SERVICE, useExisting: SettingsService },
+    ZoomService,
     SharedDataService,
 
     // { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebaseConfig.useEmulators ? ['localhost', 5001] : undefined },

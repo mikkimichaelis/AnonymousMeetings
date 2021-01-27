@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import _ from 'lodash';
-import { BUSY_SERVICE, IBusyService, IUserService, MeetingService, USER_SERVICE } from 'src/app/services';
+import { BUSY_SERVICE, IBusyService, IToastService, IUserService, MeetingService, TOAST_SERVICE, USER_SERVICE, ZoomService } from 'src/app/services';
 import { GroupsService } from 'src/app/services/groups.service';
 import { LocationService } from 'src/app/services/location.service';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -24,6 +24,8 @@ export class SearchPage implements OnInit {
     protected meetingService: MeetingService, 
     protected locSvc: LocationService,
     protected settingsSvc: SettingsService,
+    protected zoomService: ZoomService,
+    @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(USER_SERVICE) private userService: IUserService,
     ) { }
@@ -36,6 +38,17 @@ export class SearchPage implements OnInit {
     await this.refresh();
     await this.busyService.dismiss();
   };
+
+  async joinMeeting(meeting: Meeting) {
+    await this.busyService.present('Connecting Zoom Meeting...')
+    this.zoomService.joinMeeting(meeting.zid, meeting.password).then(
+      rv => {
+      this.busyService.dismiss();
+    }, error => {
+      this.busyService.dismiss();
+      this.toastService.present(`Zoom error: ${error}`, 3000);
+    })
+  }
 
   async refresh() {
     this.meetingService.searchMeetingsAsync(this.settingsSvc.settings.searchSettings);

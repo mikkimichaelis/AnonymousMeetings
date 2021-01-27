@@ -9,7 +9,7 @@ import { StreamChat, ChannelData, Message, User } from 'stream-chat';
 import axios from 'axios';
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { IMeeting, IUserFriend, Meeting } from 'src/shared/models';
-import { AUTH_SERVICE, IAuthService, IMeetingService, IUserService, MEETING_SERVICE, USER_SERVICE } from 'src/app/services';
+import { AUTH_SERVICE, BUSY_SERVICE, IAuthService, IBusyService, IMeetingService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE, ZoomService } from 'src/app/services';
 import { ModalController } from '@ionic/angular';
 import { ViewPage } from '../../meetings-tab/view/view.page';
 import _ from 'lodash';
@@ -34,14 +34,17 @@ export class HomePage {
     return this.userService._user.favMeetings.length > 0;
   }
 
-  constructor(private router: Router, 
-    private modalController: ModalController, 
-    private busySvc: BusyService, 
+  constructor(private router: Router,
+    private modalController: ModalController,
+    private busySvc: BusyService,
     private socialSharing: SocialSharing,
+    private zoomService: ZoomService,
+    @Inject(TOAST_SERVICE) private toastService: IToastService,
+    @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     @Inject(USER_SERVICE) private userService: IUserService,
     @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
-      // debugger;
+    // debugger;
   }
 
   get live$(): ReplaySubject<Meeting[]> {
@@ -127,8 +130,15 @@ export class HomePage {
     this.viewMeeting(this.userService._homeMeeting)
   }
 
-  joinMeeting(meeting: Meeting) {
-    
+  async joinMeeting(meeting: Meeting) {
+    await this.busyService.present('Connecting Zoom Meeting...')
+    this.zoomService.joinMeeting(meeting.zid, meeting.password).then(
+      rv => {
+      this.busyService.dismiss();
+    }, error => {
+      this.busyService.dismiss();
+      this.toastService.present(`Zoom error: ${error}`, 3000);
+    })
   }
 
   async viewMeeting(meeting: Meeting) {
@@ -146,7 +156,7 @@ export class HomePage {
   }
 
   async addFavorite(meeting: Meeting) {
-    if( !this.isFavorite(meeting) ) {
+    if (!this.isFavorite(meeting)) {
       this.userService._user.favMeetings.push(meeting.id);
       await this.userService.saveUserAsync(this.userService._user);
     }
@@ -154,13 +164,13 @@ export class HomePage {
 
   async removeFavorite(meeting: Meeting) {
     _.pull(this.userService._user.favMeetings, meeting.id);
-      await this.userService.saveUserAsync(this.userService._user);
+    await this.userService.saveUserAsync(this.userService._user);
   }
 
   async removeHomeMeeting(meeting: Meeting) {
-    if (this.userService._user.homeMeeting=== meeting.id) {
+    if (this.userService._user.homeMeeting === meeting.id) {
       this.userService._user.homeMeeting = null,
-      await this.userService.saveUserAsync(this.userService._user);
+        await this.userService.saveUserAsync(this.userService._user);
     }
   }
 }

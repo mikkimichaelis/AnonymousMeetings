@@ -10,8 +10,9 @@ import { IUserService } from '.';
 
 import { Group, IGroup, IMeeting, ISchedule, Meeting } from '../../shared/models';
 import { ISearchSettings } from '../models';
+import { IAngularFireFunctions } from './angular-fire-functions.interface';
 import { FirestoreService } from './firestore.service';
-import { FIRESTORE_SERVICE, USER_SERVICE } from './injection-tokens';
+import { ANGULAR_FIRE_FUNCTIONS, FIRESTORE_SERVICE, USER_SERVICE } from './injection-tokens';
 import { IMeetingService } from './meeting.service.interface';
 
 @Injectable({
@@ -29,6 +30,7 @@ export class MeetingService implements IMeetingService {
   constructor(
     private afs: AngularFirestore,
     @Inject(FIRESTORE_SERVICE) private fss: FirestoreService,
+    @Inject(ANGULAR_FIRE_FUNCTIONS) private aff: IAngularFireFunctions,
     @Inject(USER_SERVICE) private userService: IUserService,
   ) {
 
@@ -45,7 +47,7 @@ export class MeetingService implements IMeetingService {
   async add(meeting: Meeting): Promise<boolean> {
     if (meeting) {
       try {
-        await this.afs.doc<IMeeting>(`meetings/${meeting.id}`).set(meeting.toObject());
+        await this.makeCallableAsync('addMeeting', meeting.toObject());
         return true;
       } catch (e) {
         console.error(e);
@@ -291,6 +293,8 @@ export class MeetingService implements IMeetingService {
         },
       });
 
+      
+
     // if (!search.byAnyDay) {
     // const dayVerbose = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay
     //   : await this.transSvc.get(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]).toPromise();
@@ -393,7 +397,17 @@ export class MeetingService implements IMeetingService {
     // } else {
     //   this.verbose = `${this.verbose} ${(await this.transSvc.get('ANYTIME').toPromise()).toLowerCase()}`;
     // }
+  }
 
-
+  private async makeCallableAsync<T>(func: string, data?: any): Promise<T> {
+    let callable: any = this.aff.httpsCallable(func);
+    return new Promise<T>(async (resolve, reject) => {
+      let rv = await callable(data).toPromise().then((result) => {
+        resolve(result);
+      }, (error) => {
+        console.error(error);
+        reject(error);
+      })
+    })
   }
 }

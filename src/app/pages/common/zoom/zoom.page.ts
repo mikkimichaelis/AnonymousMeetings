@@ -3,6 +3,7 @@ import { ToastController } from '@ionic/angular';
 import { UserService, USER_SERVICE } from 'src/app/services';
 
 import { Zoom } from '@ionic-native/zoom/ngx';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-zoom',
@@ -11,11 +12,13 @@ import { Zoom } from '@ionic-native/zoom/ngx';
 })
 export class ZoomPage implements OnInit {
 
-  meetingNumber = '9669271647'; // 9669271647 // 5868415858
-  meetingPassword = 'dlN1bGo1SFd6Q0p0U1dQTEkrZnRTZz09';
-  displayName = 'Mikki M';
+  meetingNumber = '';
+  meetingPassword = '';
+  displayName = '';
 
-  constructor(    private toastCtrl: ToastController,
+  constructor(    
+    private toastCtrl: ToastController,
+    private route: ActivatedRoute,
     private zoomService: Zoom,
     @Inject(USER_SERVICE) private userService: UserService) { }
 
@@ -24,7 +27,11 @@ export class ZoomPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    
+    this.meetingNumber = this.route.snapshot.queryParamMap.get('meetingNumber');
+    this.meetingPassword = this.route.snapshot.queryParamMap.get('meetingPassword');
+    this.displayName = this.userService._user.name;
+
+    this.joinMeeting();
   }
 
   ionViewDidLeave() {
@@ -79,7 +86,5 @@ export class ZoomPage implements OnInit {
           console.log(error);
           this.presentToast(error);
     });
-
-    this.zoomService
   }
 }
