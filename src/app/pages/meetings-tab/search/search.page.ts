@@ -46,7 +46,7 @@ export class SearchPage implements OnInit {
       this.busyService.dismiss();
     }, error => {
       this.busyService.dismiss();
-      this.toastService.present(`Zoom error: ${error}`, 3000);
+      this.toastService.present(`${error}`, 3000);
     })
   }
 
