@@ -16,7 +16,9 @@
   <ion-card *ngIf="homeMeeting">
     <ion-card-header>
       <ion-item>
-        <ion-label style="color:rgb(196, 61, 196)"><h1 translate>HOME.MEETING</h1></ion-label>
+        <ion-label style="color:rgb(196, 61, 196)">
+          <h1 translate>HOME.MEETING</h1>
+        </ion-label>
         <ion-icon slot="end" name="information-circle-outline" (click)="viewHomeMeeting()"></ion-icon>
       </ion-item>
     </ion-card-header>
@@ -25,10 +27,14 @@
       <ion-list>
         <ion-item-sliding>
           <ion-item>
-            <ion-label text-wrap>{{userService.user.homeMeeting.name}}</ion-label>
-            <ion-label>{{userService.user.homeMeeting.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
+            
+            <ion-label text-wrap style="color:rgb(76, 194, 60)">{{userService.user.homeMeeting.name}}</ion-label>
             <ion-icon slot="end" name="infinite-outline" *ngIf="userService.user.homeMeeting.continuous"></ion-icon>
-            <ion-icon slot="end" name="videocam-outline" *ngIf="userService.user.homeMeeting.isLive"></ion-icon>
+            <ion-item slot="end">
+              <ion-label *ngIf="!userService.user.homeMeeting.continuous">
+                {{userService.user.homeMeeting.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
+              <ion-icon name="videocam-outline" *ngIf="userService.user.homeMeeting.isLive"></ion-icon>
+            </ion-item>
             <!-- <ion-icon slot="end" name="heart-outline" (click)="addFavorite(userService.user.homeMeeting)" *ngIf="!isFavorite(userService.user.homeMeeting)">
             </ion-icon>
             <ion-icon slot="end" name="heart" (click)="removeFavorite(userService.user.homeMeeting)" *ngIf="isFavorite(userService.user.homeMeeting)"></ion-icon> -->
@@ -44,10 +50,12 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card  *ngIf="showFavoriteMeetings">
+  <ion-card *ngIf="showFavoriteMeetings">
     <ion-card-header>
       <ion-item>
-        <ion-label style="color:rgb(196, 61, 196)"><h1 translate>FAVORITE.MEETINGS</h1></ion-label>
+        <ion-label style="color:rgb(196, 61, 196)">
+          <h1 translate>FAVORITE.MEETINGS</h1>
+        </ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewFavorites()"></ion-icon>
       </ion-item>
     </ion-card-header>
@@ -56,10 +64,16 @@
       <ion-list *ngFor="let favorite of meetingService.favoriteMeetings$ | async">
         <ion-item-sliding>
           <ion-item>
-            <ion-label>{{favorite.name}}</ion-label>
-            <ion-label *ngIf="!favorite.continuous">{{favorite.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
-            <ion-icon name="infinite-outline" *ngIf="favorite.continuous"></ion-icon>
-            <ion-icon slot="end" name="videocam-outline" *ngIf="favorite.isLive"></ion-icon>
+            
+            <ion-label style="color:rgb(76, 194, 60)" text-wrap>{{favorite.name}}</ion-label>
+
+            <ion-icon slot="end" name="infinite-outline" *ngIf="favorite.continuous"></ion-icon>
+            <ion-item slot="end">
+              <ion-label *ngIf="!favorite.continuous">{{favorite.startTimeFormatLocal | date:'h:mm a EEEE'}}
+              </ion-label>
+              <ion-icon name="videocam-outline" *ngIf="favorite.isLive"></ion-icon>
+            </ion-item>
+
             <!-- <ion-icon slot="end" name="heart-outline" (click)="addFavorite(favorite)" *ngIf="!isFavorite(favorite)">
             </ion-icon>
             <ion-icon slot="end" name="heart" (click)="removeFavorite(favorite)" *ngIf="isFavorite(favorite)">
@@ -78,7 +92,9 @@
   <ion-card *ngIf="showLiveMeetings">
     <ion-card-header>
       <ion-item>
-        <ion-label style="color:rgb(196, 61, 196)"><h1 translate>LIVE.MEETINGS</h1></ion-label>
+        <ion-label style="color:rgb(196, 61, 196)">
+          <h1 translate>LIVE.MEETINGS</h1>
+        </ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewLive()"></ion-icon>
       </ion-item>
     </ion-card-header>
@@ -87,10 +103,17 @@
       <ion-list *ngFor="let meeting of live$ | async">
         <ion-item-sliding>
           <ion-item>
-            <ion-label>{{meeting.name}}</ion-label>
-            <ion-label>{{meeting.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
+            
+            <ion-label style="color:rgb(76, 194, 60)" text-wrap>{{meeting.name}}</ion-label>
+
+
             <ion-icon slot="end" name="infinite-outline" *ngIf="meeting.continuous"></ion-icon>
-            <ion-icon slot="end" name="videocam-outline" *ngIf="meeting.isLive"></ion-icon>
+            <ion-item slot="end">
+              <ion-label *ngIf="!meeting.continuous">{{meeting.startTimeFormatLocal | date:'h:mm a EEEE'}}
+              </ion-label>
+              <ion-icon name="videocam-outline" *ngIf="meeting.isLive"></ion-icon>
+            </ion-item>
+
             <ion-icon slot="end" name="heart-outline" (click)="addFavorite(meeting)" *ngIf="!isFavorite(meeting)">
             </ion-icon>
             <ion-icon slot="end" name="heart" (click)="removeFavorite(meeting)" *ngIf="isFavorite(meeting)"></ion-icon>
