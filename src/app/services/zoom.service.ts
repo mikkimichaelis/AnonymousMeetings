@@ -24,13 +24,14 @@ export class ZoomService {
   joinMeeting(
     meetingNumber: string,
     meetingPassword: string,
+    meetingTitle: string,
     displayName: string
   ): Promise<any> {
     console.log('Going to join meeting');
 
     // Prepare meeting option
     const options = {
-      custom_meeting_id: "Customized Title",
+      custom_meeting_id: meetingTitle,
       no_share: false,
       no_audio: false,
       no_video: false,
