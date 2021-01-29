@@ -1,3 +1,4 @@
+import { Platform } from '@ionic/angular';
 import firebase from 'firebase/app';
 import { ReplaySubject } from 'rxjs';
 
@@ -14,6 +15,6 @@ export interface IAuthService {
     createAnonymous();
     
     logout();
-    getUiConfig();
+    getUiConfig(platform: Platform): any;
 }
     

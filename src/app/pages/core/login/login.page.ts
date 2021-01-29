@@ -4,6 +4,7 @@ import { AuthService } from '../../../services/auth.service';
 import firebase from 'firebase/app'
 import { from, of } from 'rxjs';
 import { concatMap, delay } from 'rxjs/operators';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { concatMap, delay } from 'rxjs/operators';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private route: ActivatedRoute, private authService: AuthService) {
+  constructor(private platform: Platform, private route: ActivatedRoute, private authService: AuthService) {
     
   }
 
@@ -23,7 +24,7 @@ export class LoginPage implements OnInit {
     //await this.authService.initialize();
     // https://github.com/firebase/firebaseui-web/issues/559
     if (!this.started) {
-      await this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig())
+      await this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig(this.platform));
       this.started = true;
       console.log(`LoginPage.ngOnInit().firebaseUi.start()`);
     }

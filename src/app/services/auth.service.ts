@@ -9,6 +9,7 @@ import { Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';
 
 import { IAngularFireAuth, IAuthService, } from './';
 import { ANGULAR_FIRE_AUTH } from './injection-tokens';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -70,10 +71,8 @@ export class AuthService implements IAuthService {
     await this.firebaseAuth.signOut()
   }
 
-  // TODO customize prompts for both "signin" and "signup"
-  public getUiConfig() {
-    // FirebaseUI config.
-    return {
+  public getUiConfig(platform: Platform): any {
+    const config: any = {
       callbacks: {
         signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential) => {
           const user = authResult.user;
@@ -99,31 +98,6 @@ export class AuthService implements IAuthService {
         }
       },
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
-      signInOptions: [
-        // Leave the lines as is for the providers you want to offer your users.
-        'apple.com',
-        {
-          provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          customParameters: {
-            // Forces account selection even when one account
-            // is available.
-            prompt: 'select_account'
-          }
-        },
-        {
-          provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-          scopes: [
-            'public_profile',
-          ]
-        },
-        // 'microsoft.com',
-        // 'yahoo.com',
-        // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-        // firebase.auth.GithubAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        // firebase.auth.PhoneAuthProvider.PROVIDER_ID // not available for Ionic apps
-      ],
-      // Terms of service url.
       tosUrl: 'https://anonymousmeetings.us/assets/pages/tos.html',
       privacyPolicyUrl: 'https://anonymousmeetings.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
@@ -131,11 +105,24 @@ export class AuthService implements IAuthService {
       autoUpgradeAnonymousUsers: true,
       signInFlow: 'redirect'
     };
+
+    if (platform.is('ios') || platform.is('iphone') || platform.is('ipad')) {
+      config.signInOptions = [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      ];
+    } else {
+      config.signInOptions = [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        'apple.com',
+        {
+          customParameters: {
+            prompt: 'select_account'
+          }
+        },
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        // firebase.auth.PhoneAuthProvider.PROVIDER_ID // not available for Ionic apps
+      ];
+    }
+    return config;
   }
 }
-
-
-
-
-
-

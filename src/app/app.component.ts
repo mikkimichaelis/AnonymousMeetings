@@ -80,10 +80,12 @@ export class AppComponent {
 
   async initializeApp() {
     console.trace("initializeApp()");
-    this.platform.ready().then(async () => {
+    this.platform.ready().then(async (readySource) => {
 
-      console.log("Platform ready");
+      console.log(`Platform ready: ${readySource}`);
       await this.initializeService.initializeServices();
+
+      console.log(`platforms ${JSON.stringify(this.platform.platforms())}`);
 
       if (this.platform.is('hybrid')) { // 'hybrid' detects both Cordova and Capacitor
         // make your native API calls
