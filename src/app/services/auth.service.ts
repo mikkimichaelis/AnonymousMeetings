@@ -106,7 +106,7 @@ export class AuthService implements IAuthService {
       signInFlow: 'redirect'
     };
 
-    if (platform.is('ios') || platform.is('iphone') || platform.is('ipad')) {
+    if (true || platform.is('ios') || platform.is('iphone') || platform.is('ipad')) {
       config.signInOptions = [
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
       ];
