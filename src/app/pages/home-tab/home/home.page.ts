@@ -130,9 +130,23 @@ export class HomePage {
     this.viewMeeting(this.userService._homeMeeting)
   }
 
+  format(str: string): string {
+    return _.truncate(str, { length: 30, omission: '...'});
+  }
+
+  async joinOrViewMeeting(meeting: Meeting) {
+    if (meeting.isLive) {
+      await this.joinMeeting(meeting);
+    } else {
+      await this.viewMeeting(meeting);
+    }
+  }
+
   async joinMeeting(meeting: Meeting) {
+    const displayName = `_${this.userService._user.name}_`;
+    this.toastService.present(`${displayName}@${meeting.zid}: ${meeting.password}`, 3000);
     await this.busyService.present('Connecting Zoom Meeting...')
-    this.zoomService.joinMeeting(meeting.zid, meeting.password).then(
+    this.zoomService.joinMeeting(meeting.zid, meeting.password, displayName).then(
       rv => {
       this.busyService.dismiss();
     }, error => {

@@ -91,7 +91,7 @@ export class AppComponent {
         // fallback to browser APIs
       }
 
-      console.log('oomService.initialize()');
+      console.log('zoomService.initialize()');
       this.zoomService.initialize(this.SDK_KEY, this.SDK_SECRET)
         .then((success) => {
           console.log(success);

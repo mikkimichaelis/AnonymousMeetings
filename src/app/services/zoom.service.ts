@@ -24,10 +24,9 @@ export class ZoomService {
   joinMeeting(
     meetingNumber: string,
     meetingPassword: string,
+    displayName: string
   ): Promise<any> {
     console.log('Going to join meeting');
-
-    const displayName = `${this.userService._user.name}_`;
 
     // Prepare meeting option
     const options = {
