@@ -1,0 +1,86 @@
+<ion-item-sliding>
+  <!-- TODO is live join otherwise view Meeting page -->
+  <ion-item (click)="joinOrViewMeeting(meeting)">
+    <ion-grid>
+      <ion-row>
+        
+        <!-- class="ion-float-left"  -->
+        <ion-col size="8" style="color:rgb(196, 61, 196)">
+          <ion-table>
+            <ion-row>
+              <ion-label>
+                {{this.format(meeting.name)}}
+              </ion-label>
+            </ion-row>
+            <ion-row>
+              <ion-label>
+                {{this.format(meeting.topic)}}
+              </ion-label>
+            </ion-row>
+          </ion-table>
+        </ion-col>
+
+        <ion-col class="ion-text-start ion-float-left">
+          <date-badge [date]="meeting.nextTime" *ngIf="!meeting.continuous"></date-badge>
+        </ion-col>
+
+        <ion-col class="ion-text-end ion-float-right">
+          <ion-table>
+            <ion-row>
+              <ion-icon name="home-outline" *ngIf="isHome(meeting)"></ion-icon>
+            </ion-row>
+            <ion-row>
+              <ion-icon name="infinite-outline" *ngIf="meeting.continuous"></ion-icon>
+            </ion-row>
+            <ion-row>
+              <ion-icon name="videocam-outline" *ngIf="meeting.isLive"></ion-icon>
+            </ion-row>
+          </ion-table>
+        </ion-col>
+
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+
+  <ion-item-options side="end">
+    <!-- TODO make sure these bindings refresh on homeMeeting$ -->
+
+    <!-- <ion-item-option (click)="remindMeeting(meeting)">
+      Set<br />
+      Reminder
+    </ion-item-option> -->
+
+    <ion-item-option *ngIf="meeting.isLive" (click)="joinMeeting(meeting)">
+      <!-- <ion-icon name="videocam-outline"></ion-icon> -->
+      Join
+    </ion-item-option>
+
+  </ion-item-options>
+  <ion-item-options side="start">
+
+    <!-- <ion-item-option *ngIf="!(this.userService.homeMeeting$ | async).isLive" 
+      (click)="alert('set 6pm reminder')">
+      <ion-icon name="alarm-outline"></ion-icon>
+      {{this.userService._homeMeeting.startTimeFormatLocal | date:'h:ma'}}<br/>
+      {{this.userService._homeMeeting.startTimeFormatLocal | date:'EE'}}
+    </ion-item-option> -->
+
+    <!-- Join -->
+
+
+    
+
+    <!-- Block -->
+    
+    <!-- Info -->
+    <ion-item-option (click)="viewMeeting(meeting)">
+      Info
+    </ion-item-option>
+
+    <ion-item-option (click)="blockMeeting(meeting)">
+      Block
+      <!-- <ion-icon name="alert-outline"></ion-icon> -->
+    </ion-item-option>
+
+  </ion-item-options>
+</ion-item-sliding>

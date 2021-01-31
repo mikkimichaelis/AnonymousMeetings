@@ -9,7 +9,10 @@
 
 <ion-content>
   <ion-list *ngFor="let meeting of this.meetingService.favoriteMeetings$ | async">
-    <ion-item-sliding>
+    <!-- // TODO review watch -->
+    <meeting-listing [meeting]="meeting" [watch]="false"></meeting-listing>
+
+    <!-- <ion-item-sliding>
       <ion-item>
         <ion-label>{{meeting.name}}</ion-label>
         <ion-label *ngIf="!meeting.continuous">{{meeting.startTimeFormatLocal | date:'h:mm a EEEE'}}</ion-label>
@@ -23,6 +26,6 @@
         <ion-item-option (click)="viewMeeting(meeting)">Info</ion-item-option>
         <ion-item-option (click)="joinMeeting(meeting)" *ngIf="meeting.isLive">Join</ion-item-option>
       </ion-item-options>
-    </ion-item-sliding>
+    </ion-item-sliding> -->
   </ion-list>
 </ion-content>
