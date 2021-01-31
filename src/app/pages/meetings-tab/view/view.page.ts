@@ -4,7 +4,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { BUSY_SERVICE, FirestoreService, FIRESTORE_SERVICE, IBusyService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE } from '../../../services';
-import { IMeeting, IUser, Meeting } from 'src/shared/models';
+import { IMeeting, IUser, Meeting, User } from 'src/shared/models';
 import { IMeetingService } from 'src/app/services/meeting.service.interface';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -18,9 +18,9 @@ import { AddPage } from '../../admin-tab/add/add.page';
 })
 export class ViewPage implements OnInit {
 
-  @Input() meeting: IMeeting;
+  @Input() meeting: Meeting;
 
-  user: IUser;
+  user: User;
 
   get showRecurrence(): boolean {
     return this.meeting.continuous == false;
@@ -49,7 +49,7 @@ export class ViewPage implements OnInit {
 
   ngOnInit() {
     this.fss.doc$(`meetings/${this.meeting.id}`).subscribe((meeting: IMeeting) => {
-      this.meeting = meeting;
+      this.meeting = new Meeting(meeting);
     })
   }
 

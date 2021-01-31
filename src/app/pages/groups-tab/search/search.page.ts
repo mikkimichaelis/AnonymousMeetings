@@ -15,12 +15,12 @@ import { SearchSettingsPage } from './search-settings/search-settings.page';
 export class SearchPage implements OnInit {
 
   constructor( 
-    protected router: Router,
-    protected routerOutlet: IonRouterOutlet, 
-    protected modalCtrl: ModalController, 
-    protected groupsSvc: GroupsService, 
-    protected locSvc: LocationService,
-    protected settingsSvc: SettingsService,
+    private router: Router,
+    private routerOutlet: IonRouterOutlet, 
+    private modalCtrl: ModalController, 
+    private groupsSvc: GroupsService, 
+    private locSvc: LocationService,
+    private settingsSvc: SettingsService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService
     ) { }
 
