@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { BusyService } from '../../../services/busy.service';
 import { UserService } from '../../../services/user.service';
@@ -39,6 +40,7 @@ export class HomePage {
     private busySvc: BusyService,
     private socialSharing: SocialSharing,
     private zoomService: ZoomService,
+    private iab: InAppBrowser,
     @Inject(TOAST_SERVICE) private toastService: IToastService,
     @Inject(BUSY_SERVICE) private busyService: IBusyService,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
@@ -186,5 +188,10 @@ export class HomePage {
       this.userService._user.homeMeeting = null,
         await this.userService.saveUserAsync(this.userService._user);
     }
+  }
+
+  buymeacoffee() {
+    // TODO config
+    this.iab.create('https://www.buymeacoffee.com/mikkimichaelis', '_system') // target?: string, options?: string
   }
 }
