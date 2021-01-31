@@ -49,6 +49,7 @@ import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
 import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module';
 import { AuthGuard, FeatureGuard } from './guards';
 import { NbThemeModule } from '@nebular/theme';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

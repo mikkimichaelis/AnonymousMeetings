@@ -30,7 +30,7 @@ export class MapPage extends SearchPage {
      }
 
     async ionViewDidEnter() {
-      const { lat, lon } = await this.locSvc.getGps();
+      const { lat, lon } = await this._locSvc.getGps();
       this.latitude = lat;
       this.longitude = lon;
 

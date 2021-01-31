@@ -31,7 +31,7 @@ export class FavoritesPage implements OnInit {
   async joinMeeting(meeting: Meeting) {
     await this.busyService.present('Connecting Zoom Meeting...')
     const displayName = `_${this.userService._user.name}_`;
-    this.zoomService.joinMeeting(meeting.zid, meeting.password, displayName).then(
+    this.zoomService.joinMeeting(meeting.zid, meeting.password, meeting.name, displayName).then(
       rv => {
       this.busyService.dismiss();
     }, error => {

@@ -137,7 +137,7 @@ export class AddPage implements OnInit {
         name: this.meetingForm.controls.name.value,
         password: this.meetingForm.controls.password.value,
         topic: this.meetingForm.controls.topic.value,
-        tags: [`${this.meetingForm.controls.tags.value}`],
+        tags: this.meetingForm.controls.tags.value,
         continuous: this.meetingForm.controls.continuous.value,
 
         timezone: this.meetingForm.controls.timezone.value,

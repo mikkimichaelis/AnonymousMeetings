@@ -4,9 +4,11 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { MeetingListingComponent } from './components/meeting-listing/meeting-listing.component';
+import { DateBadgeComponent } from './components/date-badge/date-badge.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [MeetingListingComponent, DateBadgeComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -21,7 +23,9 @@ import { TranslateModule } from '@ngx-translate/core';
     RouterModule,
     FormsModule,
     IonicModule,
-    TranslateModule
+    TranslateModule,
+    MeetingListingComponent,
+    DateBadgeComponent
   ],
   providers: [
   ]

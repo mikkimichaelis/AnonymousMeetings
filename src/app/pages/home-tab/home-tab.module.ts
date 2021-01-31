@@ -11,6 +11,7 @@ import { AttendancePage } from './attendance/attendance.page';
 import { NbThemeModule } from '@nebular/theme';
 import { LivePage } from './live/live.page';
 import { FavoritesPage } from './favorites/favorites.page';
+import { MeetingListingComponent } from 'src/app/components/meeting-listing/meeting-listing.component';
 
 
 @NgModule({

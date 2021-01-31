@@ -103,7 +103,7 @@ export class HomePage {
   };
   share() {
     //this.socialSharing.shareWithOptions(this.options);
-    this.socialSharing.share('hello, world');
+    this.socialSharing.share("Open Whit's App", "Whit's App Recovery Meetings", [], `https://anonymousmeetings.web.app/assets/pages/download.html`);
   }
 
   daysSober() {
@@ -144,9 +144,9 @@ export class HomePage {
 
   async joinMeeting(meeting: Meeting) {
     const displayName = `_${this.userService._user.name}_`;
-    this.toastService.present(`${displayName}@${meeting.zid}: ${meeting.password}`, 3000);
+    //this.toastService.present(`${displayName}@${meeting.zid}: ${meeting.password}`, 3000);
     await this.busyService.present('Connecting Zoom Meeting...')
-    this.zoomService.joinMeeting(meeting.zid, meeting.password, displayName).then(
+    this.zoomService.joinMeeting(meeting.zid, meeting.password, displayName, meeting.name).then(
       rv => {
       this.busyService.dismiss();
     }, error => {

@@ -34,8 +34,8 @@ export class Id extends Base implements IId {
     public toObject(exclude?: string[]): any {
         const ts_createdAt = this.ts.createdAt;
         const obj = super.toObject(exclude);
-        obj.ts.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
         obj.ts.createdAt = ts_createdAt;
+        obj.ts.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
         return obj;
     }
 
