@@ -103,7 +103,7 @@ export class HomePage {
   };
   share() {
     //this.socialSharing.shareWithOptions(this.options);
-    this.socialSharing.share('hello, world');
+    this.socialSharing.share("Open Whit's App", "Whit's App Recovery Meetings", [], `https://anonymousmeetings.web.app/assets/pages/download.html`);
   }
 
   daysSober() {
