@@ -23,14 +23,14 @@ export class GroupPage implements OnInit {
   }
 
   constructor(
-    private route: ActivatedRoute,
-    private alertController: AlertController,
-    private busySvc: BusyService,
-    private contacts: Contacts,
-    @Inject(BUSY_SERVICE) private busyService: IBusyService,
-    @Inject(TOAST_SERVICE) private toastService: IToastService,
-    @Inject(USER_SERVICE) private userService: IUserService,
-    @Inject(GROUP_SERVICE) private groupSvc: IGroupService) { }
+    public route: ActivatedRoute,
+    public alertController: AlertController,
+    public busySvc: BusyService,
+    public contacts: Contacts,
+    @Inject(BUSY_SERVICE) public busyService: IBusyService,
+    @Inject(TOAST_SERVICE) public toastService: IToastService,
+    @Inject(USER_SERVICE) public userService: IUserService,
+    @Inject(GROUP_SERVICE) public groupSvc: IGroupService) { }
 
   async ngOnInit() {
     

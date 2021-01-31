@@ -18,7 +18,7 @@
     <agm-marker *ngFor="let group of groupsSvc.groups$ | async" 
       [latitude]="group.point.geopoint.latitude" 
       [longitude]="group.point.geopoint.longitude"
-      (markerClick)="clickedMarker( infoWindow, i)">
+      (markerClick)="clickedMarker( infoWindow )">
       <agm-info-window  #infoWindow>
         {{group.name}}<br/>
         {{group.location.name}}<br/>

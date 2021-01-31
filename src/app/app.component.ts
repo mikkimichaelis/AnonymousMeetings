@@ -40,20 +40,20 @@ export class AppComponent {
 
   constructor(
     // private menu: MenuController,
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    private swUpdate: SwUpdate,
-    private initializeService: InitializeService,
-    private router: Router,
-    private translateService: TranslateService,
-    private zoomService: Zoom,
-    private toastCtrl: ToastController,
-    @Inject(TOAST_SERVICE) private toastService: IToastService,
-    @Inject(BUSY_SERVICE) private busyService: IBusyService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService,
-    @Inject(USER_SERVICE) private userService: IUserService,
-    @Inject(SETTINGS_SERVICE) private settingsService: ISettingsService
+    public platform: Platform,
+    public splashScreen: SplashScreen,
+    public statusBar: StatusBar,
+    public swUpdate: SwUpdate,
+    public initializeService: InitializeService,
+    public router: Router,
+    public translateService: TranslateService,
+    public zoomService: Zoom,
+    public toastCtrl: ToastController,
+    @Inject(TOAST_SERVICE) public toastService: IToastService,
+    @Inject(BUSY_SERVICE) public busyService: IBusyService,
+    @Inject(AUTH_SERVICE) public authService: IAuthService,
+    @Inject(USER_SERVICE) public userService: IUserService,
+    @Inject(SETTINGS_SERVICE) public settingsService: ISettingsService
   ) {
 
     LogRocket.init("tdzfnj/anonymous-meetings",

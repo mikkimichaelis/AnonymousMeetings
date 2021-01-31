@@ -18,13 +18,13 @@ export class MapPage extends SearchPage {
   longitude: number;
 
   constructor(
-    private _router: Router,
-    private _routerOutlet: IonRouterOutlet, 
-    private _modalCtrl: ModalController, 
-    private _groupsSvc: GroupsService,
-    private _locSvc: LocationService,
-    private _settingsSvc: SettingsService,
-    @Inject(BUSY_SERVICE) private _busyService: IBusyService
+    public _router: Router,
+    public _routerOutlet: IonRouterOutlet, 
+    public _modalCtrl: ModalController, 
+    public _groupsSvc: GroupsService,
+    public _locSvc: LocationService,
+    public _settingsSvc: SettingsService,
+    @Inject(BUSY_SERVICE) public _busyService: IBusyService
     ) {
       super(_router, _routerOutlet, _modalCtrl, _groupsSvc, _locSvc, _settingsSvc, _busyService)
      }

@@ -9,7 +9,7 @@ import { GROUP_SERVICE } from 'src/app/services/injection-tokens';
 })
 export class MembersPage implements OnInit {
 
-  constructor(@Inject(GROUP_SERVICE) private groupService: IGroupService) { }
+  constructor(@Inject(GROUP_SERVICE) public groupService: IGroupService) { }
 
   ngOnInit() {
   }

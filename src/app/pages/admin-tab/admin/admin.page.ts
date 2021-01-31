@@ -17,11 +17,11 @@ export class AdminPage implements OnInit {
   admin = [];
 
   constructor(
-    private router: Router,
-    private modalController: ModalController,
-    private sharedDataService: SharedDataService,
-    @Inject(USER_SERVICE) private userService: IUserService,
-    @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
+    public router: Router,
+    public modalController: ModalController,
+    public sharedDataService: SharedDataService,
+    @Inject(USER_SERVICE) public userService: IUserService,
+    @Inject(MEETING_SERVICE) public meetingService: IMeetingService) {
   }
 
   ngOnInit() {

@@ -35,17 +35,18 @@ export class HomePage {
     return this.userService._user.favMeetings.length > 0;
   }
 
-  constructor(private router: Router,
-    private modalController: ModalController,
-    private busySvc: BusyService,
-    private socialSharing: SocialSharing,
-    private zoomService: ZoomService,
-    private iab: InAppBrowser,
-    @Inject(TOAST_SERVICE) private toastService: IToastService,
-    @Inject(BUSY_SERVICE) private busyService: IBusyService,
-    @Inject(AUTH_SERVICE) private authService: IAuthService,
-    @Inject(USER_SERVICE) private userService: IUserService,
-    @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
+  constructor(
+    public router: Router,
+    public modalController: ModalController,
+    public busySvc: BusyService,
+    public socialSharing: SocialSharing,
+    public zoomService: ZoomService,
+    public iab: InAppBrowser,
+    @Inject(TOAST_SERVICE) public toastService: IToastService,
+    @Inject(BUSY_SERVICE) public busyService: IBusyService,
+    @Inject(AUTH_SERVICE) public authService: IAuthService,
+    @Inject(USER_SERVICE) public userService: IUserService,
+    @Inject(MEETING_SERVICE) public meetingService: IMeetingService) {
     // debugger;
   }
 
@@ -145,10 +146,8 @@ export class HomePage {
   }
 
   async joinMeeting(meeting: Meeting) {
-    const displayName = `_${this.userService._user.name}_`;
-    //this.toastService.present(`${displayName}@${meeting.zid}: ${meeting.password}`, 3000);
     await this.busyService.present('Connecting Zoom Meeting...')
-    this.zoomService.joinMeeting(meeting.zid, meeting.password, displayName, meeting.name).then(
+    this.zoomService.joinMeeting(meeting.zid, meeting.password, meeting.name, this.userService._user.name ).then(
       rv => {
       this.busyService.dismiss();
     }, error => {

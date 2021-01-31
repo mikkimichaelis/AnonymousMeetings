@@ -19,7 +19,7 @@ export class DateBadgeComponent implements OnInit {
   }
 
   public get dow(): string {
-    return this.date.toLocaleString({ weekday: 'long' });
+    return this.date.toLocaleString({ weekday: 'long' }).substring(0, 3);
   }
 
   public get time(): string {
