@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ILocationService } from './location.service.interface';
 
 @Injectable({
@@ -7,7 +6,10 @@ import { ILocationService } from './location.service.interface';
 })
 export class LocationService implements ILocationService {
 
-  constructor(private geo: Geolocation) { }
+  geo: any;
+
+  // private geo: Geolocation
+  constructor() { }
 
   async getGps(): Promise<{lat: number, lon: number}> {
     const pos = await this.geo.getCurrentPosition();

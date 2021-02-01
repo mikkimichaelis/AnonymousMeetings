@@ -18,10 +18,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+//import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { Contacts } from '@ionic-native/contacts/ngx';
+//import { Contacts } from '@ionic-native/contacts/ngx';
 
 import { google } from '@google/maps';
 import { AgmCoreModule } from '@agm/core';
@@ -85,10 +85,10 @@ import { NbThemeModule } from '@nebular/theme';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Geolocation,
+    // Geolocation,
     NativeStorage,
     SocialSharing,
-    Contacts,
+    // Contacts,
     AngularFirestore,
     TranslateService,
     AngularFireAuth,

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts/ngx';
+// import { Contacts, Contact, ContactField, ContactName } from '@ionic-native/contacts/ngx';
 import * as _ from 'lodash';
 import { IGroup } from 'src/shared/models';
 
@@ -22,11 +22,13 @@ export class GroupPage implements OnInit {
     return this.groupSvc.group.isFavorite(this.userService._user);
   }
 
+  contacts: any;
+
   constructor(
     public route: ActivatedRoute,
     public alertController: AlertController,
     public busySvc: BusyService,
-    public contacts: Contacts,
+    //public contacts: Contacts,
     @Inject(BUSY_SERVICE) public busyService: IBusyService,
     @Inject(TOAST_SERVICE) public toastService: IToastService,
     @Inject(USER_SERVICE) public userService: IUserService,
@@ -86,13 +88,13 @@ export class GroupPage implements OnInit {
   }
 
   async makeContact(group: IGroup) {
-    let contact: Contact = this.contacts.create();
+    // let contact: Contact = this.contacts.create();
 
-    contact.name = new ContactName(null, group.name, group.location.name);
-    contact.phoneNumbers = [new ContactField('business', group.telephone)];
-    contact.save().then(
-      () => console.log('Contact saved!', contact),
-      (error: any) => console.error('Error saving contact.', error)
-    );
+    // contact.name = new ContactName(null, group.name, group.location.name);
+    // contact.phoneNumbers = [new ContactField('business', group.telephone)];
+    // contact.save().then(
+    //   () => console.log('Contact saved!', contact),
+    //   (error: any) => console.error('Error saving contact.', error)
+    // );
   }
 }
