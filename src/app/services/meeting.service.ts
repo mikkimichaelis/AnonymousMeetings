@@ -59,6 +59,7 @@ export class MeetingService implements IMeetingService {
   async update(meeting: Meeting): Promise<boolean> {
     if (meeting) {
       try {
+        console.log(meeting.toObject());
         await this.makeCallableAsync('updateMeeting', meeting.toObject());
         return true;
       } catch (e) {

@@ -3,8 +3,9 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span>
-    </ion-title>
+    <!-- <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span></ion-title> -->
+      <ion-title>Whit'sApp v00.00.01</ion-title>
+    
     <ion-buttons slot="end">
       <ion-icon slot="end" name="share-outline" style="margin-right: 50px;" (click)="share()"></ion-icon>
     </ion-buttons>
@@ -41,7 +42,7 @@
   <ion-card *ngIf="showFavoriteMeetings">
     <ion-card-header>
       <ion-item>
-        <ion-label style="color:rgb(196, 61, 196)">
+        <ion-label>
           <h1 translate>FAVORITE.MEETINGS</h1>
         </ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewFavorites()"></ion-icon>
@@ -58,7 +59,7 @@
   <ion-card *ngIf="showLiveMeetings">
     <ion-card-header>
       <ion-item>
-        <ion-label style="color:rgb(196, 61, 196)">
+        <ion-label >
           <h1 translate>LIVE.MEETINGS</h1>
         </ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewLive()"></ion-icon>
@@ -105,9 +106,9 @@
       app by buying me a coffee.  Any tip given will
       also remove all advertisements from the app.
   </p> -->
-    <a href="https://www.buymeacoffee.com/mikkimichaelis">
-      <img
-        src="https://img.buymeacoffee.com/button-api/?text=Please buy me a coffee&emoji=&slug=mikkimichaelis&button_colour=f4a4c0&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" />
+    <a (click)="buymeacoffee()">
+      <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 60px !important;" >
+      <!-- <img src="https://img.buymeacoffee.com/button-api/?text=Please buy me a coffee&emoji=&slug=mikkimichaelis&button_colour=f4a4c0&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /> -->
     </a>
   </ion-item>
 </ion-content>

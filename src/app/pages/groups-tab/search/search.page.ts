@@ -15,13 +15,13 @@ import { SearchSettingsPage } from './search-settings/search-settings.page';
 export class SearchPage implements OnInit {
 
   constructor( 
-    private router: Router,
-    private routerOutlet: IonRouterOutlet, 
-    private modalCtrl: ModalController, 
-    private groupsSvc: GroupsService, 
-    private locSvc: LocationService,
-    private settingsSvc: SettingsService,
-    @Inject(BUSY_SERVICE) private busyService: IBusyService
+    public router: Router,
+    public routerOutlet: IonRouterOutlet, 
+    public modalCtrl: ModalController, 
+    public groupsSvc: GroupsService, 
+    public locSvc: LocationService,
+    public settingsSvc: SettingsService,
+    @Inject(BUSY_SERVICE) public busyService: IBusyService
     ) { }
 
   ngOnInit() {

@@ -9,4 +9,6 @@ export interface ISettingsService {
     initialize(auth: boolean);
     load();
     save();
+
+    darkTheme: boolean;
 }

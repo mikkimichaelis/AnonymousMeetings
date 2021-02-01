@@ -18,16 +18,16 @@ import { SearchSettingsPage } from './search-settings/search-settings.page';
 export class SearchPage implements OnInit {
 
   constructor( 
-    protected router: Router,
-    protected routerOutlet: IonRouterOutlet, 
-    private modalController: ModalController,
-    protected meetingService: MeetingService, 
-    protected locSvc: LocationService,
-    protected settingsSvc: SettingsService,
-    protected zoomService: ZoomService,
-    @Inject(TOAST_SERVICE) private toastService: IToastService,
-    @Inject(BUSY_SERVICE) private busyService: IBusyService,
-    @Inject(USER_SERVICE) private userService: IUserService,
+    public router: Router,
+    public routerOutlet: IonRouterOutlet, 
+    public modalController: ModalController,
+    public meetingService: MeetingService, 
+    public locSvc: LocationService,
+    public settingsSvc: SettingsService,
+    public zoomService: ZoomService,
+    @Inject(TOAST_SERVICE) public toastService: IToastService,
+    @Inject(BUSY_SERVICE) public busyService: IBusyService,
+    @Inject(USER_SERVICE) public userService: IUserService,
     ) { }
 
   ngOnInit() {
@@ -41,8 +41,7 @@ export class SearchPage implements OnInit {
 
   async joinMeeting(meeting: Meeting) {
     await this.busyService.present('Connecting Zoom Meeting...')
-    const displayName = `_${this.userService._user.name}_`;
-    this.zoomService.joinMeeting(meeting.zid, meeting.password, meeting.name, displayName).then(
+    this.zoomService.joinMeeting(meeting.zid, meeting.password, meeting.name, this.userService._user.name).then(
       rv => {
       this.busyService.dismiss();
     }, error => {

@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { Zoom } from '@ionic-native/zoom/ngx';
 import { ToastController } from '@ionic/angular';
-import { UserService, USER_SERVICE } from '.';
-
+import { USER_SERVICE } from './injection-tokens';
+import { UserService } from './user.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -56,6 +56,6 @@ export class ZoomService {
       no_button_leave: false
     };
     // Call join meeting method.
-    return this.zoomService.joinMeeting(meetingNumber, meetingPassword, `{Whit'sApp}:${displayName}`, options);
+    return this.zoomService.joinMeeting(meetingNumber, meetingPassword, `[WhitsApp] ${displayName}`, options);
   }
 }

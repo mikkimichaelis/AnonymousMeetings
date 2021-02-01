@@ -21,7 +21,6 @@ export class LoginPage implements OnInit {
   started = false;
   async ngOnInit() {
     console.log('LoginPage.ngOnInit()');
-    //await this.authService.initialize();
     // https://github.com/firebase/firebaseui-web/issues/559
     if (!this.started) {
       await this.authService.firebaseUi.start('#firebaseui-auth-container', this.authService.getUiConfig(this.platform));

@@ -14,14 +14,14 @@ import { ViewPage } from '../../meetings-tab/view/view.page';
 export class FavoritesPage implements OnInit {
 
   constructor(
-    private router: Router, 
-    private busySvc: BusyService, 
-    private modalController: ModalController,
-    private zoomService: ZoomService,
-    @Inject(TOAST_SERVICE) private toastService: IToastService,
-    @Inject(BUSY_SERVICE) private busyService: IBusyService,
-    @Inject(USER_SERVICE) private userService: IUserService,
-    @Inject(MEETING_SERVICE) private meetingService: IMeetingService) {
+    public router: Router, 
+    public busySvc: BusyService, 
+    public modalController: ModalController,
+    public zoomService: ZoomService,
+    @Inject(TOAST_SERVICE) public toastService: IToastService,
+    @Inject(BUSY_SERVICE) public busyService: IBusyService,
+    @Inject(USER_SERVICE) public userService: IUserService,
+    @Inject(MEETING_SERVICE) public meetingService: IMeetingService) {
     
   }
 
@@ -30,8 +30,7 @@ export class FavoritesPage implements OnInit {
 
   async joinMeeting(meeting: Meeting) {
     await this.busyService.present('Connecting Zoom Meeting...')
-    const displayName = `_${this.userService._user.name}_`;
-    this.zoomService.joinMeeting(meeting.zid, meeting.password, meeting.name, displayName).then(
+    this.zoomService.joinMeeting(meeting.zid, meeting.password, meeting.name, this.userService._user.name).then(
       rv => {
       this.busyService.dismiss();
     }, error => {

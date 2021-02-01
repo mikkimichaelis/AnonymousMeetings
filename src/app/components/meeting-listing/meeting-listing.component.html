@@ -1,9 +1,14 @@
 <ion-item-sliding>
   <!-- TODO is live join otherwise view Meeting page -->
-  <ion-item (click)="joinOrViewMeeting(meeting)">
+<!--  
+    --border-color	Color of the item border
+    --border-radius	Radius of the item border
+    --border-style	Style of the item border
+    --border-width 
+  -->
+  <ion-item (click)="joinOrViewMeeting(meeting)" style="border-color: rgb(196, 61, 196); border-radius: 5%; border-width: .5ch; border-style: groove;">
     <ion-grid>
       <ion-row>
-        
         <!-- class="ion-float-left"  -->
         <ion-col size="8" style="color:rgb(196, 61, 196)">
           <ion-grid>
@@ -20,10 +25,6 @@
           </ion-grid>
         </ion-col>
 
-        <ion-col class="ion-text-start ion-float-left">
-          <date-badge [date]="meeting.nextTime" *ngIf="!meeting.continuous"></date-badge>
-        </ion-col>
-
         <ion-col class="ion-text-end ion-float-right">
           <ion-grid>
             <ion-row>
@@ -36,6 +37,10 @@
               <ion-icon name="videocam-outline" *ngIf="meeting.isLive"></ion-icon>
             </ion-row>
           </ion-grid>
+        </ion-col>
+
+        <ion-col size="2" class="ion-text-end ion-float-right">
+          <date-badge [date]="meeting.nextTime" *ngIf="!meeting.continuous"></date-badge>
         </ion-col>
 
       </ion-row>
