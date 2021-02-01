@@ -117,7 +117,6 @@
     </platform>
     <plugin name="cordova-plugin-browsertab" spec="0.2.0" />
     <plugin name="cordova-plugin-buildinfo" spec="4.0.0" />
-    <plugin name="cordova-plugin-contacts" spec="^3.0.1" />
     <plugin name="cordova-plugin-customurlscheme" spec="5.0.2">
         <variable name="URL_SCHEME" value="us.anonymousmeetings.app" />
         <variable name="ANDROID_SCHEME" value=" " />
@@ -125,9 +124,6 @@
         <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
     <plugin name="cordova-plugin-device" spec="2.0.2" />
-    <plugin name="cordova-plugin-geolocation" spec="^4.1.0">
-        <variable name="GPS_REQUIRED" value="true" />
-    </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="4.1.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
