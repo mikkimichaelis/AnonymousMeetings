@@ -3,8 +3,9 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span>
-    </ion-title>
+    <!-- <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span></ion-title> -->
+      <ion-title>Whit'sApp v00.00.01</ion-title>
+    
     <ion-buttons slot="end">
       <ion-icon slot="end" name="share-outline" style="margin-right: 50px;" (click)="share()"></ion-icon>
     </ion-buttons>
@@ -41,7 +42,7 @@
   <ion-card *ngIf="showFavoriteMeetings">
     <ion-card-header>
       <ion-item>
-        <ion-label style="color:rgb(196, 61, 196)">
+        <ion-label>
           <h1 translate>FAVORITE.MEETINGS</h1>
         </ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewFavorites()"></ion-icon>
@@ -58,7 +59,7 @@
   <ion-card *ngIf="showLiveMeetings">
     <ion-card-header>
       <ion-item>
-        <ion-label style="color:rgb(196, 61, 196)">
+        <ion-label >
           <h1 translate>LIVE.MEETINGS</h1>
         </ion-label>
         <ion-icon slot="end" name="list-outline" (click)="viewLive()"></ion-icon>
