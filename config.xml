@@ -7,7 +7,7 @@
         </host>
     </universal-links>
     <name>AnonymousMeetings.Zoom</name>
-    <description>AnonymousMeetings.Zoom</description>
+    <description>Whit's App</description>
     <author email="mikkimichaelis@gmail.com" href="www.psychwardsoftware.com">Psych Ward Software Inc.</author>
     <content src="index.html" />
     <access origin="*" />

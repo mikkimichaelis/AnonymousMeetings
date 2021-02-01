@@ -147,9 +147,9 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "../cordova-plugin-browsertab/app-BrowserTab.gradle"
-apply from: "../cordova-plugin-buildinfo/app-BuildInfo.gradle"
-apply from: "../cordova.plugin.zoom/app-build-extras.gradle"
+apply from: "../cordova-plugin-browsertab/ios-BrowserTab.gradle"
+apply from: "../cordova-plugin-buildinfo/ios-BuildInfo.gradle"
+apply from: "../cordova.plugin.zoom/ios-build-extras.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -357,6 +357,7 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
     implementation "androidx.annotation:annotation:1.1.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "com.android.support:support-v4:27.+"
     // SUB-PROJECT DEPENDENCIES END
     implementation 'androidx.multidex:multidex:2.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
