@@ -1,8 +1,8 @@
 {
-  "name": "AnonymousMeetings",
-  "version": "0.0.2",
+  "name": "Whit's App",
+  "version": "1.0.0",
   "author": "Psych Ward Software Inc.",
-  "homepage": "https://app.anonymousmeetings.us/",
+  "homepage": "https://www.anonymousmeetings.us/",
   "scripts": {
     "ng": "npx ng",
     "start": "npx ng serve",
@@ -133,7 +133,7 @@
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
   },
-  "description": "AnonymousMeetings",
+  "description": "Whit's App",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
