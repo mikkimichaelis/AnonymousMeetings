@@ -81,4 +81,6 @@ platforms/android/app/*
 /resources/windows/icon
 /resources/windows/splash
 
+/src/assets/apps
+
 
