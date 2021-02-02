@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <!-- <ion-title translate>TITLE.WELCOME<span> {{(this.userService.user$ | async)?.name}}</span></ion-title> -->
-      <ion-title>Whit'sApp v00.00.01</ion-title>
+      <ion-title>Whit's App</ion-title>
     
     <ion-buttons slot="end">
       <ion-icon slot="end" name="share-outline" style="margin-right: 50px;" (click)="share()"></ion-icon>
@@ -14,7 +14,7 @@
 
 <ion-content>
 
-  <ion-card *ngIf="(this.userService.homeMeeting$ | async) != null">
+  <!-- <ion-card *ngIf="(this.userService.homeMeeting$ | async) != null"> -->
     <!-- <ion-card-header>
       <ion-item>
         <ion-label style="color:rgb(196, 61, 196)">
@@ -32,14 +32,15 @@
       </ion-item>
     </ion-card-header> -->
 
-    <ion-card-content>
-      <ion-list>
-        <meeting-listing [meeting]="(this.userService.homeMeeting$ | async)" [watch]="true"></meeting-listing>
-      </ion-list>
+    <!-- <ion-card-content>
+      <ion-list> -->
+        <meeting-listing *ngIf="(this.userService.homeMeeting$ | async) != null"
+          [meeting]="(this.userService.homeMeeting$ | async)" [watch]="true"></meeting-listing>
+      <!-- </ion-list>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
 
-  <ion-card *ngIf="showFavoriteMeetings">
+  <!-- <ion-card *ngIf="showFavoriteMeetings">
     <ion-card-header>
       <ion-item>
         <ion-label>
@@ -49,11 +50,15 @@
       </ion-item>
     </ion-card-header>
 
-    <ion-card-content>
+    <ion-card-content> -->
+      <ion-item *ngIf="showFavoriteMeetings">
+        <ion-label>Favorite Meetings</ion-label>
+        <ion-icon slot="start" name="list-outline" (click)="viewFavorites()"></ion-icon>
+      </ion-item>
       <ion-list *ngFor="let favorite of meetingService.favoriteMeetings$ | async">
         <meeting-listing [meeting]="favorite" [watch]="false"></meeting-listing>
       </ion-list>
-    </ion-card-content>
+    <!-- </ion-card-content>
   </ion-card>
 
   <ion-card *ngIf="showLiveMeetings">
@@ -66,7 +71,11 @@
       </ion-item>
     </ion-card-header>
 
-    <ion-card-content>
+    <ion-card-content> -->
+      <ion-item *ngIf="showLiveMeetings">
+        <ion-label>Live Meetings</ion-label>
+        <ion-icon slot="start" name="list-outline" (click)="viewLive()"></ion-icon>
+      </ion-item>
       <ion-list *ngFor="let meeting of live$ | async">
         <meeting-listing [meeting]="meeting" [watch]="false"></meeting-listing>
         <!-- <ion-item-sliding>
@@ -95,8 +104,8 @@
           </ion-item-options>
         </ion-item-sliding> -->
       </ion-list>
-    </ion-card-content>
-  </ion-card>
+    <!-- </ion-card-content>
+  </ion-card> -->
 
   <ion-item>
     <!-- <p>
