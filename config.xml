@@ -6,8 +6,8 @@
             <path url="/__/auth/callback" />
         </host>
     </universal-links>
-    <name>AnonymousMeetings.Zoom</name>
-    <description>Whit's App</description>
+    <name>Whit's App</name>
+    <description>12 Step Recovery Video Meeting App</description>
     <author email="mikkimichaelis@gmail.com" href="www.psychwardsoftware.com">Psych Ward Software Inc.</author>
     <content src="index.html" />
     <access origin="*" />
