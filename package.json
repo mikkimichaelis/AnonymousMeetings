@@ -1,5 +1,5 @@
 {
-  "name": "Whit's App",
+  "name": "WhitsApp",
   "version": "1.0.0",
   "author": "Psych Ward Software Inc.",
   "homepage": "https://www.anonymousmeetings.us/",
@@ -133,7 +133,7 @@
     "tslint": "~6.1.0",
     "typescript": "~3.9.5"
   },
-  "description": "Whit's App",
+  "description": "WhitsApp",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -165,9 +165,9 @@
       }
     },
     "platforms": [
-      "ios",
       "android",
-      "browser"
+      "browser",
+      "ios"
     ]
   }
 }

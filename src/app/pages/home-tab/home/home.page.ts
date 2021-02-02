@@ -106,7 +106,7 @@ export class HomePage {
   };
   share() {
     //this.socialSharing.shareWithOptions(this.options);
-    this.socialSharing.share("Open Whit's App", "Whit's App Recovery Meetings", [], `https://anonymousmeetings.web.app/assets/pages/download.html`);
+    this.socialSharing.share("Open WhitsApp", "WhitsApp Recovery Meetings", [], `https://anonymousmeetings.us/assets/pages/download.html`);
   }
 
   daysSober() {
