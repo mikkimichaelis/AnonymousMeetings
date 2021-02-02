@@ -101,7 +101,6 @@
     "@types/node": "^12.11.1",
     "@types/uuid": "^8.3.0",
     "codelyzer": "^6.0.0",
-    "cordova-android": "git+https://github.com/apache/cordova-android.git",
     "cordova-browser": "^6.0.0",
     "cordova-ios": "^6.1.1",
     "cordova-plugin-androidx": "^3.0.0",
@@ -165,7 +164,6 @@
       }
     },
     "platforms": [
-      "android",
       "browser",
       "ios"
     ]
