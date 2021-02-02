@@ -1,31 +1,22 @@
 <ion-item-sliding>
   <!-- TODO is live join otherwise view Meeting page -->
-<!--  
+  <!--  
     --border-color	Color of the item border
     --border-radius	Radius of the item border
     --border-style	Style of the item border
     --border-width 
   -->
-  <ion-item (click)="joinOrViewMeeting(meeting)" style="border-color: rgb(196, 61, 196); border-radius: 5%; border-width: .5ch; border-style: groove;">
-    <ion-grid>
-      <ion-row>
-        <!-- class="ion-float-left"  -->
-        <ion-col size="8" style="color:rgb(196, 61, 196)">
-          <ion-grid>
-            <ion-row>
-              <ion-label>
-                {{this.format(meeting.name)}}
-              </ion-label>
-            </ion-row>
-            <ion-row>
-              <ion-label>
-                {{this.format(meeting.topic)}}
-              </ion-label>
-            </ion-row>
-          </ion-grid>
-        </ion-col>
+  <!-- style="border-color: rgb(196, 61, 196); border-radius: 5%; border-width: .5ch; border-style: groove;" -->
+  <ion-item (click)="joinOrViewMeeting(meeting)">
 
-        <ion-col class="ion-text-end ion-float-right">
+    <div style="width: 25px;">
+      <span *ngIf="meeting.isLive"><ion-icon slot="start" name="videocam-outline"></ion-icon><br /></span>
+      <span *ngIf="meeting.continuous"><ion-icon slot="start" name="infinite-outline"></ion-icon><br /></span>
+      <span *ngIf="isHome(meeting)"><ion-icon slot="start" name="home-outline"></ion-icon></span>
+    </div>
+    <!-- <ion-grid slot="start">
+      <ion-row>
+        <ion-col>
           <ion-grid>
             <ion-row>
               <ion-icon name="home-outline" *ngIf="isHome(meeting)"></ion-icon>
@@ -38,13 +29,44 @@
             </ion-row>
           </ion-grid>
         </ion-col>
-
-        <ion-col size="2" class="ion-text-end ion-float-right">
-          <date-badge [date]="meeting.nextTime" *ngIf="!meeting.continuous"></date-badge>
-        </ion-col>
-
       </ion-row>
-    </ion-grid>
+    </ion-grid> -->
+
+    <!-- <ion-item expand="full"> -->
+    <ion-item class="ion-text-wrap">
+      {{this.format(meeting.name)}}
+    </ion-item>
+    <!-- </ion-item> -->
+
+    <ion-thumbnail slot="end">
+      <date-badge [date]="meeting.nextTime" *ngIf="!meeting.isLive"></date-badge>
+      <ion-img src="assets/images/live.png" *ngIf="meeting.isLive"></ion-img>
+    </ion-thumbnail>
+
+
+    <!-- class="ion-float-left" style="color:rgb(196, 61, 196)" -->
+    <!-- <ion-col size="6">
+          <ion-grid>
+            <ion-row>
+              <ion-label>
+                {{this.format(meeting.name)}}
+              </ion-label>
+            </ion-row>
+            <ion-row>
+              <ion-label>
+                {{this.format(meeting.topic)}}
+              </ion-label>
+            </ion-row>
+          </ion-grid>
+        </ion-col> -->
+
+    <!-- class="ion-text-end ion-float-right" -->
+
+
+
+    <!-- <ion-col size="2" class="ion-text-end ion-float-right">
+          <date-badge [date]="meeting.nextTime" *ngIf="!meeting.continuous"></date-badge>
+        </ion-col> -->
   </ion-item>
 
   <ion-item-options side="end">
@@ -73,10 +95,10 @@
     <!-- Join -->
 
 
-    
+
 
     <!-- Block -->
-    
+
     <!-- Info -->
     <ion-item-option (click)="viewMeeting(meeting)">
       Info
