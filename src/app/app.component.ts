@@ -1,7 +1,7 @@
 import { SharedModule } from './shared.module';
 
 import { Component, enableProdMode, Inject, Injector } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
+// import { SwUpdate } from '@angular/service-worker';
 
 import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -43,7 +43,7 @@ export class AppComponent {
     public platform: Platform,
     public splashScreen: SplashScreen,
     public statusBar: StatusBar,
-    public swUpdate: SwUpdate,
+    // public swUpdate: SwUpdate,
     public initializeService: InitializeService,
     public router: Router,
     public translateService: TranslateService,
@@ -55,7 +55,10 @@ export class AppComponent {
     @Inject(USER_SERVICE) public userService: IUserService,
     @Inject(SETTINGS_SERVICE) public settingsService: ISettingsService
   ) {
-
+    // if (environment.production) {
+    //   enableProdMode();
+    //   console.log(`AppComponent().enableProdMode()`);  // TODO
+    // }
     LogRocket.init("tdzfnj/anonymous-meetings",
       {
         release: '[TODO insert build info here]',
@@ -65,10 +68,6 @@ export class AppComponent {
         }
       });
     console.log(`AppComponent()`);  // TODO
-    if (environment.production) {
-      enableProdMode();
-      console.log(`AppComponent().enableProdMode()`);  // TODO
-    }
     this.initializeApp();
     this.settingsService.initialize(false);
     console.log(`~AppComponent()`);
@@ -138,24 +137,24 @@ export class AppComponent {
   }
 
   async ngOnInit() {
-    this.swUpdate.available.subscribe(async res => {
-      const toast = await this.toastCtrl.create({
-        message: 'Update available!',
-        position: 'bottom',
-        buttons: [
-          {
-            role: 'cancel',
-            text: 'Reload'
-          }
-        ]
-      });
+    // this.swUpdate.available.subscribe(async res => {
+    //   const toast = await this.toastCtrl.create({
+    //     message: 'Update available!',
+    //     position: 'bottom',
+    //     buttons: [
+    //       {
+    //         role: 'cancel',
+    //         text: 'Reload'
+    //       }
+    //     ]
+    //   });
 
-      await toast.present();
+    //   await toast.present();
 
-      toast
-        .onDidDismiss()
-        .then(() => this.swUpdate.activateUpdate())
-        .then(() => window.location.reload());
-    });
+    //   toast
+    //     .onDidDismiss()
+    //     .then(() => this.swUpdate.activateUpdate())
+    //     .then(() => window.location.reload());
+    // });
   }
 }
