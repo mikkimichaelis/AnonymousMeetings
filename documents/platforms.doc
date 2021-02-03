@@ -1,0 +1,4 @@
+plugins/cordova-universal-links-plugin/hooks/lib/ios/xcodePreferences.js
+!plugins/cordova-universal-links-plugin/hooks/lib/android/manifestWriter.js
+!platforms/android/app/build.gradle
+
