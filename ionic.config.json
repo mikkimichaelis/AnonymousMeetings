@@ -1,5 +1,5 @@
 {
-  "name": "AnonymousMeetings",
+  "name": "WhitsApp",
   "integrations": {
     "capacitor": {
       "enabled": false

@@ -13,6 +13,7 @@ import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-transla
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -86,6 +87,7 @@ import { NbThemeModule } from '@nebular/theme';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     // Geolocation,
+    EmailComposer,
     NativeStorage,
     SocialSharing,
     // Contacts,

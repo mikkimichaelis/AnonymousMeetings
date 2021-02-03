@@ -72,7 +72,7 @@ export class ViewPage implements OnInit {
 
   share(meeting: Meeting) {
     //this.socialSharing.shareWithOptions(this.options)
-    this.socialSharing.share("Whit's App", "Open Meeting", [], `https://anonymousmeetings.web.app?meeting=${meeting.id}`)
+    this.socialSharing.share("WhitsApp", "Open Meeting", [], `https://anonymousmeetings.web.app?meeting=${meeting.id}`)
 
   }
   options = {
