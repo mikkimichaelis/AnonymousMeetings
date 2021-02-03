@@ -1,4 +1,11 @@
+
+The following cordova generated files have customizations for auth bug fixes
+removing/adding platforms should be done from master branch as to not 
+overwrite these changes existing in platform branches
+
+merging master into a platform branch should be aware of these customizations
+
 plugins/cordova-universal-links-plugin/hooks/lib/ios/xcodePreferences.js
-!plugins/cordova-universal-links-plugin/hooks/lib/android/manifestWriter.js
-!platforms/android/app/build.gradle
+plugins/cordova-universal-links-plugin/hooks/lib/android/manifestWriter.js
+platforms/android/app/build.gradle
 
