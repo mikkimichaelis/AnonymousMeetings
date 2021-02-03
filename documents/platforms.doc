@@ -5,7 +5,9 @@ overwrite these changes existing in platform branches
 
 merging master into a platform branch should be aware of these customizations
 
+// https://github.com/nordnet/cordova-universal-links-plugin/issues/131
 plugins/cordova-universal-links-plugin/hooks/lib/ios/xcodePreferences.js
+
 plugins/cordova-universal-links-plugin/hooks/lib/android/manifestWriter.js
 platforms/android/app/build.gradle
 
