@@ -18,7 +18,6 @@ import { SearchSettingsPage } from './search-settings/search-settings.page';
 export class SearchPage implements OnInit {
 
   constructor( 
-    public router: Router,
     public routerOutlet: IonRouterOutlet, 
     public modalController: ModalController,
     public meetingService: MeetingService, 

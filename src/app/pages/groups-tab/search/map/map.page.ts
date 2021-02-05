@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IonRouterOutlet, ModalController, Platform } from '@ionic/angular';
+import { IonRouterOutlet, ModalController, NavController, Platform } from '@ionic/angular';
 import { BUSY_SERVICE, IBusyService } from 'src/app/services';
 import { GroupsService } from 'src/app/services/groups.service';
 import { LocationService } from 'src/app/services/location.service';
@@ -18,7 +17,7 @@ export class MapPage extends SearchPage {
   longitude: number;
 
   constructor(
-    public _router: Router,
+    public _navController: NavController,
     public _routerOutlet: IonRouterOutlet, 
     public _modalCtrl: ModalController, 
     public _groupsSvc: GroupsService,
@@ -26,7 +25,7 @@ export class MapPage extends SearchPage {
     public _settingsSvc: SettingsService,
     @Inject(BUSY_SERVICE) public _busyService: IBusyService
     ) {
-      super(_router, _routerOutlet, _modalCtrl, _groupsSvc, _locSvc, _settingsSvc, _busyService)
+      super(_navController, _routerOutlet, _modalCtrl, _groupsSvc, _locSvc, _settingsSvc, _busyService)
      }
 
     async ionViewDidEnter() {

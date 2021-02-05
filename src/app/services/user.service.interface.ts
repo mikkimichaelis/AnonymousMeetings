@@ -18,4 +18,6 @@ export interface IUserService {
     setName(firstName: string, lastInitial: string);
     makeHomeGroup(id: string);
     makeFavGroup(id: string, make: boolean);
+
+    unsubscribe();
 }

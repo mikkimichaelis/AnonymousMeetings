@@ -4,16 +4,17 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { BusyService } from '../../../services/busy.service';
 import { UserService } from '../../../services/user.service';
 import { GroupsService } from '../../../services/groups.service';
-import { Router } from '@angular/router';
 
 import { StreamChat, ChannelData, Message, User } from 'stream-chat';
 import axios from 'axios';
-import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { IMeeting, IUserFriend, Meeting } from 'src/shared/models';
 import { AUTH_SERVICE, BUSY_SERVICE, IAuthService, IBusyService, IMeetingService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE, ZoomService } from 'src/app/services';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { ViewPage } from '../../meetings-tab/view/view.page';
 import _ from 'lodash';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { subscribeOn } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -22,21 +23,9 @@ import _ from 'lodash';
 })
 export class HomePage {
 
-  _showLiveMeetings: boolean = false;
-  get showLiveMeetings(): boolean {
-    return this._showLiveMeetings;
-  }
-
-  get homeMeeting(): boolean {
-    return !_.isEmpty(this.userService._user.homeMeeting);
-  }
-
-  get showFavoriteMeetings(): boolean {
-    return this.userService._user.favMeetings.length > 0;
-  }
-
   constructor(
     public router: Router,
+    public navController: NavController,
     public modalController: ModalController,
     public busySvc: BusyService,
     public socialSharing: SocialSharing,
@@ -50,45 +39,58 @@ export class HomePage {
     // debugger;
   }
 
-  get live$(): ReplaySubject<Meeting[]> {
-    return this.meetingService.liveMeetings$;
-  }
-
   ngOnInit() {
-    this.meetingService.liveMeetings$.subscribe(mtgs => {
-      console.log(mtgs);
-    })
+    this.authService.logout$.subscribe(logout => {
+      if (logout) {
+        this.unsubscribe();
+      }
+    });
 
-    // refresh favs when user is updated 
+    this.subscribe();
+  }
+
+  _userSubscription: Subscription;
+  _liveMeetingsSubscription: Subscription;
+  _liveMeetingsRefreshInterval: NodeJS.Timeout;
+  async subscribe() {
     // TODO move to meeting service
-    this.userService.user$.subscribe(user => {
-      this.meetingService.favoriteMeetingsValueChanges();
+    this._userSubscription = this.userService.user$.subscribe(user => {
+      // this is necessary to recreate the fav meeting query from favorites attached to IUser
+      // TODO favorite meetings limited to 10 due to the 'where in array' query limit of 10
+      this.meetingService.favoriteMeetingsSubscribe();
     })
-    console.log('HomePage.ngOnInit():user$.subscribe()');
 
-    this.meetingService.liveMeetings$.subscribe(live => {
-      this._showLiveMeetings = (live && live.length > 0);
-    })
-    console.log('HomePage.ngOnInit():liveMeetings$.subscribe()');
+    // this._liveMeetingsSubscription = this.meetingService.liveMeetings$.subscribe(live => {
+    //   this._showLiveMeetings = (live && live.length > 0);
+    // })
 
-    this.meetingService.liveMeetingsValueChanges();
-    const interval = setInterval(() => {
-      this.meetingService.liveMeetingsValueChanges();
+    this.meetingService.liveMeetingsSubscribe();
+    // TODO this is necessary because the live query is time based and requires periodic current recreation 
+    // but I hate it
+    this._liveMeetingsRefreshInterval = setInterval(() => {
+      this.meetingService.liveMeetingsSubscribe();
     }, 60000);
-    console.log('HomePage.ngOnInit():setInterval()');
   }
 
-  async ionViewDidEnter() {
-    // TODO time delay the present to smooth app progression
-    //await this.busySvc.present('Loading....');
-    await this.userService.user$.subscribe(user => {  // TODO BUG
-      if (user) this.busySvc.dismiss();
-    })
-    console.log('HomePage.ionViewDidEnter():user$.subscribe()');
-  }
+  unsubscribe() {
+    this.userService.unsubscribe();
 
-  async ionViewWillLeave() {
-    //await this.busySvc.dismiss();
+    if (this._userSubscription && !this._userSubscription.closed) {
+      this._userSubscription.unsubscribe();
+      this._userSubscription = null;
+    }
+    this.meetingService.favoriteMeetingsUnsubscribe();
+
+    if (this._liveMeetingsSubscription && !this._liveMeetingsSubscription.closed) {
+      this._liveMeetingsSubscription.unsubscribe();
+      this._liveMeetingsSubscription = null;
+    }
+    this.meetingService.liveMeetingsUnsubscribe();
+
+    if (this._liveMeetingsRefreshInterval) {
+      clearInterval(this._liveMeetingsRefreshInterval);
+      this._liveMeetingsRefreshInterval = null;
+    }
   }
 
   async logout() {
@@ -122,11 +124,11 @@ export class HomePage {
   }
 
   viewFavorites() {
-    this.router.navigateByUrl('/home/tab/favorites');
+    this.navController.navigateForward('/home/tab/favorites');
   }
 
   viewLive() {
-    this.router.navigateByUrl('/home/tab/live');
+    this.navController.navigateForward('/home/tab/live');
   }
 
   async viewHomeMeeting() {
@@ -134,7 +136,7 @@ export class HomePage {
   }
 
   format(str: string): string {
-    return _.truncate(str, { length: 30, omission: '...'});
+    return _.truncate(str, { length: 30, omission: '...' });
   }
 
   async joinOrViewMeeting(meeting: Meeting) {
@@ -147,13 +149,13 @@ export class HomePage {
 
   async joinMeeting(meeting: Meeting) {
     await this.busyService.present('Connecting Zoom Meeting...')
-    this.zoomService.joinMeeting(meeting.zid, meeting.password, meeting.name, this.userService._user.name ).then(
+    this.zoomService.joinMeeting(meeting.zid, meeting.password, meeting.name, this.userService._user.name).then(
       rv => {
-      this.busyService.dismiss();
-    }, error => {
-      this.busyService.dismiss();
-      this.toastService.present(`${error}`, 3000);
-    })
+        this.busyService.dismiss();
+      }, error => {
+        this.busyService.dismiss();
+        this.toastService.present(`${error}`, 3000);
+      })
   }
 
   async viewMeeting(meeting: Meeting) {

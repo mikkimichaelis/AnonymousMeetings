@@ -24,7 +24,6 @@ export class MeetingService implements IMeetingService {
   liveMeetings$: ReplaySubject<Meeting[]> = new ReplaySubject<Meeting[]>(1);
   searchMeetings$: ReplaySubject<Meeting[]> = new ReplaySubject<Meeting[]>(1);
 
-
   meetingQuery: Subscription;
 
   constructor(
@@ -40,40 +39,19 @@ export class MeetingService implements IMeetingService {
     this.ownedMeetings$ = new ReplaySubject<Meeting[]>(1);
   }
 
-  async resetAdminMeetings() {
+  async resetAdminMeetings() { }
 
-  }
-
-  async add(meeting: Meeting): Promise<boolean> {
-    if (meeting) {
-      try {
-        await this.makeCallableAsync('addMeeting', meeting.toObject());
-        return true;
-      } catch (e) {
-        console.error(e);
-        return false;
-      }
+  ownedMeetingsUnsubscribe() {
+    if (!_.isEmpty(this._ownedMeetingsSubscription)) {
+      this._ownedMeetingsSubscription.unsubscribe();
+      this._ownedMeetingsSubscription = null;
     }
   }
 
-  async update(meeting: Meeting): Promise<boolean> {
-    if (meeting) {
-      try {
-        console.log(meeting.toObject());
-        await this.makeCallableAsync('updateMeeting', meeting.toObject());
-        return true;
-      } catch (e) {
-        console.error(e);
-        return false;
-      }
-    }
-  }
-
-  _ownedMeetingsValueChangesSubscription: Subscription;
-  ownedMeetingsValueChanges() {
-    if (!_.isEmpty(this._ownedMeetingsValueChangesSubscription)) this._ownedMeetingsValueChangesSubscription.unsubscribe();
-
-    this._ownedMeetingsValueChangesSubscription =
+  _ownedMeetingsSubscription: Subscription;
+  ownedMeetingsSubscribe() {
+    this.ownedMeetingsUnsubscribe();
+    this._ownedMeetingsSubscription =
       this.fss.col$<IMeeting[]>(`meetings`, ref =>
         ref.where('active', '==', true)
           //.where('verified', '==', true)
@@ -94,12 +72,17 @@ export class MeetingService implements IMeetingService {
         });
   }
 
-  _favoriteMeetingsValueChangesSubscription: Subscription;
-  favoriteMeetingsValueChanges() {
-    if (!_.isEmpty(this._favoriteMeetingsValueChangesSubscription)) this._favoriteMeetingsValueChangesSubscription.unsubscribe();
+  favoriteMeetingsUnsubscribe() {
+    if (!_.isEmpty(this._favoriteMeetingsSubscription)) {
+      this._favoriteMeetingsSubscription.unsubscribe();
+      this._favoriteMeetingsSubscription = null;
+    }
+  }
 
-
-    this._favoriteMeetingsValueChangesSubscription =
+  _favoriteMeetingsSubscription: Subscription;
+  favoriteMeetingsSubscribe() {
+    this.favoriteMeetingsUnsubscribe();
+    this._favoriteMeetingsSubscription =
       this.fss.col$<IMeeting[]>(`meetings`, ref => {
         let rv = ref
           .where('active', '==', true)
@@ -127,11 +110,22 @@ export class MeetingService implements IMeetingService {
         });
   }
 
+  liveMeetingsUnsubscribe() {
+    if (!_.isEmpty(this._liveMeetingsSubscription)) {
+      this._liveMeetingsSubscription.unsubscribe();
+      this._liveMeetingsSubscription = null;
+    }
 
-  _liveMeetingsValueChangesSubscription: Subscription;
-  _continuousMeetingsValueChangesSubscription: Subscription;
-  liveMeetingsValueChanges() {
-    if (!_.isEmpty(this._liveMeetingsValueChangesSubscription)) this._liveMeetingsValueChangesSubscription.unsubscribe();
+    if (!_.isEmpty(this._continuousMeetingsSubscription)) {
+      this._continuousMeetingsSubscription.unsubscribe();
+      this._continuousMeetingsSubscription = null;
+    }
+  }
+
+  _liveMeetingsSubscription: Subscription;
+  _continuousMeetingsSubscription: Subscription;
+  liveMeetingsSubscribe() {
+    this.liveMeetingsUnsubscribe();
 
     let live: any = null;
     let continuous: any = null;
@@ -139,7 +133,7 @@ export class MeetingService implements IMeetingService {
     const w1 = DateTime.utc();
     const w2 = w1.plus({ hours: 1 });
 
-    this._liveMeetingsValueChangesSubscription =
+    this._liveMeetingsSubscription =
       this.fss.col$<IMeeting[]>(`meetings`, ref => ref
         .where('active', '==', true)
         .where('verified', '==', true)
@@ -152,6 +146,8 @@ export class MeetingService implements IMeetingService {
             for (let i = 0; i < imeetings.length; i++) {
               rv.push(new Meeting(imeetings[i]));
             }
+            // TODO issue here if that after initial query of both, this updates with new live
+            // meetings but continuous never updates to cause the union assignment
             if (!continuous) {
               live = rv;
             } else {
@@ -166,7 +162,7 @@ export class MeetingService implements IMeetingService {
           },
         });
 
-    this._continuousMeetingsValueChangesSubscription =
+    this._continuousMeetingsSubscription =
       this.fss.col$<IMeeting[]>(`meetings`, ref => ref
         .where('active', '==', true)
         .where('verified', '==', true)
@@ -179,6 +175,8 @@ export class MeetingService implements IMeetingService {
               rv.push(new Meeting(imeetings[i]));
             }
             if (!live) {
+              // TODO issue here if that after initial query of both, this updates with new continuous
+              // meetings but live never updates to cause the union assignment
               continuous = rv;
             } else {
               const u = _.union(rv, live);
@@ -294,7 +292,7 @@ export class MeetingService implements IMeetingService {
         },
       });
 
-      
+
 
     // if (!search.byAnyDay) {
     // const dayVerbose = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay
@@ -398,6 +396,31 @@ export class MeetingService implements IMeetingService {
     // } else {
     //   this.verbose = `${this.verbose} ${(await this.transSvc.get('ANYTIME').toPromise()).toLowerCase()}`;
     // }
+  }
+
+  async add(meeting: Meeting): Promise<boolean> {
+    if (meeting) {
+      try {
+        await this.makeCallableAsync('addMeeting', meeting.toObject());
+        return true;
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
+  }
+
+  async update(meeting: Meeting): Promise<boolean> {
+    if (meeting) {
+      try {
+        console.log(meeting.toObject());
+        await this.makeCallableAsync('updateMeeting', meeting.toObject());
+        return true;
+      } catch (e) {
+        console.error(e);
+        return false;
+      }
+    }
   }
 
   private async makeCallableAsync<T>(func: string, data?: any): Promise<T> {

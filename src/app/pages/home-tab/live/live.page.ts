@@ -11,7 +11,6 @@ import { Meeting } from 'src/shared/models';
 export class LivePage implements OnInit {
 
   constructor(
-    public router: Router, 
     public busySvc: BusyService, 
     public zoomService: ZoomService,
     @Inject(TOAST_SERVICE) public toastService: IToastService,
@@ -22,7 +21,7 @@ export class LivePage implements OnInit {
   }
 
   ngOnInit() {
-    this.meetingService.liveMeetingsValueChanges();
+    this.meetingService.liveMeetingsSubscribe();
   }
 
   async joinMeeting(meeting: Meeting) {

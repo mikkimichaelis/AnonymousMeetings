@@ -1,3 +1,3 @@
 export interface IInitializeService {
-    initializeServices();
+    initializeServices(auth: boolean, hybrid?: boolean);
 }
