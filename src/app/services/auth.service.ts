@@ -5,10 +5,10 @@ import _ from 'lodash';
 import firebase from 'firebase/app';      // import * as firebase from 'firebase';
 import * as firebaseui from 'firebaseui';
 
-import { Subscription, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Subscription, BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 
-import { IAngularFireAuth, IAuthService, } from './';
-import { ANGULAR_FIRE_AUTH } from './injection-tokens';
+import { IAngularFireAuth, IAuthService, IUserService, } from './';
+import { ANGULAR_FIRE_AUTH, USER_SERVICE } from './injection-tokens';
 import { Platform } from '@ionic/angular';
 
 @Injectable({
@@ -16,20 +16,24 @@ import { Platform } from '@ionic/angular';
 })
 export class AuthService implements IAuthService {
 
-  firebaseUi: any;
-
+  auth: firebase.auth.Auth;
   authUser: firebase.User = null;
   authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>(1)
-  isAnonymous: boolean = true;
+  logout$: Subject<boolean> = new Subject<boolean>();
 
   private authStateSubscription: Subscription;
+
+  get isAuthenticated(): boolean {
+    return this.authUser !== null ? true : false;
+  }
+
   constructor(
-    @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth) { }
+    @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth,
+    @Inject(USER_SERVICE) public userService: IUserService,) { }
 
   async initialize() {
-    let auth = firebase.auth();
-    this.firebaseUi = new firebaseui.auth.AuthUI(auth);
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    this.auth = firebase.auth();
+    await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .catch(function (error) {
         console.error(error);
       });
@@ -40,7 +44,6 @@ export class AuthService implements IAuthService {
     }
     this.authStateSubscription = this.firebaseAuth.authState.subscribe(
       (user: firebase.User) => {
-        this.isAnonymous = user !== null ? _.has(user, 'isAnonymous') ? user.isAnonymous : true : true;
         this.authUser = user;
         console.log('authUser', this.authUser);
         this.authUser$.next(user);
@@ -48,10 +51,6 @@ export class AuthService implements IAuthService {
       (error: any) => {
         console.error(error);
       });
-  }
-
-  isAuthenticated(): boolean {
-    return this.authUser !== null ? true : false;
   }
 
   public async createAnonymous(): Promise<boolean> {
@@ -68,25 +67,27 @@ export class AuthService implements IAuthService {
   }
 
   async logout() {
-    await this.firebaseAuth.signOut()
+    await this.firebaseAuth.signOut();
+    this.logout$.next(true);
   }
 
   public getUiConfig(platform: Platform): any {
+    const that = this;
     const config: any = {
       callbacks: {
-        signInSuccessWithAuthResult: (authResult: firebase.auth.UserCredential) => {
-          const user = authResult.user;
-          const isNewUser = authResult.additionalUserInfo.isNewUser;
+        signInSuccessWithAuthResult: async function (authResult, redirectUrl) {
+          var user = authResult.user;
+          var credential = authResult.credential;
+          var isNewUser = authResult.additionalUserInfo.isNewUser;
+          var providerId = authResult.additionalUserInfo.providerId;
+          var operationType = authResult.operationType;
 
-          // initialize new user
-          if (isNewUser) {
-            // do initialization stuff here (ex. create profile)
-            return true;
-          }
-
-          // Return type determines whether we continue the redirect automatically
-          // or whether we leave that to developer to handle.
-          return true;
+          // unfortunately this does not work to flag a new user login
+          // because AppComponent() (including UserService) is recreated after 
+          // this callback completes.  TODO revisit
+          that.userService.isNewUser = authResult.additionalUserInfo.isNewUser;
+          console.log(`signInSuccessWithAuthResult(authResult.isNewUser): ${authResult.additionalUserInfo.isNewUser}`)
+          return false;
         },
         signInFailure: async (error: firebaseui.auth.AuthUIError) => {
           if (error.code !== 'firebaseui/anonymous-upgrade-merge-conflict') {
@@ -95,13 +96,18 @@ export class AuthService implements IAuthService {
           var anonymousUser = firebase.auth().currentUser;
           return firebase.auth().signInWithCredential(error.credential);
           anonymousUser.delete();
+        },
+        uiShown: function() {
+          // The widget is rendered.
+          // Hide the loader.
+          //document.getElementById('loader').style.display = 'none';
         }
       },
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
       tosUrl: 'https://anonymousmeetings.us/assets/pages/tos.html',
       privacyPolicyUrl: 'https://anonymousmeetings.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
-      signInSuccessUrl: '/home/tab/home',
+      signInSuccessUrl: '/core/landing',
       autoUpgradeAnonymousUsers: true,
       signInFlow: 'redirect'
     };

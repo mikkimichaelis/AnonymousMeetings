@@ -1,17 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CalendarPage } from '../common/calendar/calendar.page';
 import { FavoritesPage } from './favorites/favorites.page';
 import { SearchPage } from './search/search.page';
 
 import { MeetingsTabPage } from './meetings-tab.page';
 
 const routes: Routes = [
-  // {
-  //   path: 'meetings',
-  //   redirectTo: 'meetings/tab',
-  //   pathMatch: 'full'
-  // },
   {
     path: 'tab',
     component: MeetingsTabPage,
@@ -22,21 +16,11 @@ const routes: Routes = [
       },
       {
         path: 'search',
-        children: [
-          {
-            path: '',
-            component: SearchPage
-          }
-        ]
+        component: SearchPage
       },
       {
         path: 'favorites',
-        children: [
-          {
-            path: '',
-            component: FavoritesPage
-          }
-        ]
+        component: FavoritesPage
       }
     ]
   },

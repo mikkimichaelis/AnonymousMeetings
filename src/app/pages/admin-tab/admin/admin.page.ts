@@ -17,15 +17,20 @@ export class AdminPage implements OnInit {
   admin = [];
 
   constructor(
-    public router: Router,
     public modalController: ModalController,
     public sharedDataService: SharedDataService,
     @Inject(USER_SERVICE) public userService: IUserService,
     @Inject(MEETING_SERVICE) public meetingService: IMeetingService) {
   }
 
-  ngOnInit() {
-    this.meetingService.ownedMeetingsValueChanges();
+  ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.meetingService.ownedMeetingsSubscribe();
+  }
+
+  ionViewWillLeave() {
+    this.meetingService.ownedMeetingsUnsubscribe();
   }
 
   async editMeeting(meeting?: Meeting) {
@@ -53,11 +58,4 @@ export class AdminPage implements OnInit {
     _.pull(this.userService._user.favMeetings, meeting.id);
       await this.userService.saveUserAsync(this.userService._user);
   }
-
-  // edit(meeting: Meeting) {
-  //   // TODO fucking hack but i'm tired
-  //   // Yeah, you were routing to a page instead of presenting it as a modal.
-  //   // this.sharedDataService.data = meeting;
-  //   // this.router.navigateByUrl('admin/tab/add?edit=true');
-  // }
 }

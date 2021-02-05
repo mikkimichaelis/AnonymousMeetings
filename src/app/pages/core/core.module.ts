@@ -15,7 +15,6 @@ import { TutorialPage } from './tutorial/tutorial.page';
 import { SupportPage } from './support/support.page';
 import { ErrorPage } from './error/error.page';
 
-
 @NgModule({
   imports: [
     SharedModule,

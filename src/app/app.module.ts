@@ -20,7 +20,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from '../environments/environment';
 
 //import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 //import { Contacts } from '@ionic-native/contacts/ngx';
 
@@ -46,10 +45,11 @@ import { GroupService, GroupsService, UserService, AuthService, BusyService, Set
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
-import { GroupTabPageModule } from './pages/group-tab/group-tab.module';
 import { MeetingsTabPageModule } from './pages/meetings-tab/meetings-tab.module';
+import { AdminTabPageModule } from './pages/admin-tab/admin-tab.module';
 import { AuthGuard, FeatureGuard } from './guards';
 import { NbThemeModule } from '@nebular/theme';
+import { CommonModule } from './pages/common/common.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -76,10 +76,11 @@ import { NbThemeModule } from '@nebular/theme';
     BrowserAnimationsModule,
     TagInputModule,
     NgCalendarModule,
-    CoreModule,
-    GroupTabPageModule,
-    HomeTabPageModule,
-    MeetingsTabPageModule
+    // CoreModule,
+    // CommonModule,
+    // HomeTabPageModule,
+    // MeetingsTabPageModule,
+    // AdminTabPageModule
   ],
   providers: [
     InAppBrowser,
@@ -88,7 +89,6 @@ import { NbThemeModule } from '@nebular/theme';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     // Geolocation,
     EmailComposer,
-    NativeStorage,
     SocialSharing,
     // Contacts,
     AngularFirestore,

@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IonRouterOutlet, ModalController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { IonRouterOutlet, ModalController, NavController } from '@ionic/angular';
 import { BUSY_SERVICE, IBusyService } from 'src/app/services';
 import { GroupsService } from 'src/app/services/groups.service';
 import { LocationService } from 'src/app/services/location.service';
@@ -15,7 +15,7 @@ import { SearchSettingsPage } from './search-settings/search-settings.page';
 export class SearchPage implements OnInit {
 
   constructor( 
-    public router: Router,
+    public navConroller: NavController,
     public routerOutlet: IonRouterOutlet, 
     public modalCtrl: ModalController, 
     public groupsSvc: GroupsService, 
@@ -52,7 +52,7 @@ export class SearchPage implements OnInit {
   }
 
   details(group: any) {
-    this.router.navigateByUrl(`/group/tab/group?id=${group.id}`);
+    this.navConroller.navigateForward(`/group/tab/group?id=${group.id}`);
   }
 
   async presentSettings() {
