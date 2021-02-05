@@ -10,9 +10,14 @@ export interface IMeetingService {
     liveMeetings$: ReplaySubject<Meeting[]>;
     searchMeetings$: ReplaySubject<Meeting[]>;
 
-    ownedMeetingsValueChanges();
-    favoriteMeetingsValueChanges();
-    liveMeetingsValueChanges();
+    ownedMeetingsSubscribe();
+    ownedMeetingsUnsubscribe();
+
+    favoriteMeetingsSubscribe();
+    favoriteMeetingsUnsubscribe();
+
+    liveMeetingsSubscribe();
+    liveMeetingsUnsubscribe();
 
     add(meeting: IMeeting): Promise<boolean>;
     update(meeting: IMeeting): Promise<boolean>;

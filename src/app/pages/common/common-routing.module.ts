@@ -14,11 +14,11 @@ import { UserPage } from './user/user.page';
 import { ZoomPage } from './zoom/zoom.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/core/landing',
-    pathMatch: 'full',
-  },
+  // {
+  //   path: '',
+  //   redirectTo: '/core/landing',
+  //   pathMatch: 'full',
+  // },
   {
     path: 'calendar',
     component: CalendarPage,
@@ -33,12 +33,6 @@ const routes: Routes = [
     path: 'user',
     component: UserPage,
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'chat',
-    component: null,
-    canActivate: [FeatureGuard],
-    data: {roles: ['User']}
   },
   {
     path: 'messages',
@@ -58,11 +52,11 @@ const routes: Routes = [
     canActivate: [FeatureGuard],
     data: {roles: ['User']}
   },
-  {
-    path: '**',
-    redirectTo: '/',
-    pathMatch: 'full'
-  }
+  // {
+  //   path: '**',
+  //   redirectTo: '/',
+  //   pathMatch: 'full'
+  // }
   
 ];
 

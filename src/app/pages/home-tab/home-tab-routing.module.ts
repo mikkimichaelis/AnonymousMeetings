@@ -16,35 +16,38 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        children: [
-          {
-            path: '',
-            component: HomePage
-          }
-        ]
+        component: HomePage
+        // children: [
+        //   {
+        //     path: '',
+            
+        //   }
+        // ]
+      },
+      {
+        path: 'live',
+        component: LivePage
+        // children: [
+        //   {
+        //     path: '',
+            
+        //   }
+        // ]
+      },
+      {
+        path: 'favorites',
+        component: FavoritesPage,
+        // children: [
+        //   {
+        //     path: '',
+            
+        //   }
+        // ]
       },
       {
         path: 'search',
         redirectTo: '/meetings/tab/search',
       },
-      {
-        path: 'live',
-        children: [
-          {
-            path: '',
-            component: LivePage
-          }
-        ]
-      },
-      {
-        path: 'favorites',
-        children: [
-          {
-            path: '',
-            component: FavoritesPage
-          }
-        ]
-      }
       // {
       //   path: 'messages',
       //   children: [

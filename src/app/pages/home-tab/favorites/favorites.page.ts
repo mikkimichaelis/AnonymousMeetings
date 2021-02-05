@@ -14,7 +14,6 @@ import { ViewPage } from '../../meetings-tab/view/view.page';
 export class FavoritesPage implements OnInit {
 
   constructor(
-    public router: Router, 
     public busySvc: BusyService, 
     public modalController: ModalController,
     public zoomService: ZoomService,

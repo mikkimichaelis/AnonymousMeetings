@@ -60,6 +60,7 @@
   "SAVE": "Save",
   "LOCATION": "Search Location",
   "GPS": "GPS",
+  "INITIALIZING": "Initializing",
   "CURRENT.GPS": "Current GPS",
   "POSTCODE": "Zip Code",
   "SEARCHRADIUS": "Search Radius",

@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { MeetingListingComponent } from './components/meeting-listing/meeting-listing.component';
 import { DateBadgeComponent } from './components/date-badge/date-badge.component';
-
 @NgModule({
   declarations: [MeetingListingComponent, DateBadgeComponent],
   imports: [
@@ -16,7 +15,7 @@ import { DateBadgeComponent } from './components/date-badge/date-badge.component
     IonicModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
   ],
   exports: [
     CommonModule,
@@ -25,7 +24,7 @@ import { DateBadgeComponent } from './components/date-badge/date-badge.component
     IonicModule,
     TranslateModule,
     MeetingListingComponent,
-    DateBadgeComponent
+    DateBadgeComponent,
   ],
   providers: [
   ]

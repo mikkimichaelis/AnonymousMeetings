@@ -63,11 +63,11 @@ const routes: Routes = [
     path: 'tutorial',
     component: TutorialPage
   },
-  {
-    path: '**',
-    redirectTo: 'landing',
-    pathMatch: 'full'
-  }
+  // {
+  //   path: '**',
+  //   redirectTo: 'landing',
+  //   pathMatch: 'full'
+  // }
 ];
 
 @NgModule({
