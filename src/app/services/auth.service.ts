@@ -20,7 +20,7 @@ export class AuthService implements IAuthService {
   authUser: firebase.User = null;
   authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>(1)
   logout$: Subject<boolean> = new Subject<boolean>();
-  
+
   private authStateSubscription: Subscription;
 
   get isAuthenticated(): boolean {
@@ -29,8 +29,7 @@ export class AuthService implements IAuthService {
 
   constructor(
     @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth,
-    @Inject(USER_SERVICE) public userService: IUserService,) 
-    { }
+    @Inject(USER_SERVICE) public userService: IUserService,) { }
 
   async initialize() {
     this.auth = firebase.auth();
@@ -73,9 +72,10 @@ export class AuthService implements IAuthService {
   }
 
   public getUiConfig(platform: Platform): any {
+    const that = this;
     const config: any = {
       callbacks: {
-        signInSuccessWithAuthResult: async function(authResult, redirectUrl) {
+        signInSuccessWithAuthResult: async function (authResult, redirectUrl) {
           var user = authResult.user;
           var credential = authResult.credential;
           var isNewUser = authResult.additionalUserInfo.isNewUser;
@@ -86,17 +86,27 @@ export class AuthService implements IAuthService {
           // automatically or whether we leave that to developer to handle.
           if (isNewUser) {
             // TODO pause here till user record is created
-            let user = null;
-            while(!user) {
-              try {
-                console.log(`load new user`);
-                user = await this.userService.getUser(user.uid);
-              } catch {
-                console.log(`error get user`);
-              }
-            }
+            let newUser = null;
+            // newUser = await new Promise((resolve, reject) => {
+            //   // let retry = 5;
+            //   // while (retry > 0) {
+            //     setTimeout(() => {
+            //       try {
+            //         console.log(`load new user`);
+            //         const gotUser = that.userService.getUser(authResult.user.uid);
+            //         resolve(gotUser)
+            //       } catch (e) {
+            //         console.log(`error get user: ${e}`);
+            //         reject('failed to load new user');
+            //         // retry--;
+            //       }
+            //     }, 5000);
+            //   });
+              // reject('failed to load new user');
+            // });
+            // return newUser !== null;
           }
-          return false;
+          return true;
         },
         signInFailure: async (error: firebaseui.auth.AuthUIError) => {
           if (error.code !== 'firebaseui/anonymous-upgrade-merge-conflict') {

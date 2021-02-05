@@ -89,6 +89,8 @@ export class UserService implements IUserService {
           console.error(error);
         },
       });
+    } else {
+      this.homeMeeting$.next(null);
     }
   }
 

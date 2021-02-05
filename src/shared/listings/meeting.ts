@@ -106,7 +106,7 @@ export class Meeting extends Id implements IMeeting {
     }
 
     isHome(user: User): boolean {
-        return false; // user.homeMeeting === this.id;
+        return user.homeMeeting === this.id;
     }
 
     updateDayTime() {
