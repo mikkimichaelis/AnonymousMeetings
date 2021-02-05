@@ -81,32 +81,13 @@ export class AuthService implements IAuthService {
           var isNewUser = authResult.additionalUserInfo.isNewUser;
           var providerId = authResult.additionalUserInfo.providerId;
           var operationType = authResult.operationType;
-          // Do something with the returned AuthResult.
-          // Return type determines whether we continue the redirect
-          // automatically or whether we leave that to developer to handle.
-          if (isNewUser) {
-            // TODO pause here till user record is created
-            let newUser = null;
-            // newUser = await new Promise((resolve, reject) => {
-            //   // let retry = 5;
-            //   // while (retry > 0) {
-            //     setTimeout(() => {
-            //       try {
-            //         console.log(`load new user`);
-            //         const gotUser = that.userService.getUser(authResult.user.uid);
-            //         resolve(gotUser)
-            //       } catch (e) {
-            //         console.log(`error get user: ${e}`);
-            //         reject('failed to load new user');
-            //         // retry--;
-            //       }
-            //     }, 5000);
-            //   });
-              // reject('failed to load new user');
-            // });
-            // return newUser !== null;
-          }
-          return true;
+
+          // unfortunately this does not work to flag a new user login
+          // because AppComponent() (including UserService) is recreated after 
+          // this callback completes.  TODO revisit
+          that.userService.isNewUser = authResult.additionalUserInfo.isNewUser;
+          console.log(`signInSuccessWithAuthResult(authResult.isNewUser): ${authResult.additionalUserInfo.isNewUser}`)
+          return false;
         },
         signInFailure: async (error: firebaseui.auth.AuthUIError) => {
           if (error.code !== 'firebaseui/anonymous-upgrade-merge-conflict') {
@@ -115,13 +96,18 @@ export class AuthService implements IAuthService {
           var anonymousUser = firebase.auth().currentUser;
           return firebase.auth().signInWithCredential(error.credential);
           anonymousUser.delete();
+        },
+        uiShown: function() {
+          // The widget is rendered.
+          // Hide the loader.
+          //document.getElementById('loader').style.display = 'none';
         }
       },
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
       tosUrl: 'https://anonymousmeetings.us/assets/pages/tos.html',
       privacyPolicyUrl: 'https://anonymousmeetings.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
-      signInSuccessUrl: '/home/tab/home',
+      signInSuccessUrl: '/core/landing',
       autoUpgradeAnonymousUsers: true,
       signInFlow: 'redirect'
     };

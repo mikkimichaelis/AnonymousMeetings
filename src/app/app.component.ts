@@ -79,7 +79,7 @@ export class AppComponent {
     }
 
     if (!_.isEmpty(authUser) && !_.isEmpty(this.userService._user)) {
-      console.log(`(authUser && _user) -> navigateRoot('/home/tab/home'`);
+      console.log(`(authUser && _user) -> navigateRoot('/home/tab/home')`);
       this.navController.navigateRoot('/home/tab/home'); 
     } else if (!_.isEmpty(authUser)) {
       // TODO research fb offline and how auth is persisted and the below getUser from cache

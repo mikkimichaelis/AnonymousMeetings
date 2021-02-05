@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { ObjectUnsubscribedError, Observable, ReplaySubject, Subscription } from 'rxjs';
+import { iif, ObjectUnsubscribedError, Observable, of, ReplaySubject, Subscription, throwError } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -9,16 +9,19 @@ import { User } from '../../shared/models';
 import { IUserService, ITranslateService, IFirestoreService } from './';
 import { TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS, SETTINGS_SERVICE, AUTH_SERVICE } from './injection-tokens';
 import { IAngularFirestore } from './angular-firestore.interface';
-import _ from 'lodash';
 
 import { IAngularFireFunctions } from './angular-fire-functions.interface';
 import { ISettingsService } from './settings.service.interface';
 import { IAuthService } from './auth.service.interface';
+import { concatMap, delay, map, retry, retryWhen } from 'rxjs/operators';
+import _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService implements IUserService {
+
+  isNewUser = false;
 
   _user: User;
   user$: ReplaySubject<User> = new ReplaySubject<User>(1);
@@ -38,25 +41,44 @@ export class UserService implements IUserService {
     @Inject(SETTINGS_SERVICE) private settingsService: ISettingsService) {
   }
 
-  public async getUser(id: string, timeout = 0): Promise<IUser> {
-    return new Promise(async (resolve, reject) => {
-      setTimeout(async () => {
-        try {
-          const user = await this.fss.col(`users`).doc<IUser>(id).get().toPromise();
+  public async getUser(id: string): Promise<User> {
+    //return new Promise(async (resolve, reject) => {
+      //try {
+        // https://stackoverflow.com/questions/44911251/how-to-create-an-rxjs-retrywhen-with-delay-and-limit-on-tries
+        const retryPipeline =
+          // Still using retryWhen to handle errors
+          retryWhen(errors => errors.pipe(
+            // Use concat map to keep the errors in order and make sure they
+            // aren't executed in parallel
+            concatMap((e, i) => 
+              // Executes a conditional Observable depending on the result
+              // of the first argument
+              iif(
+                () => i > 10,
+                // If the condition is true we throw the error (the last error)
+                throwError(e),
+                // Otherwise we pipe this back into our stream and delay the retry
+                of(e).pipe(delay(500))
+              )
+            )
+          ));
+
+        return await this.fss.col(`users`).doc<IUser>(id).get().pipe(retryPipeline).pipe(map((user: any) => {
           if (user.exists) {
             this._user = new User(user.data());
             this.userValueChanges();
             this.user$.next(this._user);
-            resolve(this._user);
+            return this._user;
           } else {
             throw new Error(`Unable to find User ${id}`);
           }
-        } catch (e) {
-          console.error(e);
-          resolve(null);
-        }
-      }, timeout);
-    })
+        })).toPromise();
+        
+      // } catch (e) {
+      //   console.error(e);
+      //   resolve(null);
+      // }
+    //})
   }
 
   private _userSubscription: Subscription;
