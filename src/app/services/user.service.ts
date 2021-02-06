@@ -69,6 +69,7 @@ export class UserService implements IUserService {
             this._user = new User(user.data());
             this.userValueChanges();
             this.user$.next(this._user);
+            console.log(`User loaded`);
             return this._user;
           } else {
             throw new Error(`Unable to find User ${id}`);
