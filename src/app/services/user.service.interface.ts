@@ -3,13 +3,15 @@ import { Meeting, User } from '../../shared/models';
 
 export interface IUserService {
     
+    isNewUser: boolean;
+
     _user: User;
     user$: ReplaySubject<User>;
 
     _homeMeeting: Meeting;
     homeMeeting$: ReplaySubject<Meeting>;
 
-    getUser(id: string, timeout?: number);
+    getUser(id: string): Promise<User>;
     saveUserAsync(user: User);
 
     createChatUser(user: any): Promise<any>;

@@ -20,7 +20,7 @@ export class AuthService implements IAuthService {
   authUser: firebase.User = null;
   authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>(1)
   logout$: Subject<boolean> = new Subject<boolean>();
-  
+
   private authStateSubscription: Subscription;
 
   get isAuthenticated(): boolean {
@@ -29,8 +29,7 @@ export class AuthService implements IAuthService {
 
   constructor(
     @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth,
-    @Inject(USER_SERVICE) public userService: IUserService,) 
-    { }
+    @Inject(USER_SERVICE) public userService: IUserService,) { }
 
   async initialize() {
     this.auth = firebase.auth();
@@ -73,29 +72,21 @@ export class AuthService implements IAuthService {
   }
 
   public getUiConfig(platform: Platform): any {
+    const that = this;
     const config: any = {
       callbacks: {
-        signInSuccessWithAuthResult: async function(authResult, redirectUrl) {
+        signInSuccessWithAuthResult: async function (authResult, redirectUrl) {
           var user = authResult.user;
           var credential = authResult.credential;
           var isNewUser = authResult.additionalUserInfo.isNewUser;
           var providerId = authResult.additionalUserInfo.providerId;
           var operationType = authResult.operationType;
-          // Do something with the returned AuthResult.
-          // Return type determines whether we continue the redirect
-          // automatically or whether we leave that to developer to handle.
-          if (isNewUser) {
-            // TODO pause here till user record is created
-            let user = null;
-            while(!user) {
-              try {
-                console.log(`load new user`);
-                user = await this.userService.getUser(user.uid);
-              } catch {
-                console.log(`error get user`);
-              }
-            }
-          }
+
+          // unfortunately this does not work to flag a new user login
+          // because AppComponent() (including UserService) is recreated after 
+          // this callback completes.  TODO revisit
+          that.userService.isNewUser = authResult.additionalUserInfo.isNewUser;
+          console.log(`signInSuccessWithAuthResult(authResult.isNewUser): ${authResult.additionalUserInfo.isNewUser}`)
           return false;
         },
         signInFailure: async (error: firebaseui.auth.AuthUIError) => {
@@ -105,13 +96,18 @@ export class AuthService implements IAuthService {
           var anonymousUser = firebase.auth().currentUser;
           return firebase.auth().signInWithCredential(error.credential);
           anonymousUser.delete();
+        },
+        uiShown: function() {
+          // The widget is rendered.
+          // Hide the loader.
+          //document.getElementById('loader').style.display = 'none';
         }
       },
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
       tosUrl: 'https://anonymousmeetings.us/assets/pages/tos.html',
       privacyPolicyUrl: 'https://anonymousmeetings.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
-      signInSuccessUrl: '/home/tab/home',
+      signInSuccessUrl: '/core/landing',
       autoUpgradeAnonymousUsers: true,
       signInFlow: 'redirect'
     };
