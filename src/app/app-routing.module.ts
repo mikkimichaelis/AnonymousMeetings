@@ -64,11 +64,11 @@ const routes: Routes = [
   //   data: {roles: ['Secretary']},
   //   loadChildren: () => import('./pages/secretary-tab/secretary-tab.module').then(m => m.SecretaryTabPageModule)
   // },
-  // {
-  //   path: '**',
-  //   redirectTo: '/core/landing',
-  //   pathMatch: 'full'
-  // }
+  {
+    path: '**',
+    redirectTo: '/core/login',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({
