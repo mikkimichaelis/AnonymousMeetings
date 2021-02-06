@@ -53,7 +53,7 @@ buildscript {
     dependencies {
         apply from: '../CordovaLib/cordova.gradle'
 
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.0.0'
 
         if (cdvHelpers.getConfigPreference('GradlePluginKotlinEnabled', 'false').toBoolean()) {
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -89,7 +89,7 @@ allprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '6.6.1'
+    gradleVersion = '6.5'
 }
 
 // Configuration properties. Set these via environment variables, build-extras.gradle, or gradle.properties.
@@ -147,9 +147,9 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "../cordova-plugin-browsertab/ios-BrowserTab.gradle"
-apply from: "../cordova-plugin-buildinfo/ios-BuildInfo.gradle"
-apply from: "../cordova.plugin.zoom/ios-build-extras.gradle"
+apply from: "../cordova-plugin-browsertab/android-BrowserTab.gradle"
+apply from: "../cordova-plugin-buildinfo/android-BuildInfo.gradle"
+apply from: "../cordova.plugin.zoom/android-build-extras.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -357,12 +357,8 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.annotation:annotation:1.1.0"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
     // SUB-PROJECT DEPENDENCIES END
-    implementation 'androidx.multidex:multidex:2.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.0.0-rc01'
 }
 
 def promptForReleaseKeyPassword() {
