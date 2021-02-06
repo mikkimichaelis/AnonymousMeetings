@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Inject, Injectable } from '@angular/core';
 import { iif, ObjectUnsubscribedError, Observable, of, ReplaySubject, Subscription, throwError } from 'rxjs';
 
@@ -54,11 +55,11 @@ export class UserService implements IUserService {
               // Executes a conditional Observable depending on the result
               // of the first argument
               iif(
-                () => i > 10,
+                () => i > environment.getUserRetry,
                 // If the condition is true we throw the error (the last error)
                 throwError(e),
                 // Otherwise we pipe this back into our stream and delay the retry
-                of(e).pipe(delay(500))
+                of(e).pipe(delay(environment.getUserDelay))
               )
             )
           ));
