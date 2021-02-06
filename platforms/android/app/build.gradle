@@ -357,7 +357,6 @@ dependencies {
     implementation "androidx.browser:browser:1.2.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.annotation:annotation:1.1.0"
-    implementation "androidx.legacy:legacy-support-v4:1.0.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 
