@@ -75,7 +75,7 @@ export class AppComponent {
   async handleAuthChange(authUser) {
     console.log('authUser -> handleAuthChange()');
     if (!_.isEmpty(authUser)) {
-      await this.initializeService.initializeServices(true);
+      await this.initializeService.initializeServices(true, this.platform.is('hybrid'));
     }
 
     if (!_.isEmpty(authUser) && !_.isEmpty(this.userService._user)) {
