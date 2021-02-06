@@ -45,7 +45,6 @@ export class AuthService implements IAuthService {
     this.authStateSubscription = this.firebaseAuth.authState.subscribe(
       (user: firebase.User) => {
         this.authUser = user;
-        console.log('authUser', this.authUser);
         this.authUser$.next(user);
       },
       (error: any) => {
