@@ -7,8 +7,8 @@ import * as firebaseui from 'firebaseui';
 
 import { Subscription, BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 
-import { IAngularFireAuth, IAuthService, IUserService, } from './';
-import { ANGULAR_FIRE_AUTH, USER_SERVICE } from './injection-tokens';
+import { IAngularFireAuth, IAuthService, IDataService, IUserService, } from './';
+import { ANGULAR_FIRE_AUTH, DATA_SERVICE, USER_SERVICE } from './injection-tokens';
 import { Platform } from '@ionic/angular';
 
 @Injectable({
@@ -17,9 +17,8 @@ import { Platform } from '@ionic/angular';
 export class AuthService implements IAuthService {
 
   auth: firebase.auth.Auth;
+  firebaseUi: firebaseui.auth.AuthUI;
   authUser: firebase.User = null;
-  authUser$: ReplaySubject<firebase.User> = new ReplaySubject<firebase.User>(1)
-  logout$: Subject<boolean> = new Subject<boolean>();
 
   private authStateSubscription: Subscription;
 
@@ -28,28 +27,50 @@ export class AuthService implements IAuthService {
   }
 
   constructor(
-    @Inject(ANGULAR_FIRE_AUTH) private firebaseAuth: IAngularFireAuth,
-    @Inject(USER_SERVICE) public userService: IUserService,) { }
-
-  async initialize() {
+    private firebaseAuth:AngularFireAuth,
+    @Inject(USER_SERVICE) public userService: IUserService,
+    @Inject(DATA_SERVICE) public dataService: IDataService) {
     this.auth = firebase.auth();
-    await this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+
+    this.auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .catch(function (error) {
         console.error(error);
       });
 
-    if (this.authStateSubscription && !this.authStateSubscription.closed) {
-      this.authStateSubscription.unsubscribe();
-      this.authStateSubscription = null;
-    }
+    this.firebaseUi = new firebaseui.auth.AuthUI(this.auth);
+    this.authStateSubscribe();
+  }
+
+  async signOut(): Promise<any> {
+    console.log(`signOut`);
+    this.dataService.logout$.next(true);
+    await this.firebaseAuth.signOut();
+    this.firebaseUi.reset();
+  }
+
+  authStateSubscribe() {
+    this.authStateUnsubscribe();
+
     this.authStateSubscription = this.firebaseAuth.authState.subscribe(
       (user: firebase.User) => {
+        console.log(`firebaseAuth.authState(${user ? user.uid : 'null'})`);
         this.authUser = user;
-        this.authUser$.next(user);
+        // if (this.authUser) {
+        //   console.log(`firebaseUi.reset()`);
+        //   this.firebaseUi.reset();
+        // }
+        this.dataService.authUser$.next(this.authUser);
       },
       (error: any) => {
         console.error(error);
       });
+  }
+
+  authStateUnsubscribe() {
+    if (this.authStateSubscription && !this.authStateSubscription.closed) {
+      this.authStateSubscription.unsubscribe();
+      this.authStateSubscription = null;
+    }
   }
 
   public async createAnonymous(): Promise<boolean> {
@@ -65,11 +86,6 @@ export class AuthService implements IAuthService {
     })
   }
 
-  async logout() {
-    await this.firebaseAuth.signOut();
-    this.logout$.next(true);
-  }
-
   public getUiConfig(platform: Platform): any {
     const that = this;
     const config: any = {
@@ -80,10 +96,6 @@ export class AuthService implements IAuthService {
           var isNewUser = authResult.additionalUserInfo.isNewUser;
           var providerId = authResult.additionalUserInfo.providerId;
           var operationType = authResult.operationType;
-
-          // unfortunately this does not work to flag a new user login
-          // because AppComponent() (including UserService) is recreated after 
-          // this callback completes.  TODO revisit
           that.userService.isNewUser = authResult.additionalUserInfo.isNewUser;
           console.log(`signInSuccessWithAuthResult(authResult.isNewUser): ${authResult.additionalUserInfo.isNewUser}`)
           return false;
@@ -96,17 +108,17 @@ export class AuthService implements IAuthService {
           return firebase.auth().signInWithCredential(error.credential);
           anonymousUser.delete();
         },
-        uiShown: function() {
+        uiShown: function () {
           // The widget is rendered.
           // Hide the loader.
-          //document.getElementById('loader').style.display = 'none';
+          document.getElementById('loader').style.display = 'none';
         }
       },
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
       tosUrl: 'https://anonymousmeetings.us/assets/pages/tos.html',
       privacyPolicyUrl: 'https://anonymousmeetings.us/assets/pages/privacy.html',
       //enableRedirectHandling: false,
-      signInSuccessUrl: '/core/landing',
+      //signInSuccessUrl: '/core/landing',
       autoUpgradeAnonymousUsers: true,
       signInFlow: 'redirect'
     };

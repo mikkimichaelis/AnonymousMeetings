@@ -9,7 +9,7 @@ import { StreamChat, ChannelData, Message, User } from 'stream-chat';
 import axios from 'axios';
 import { BehaviorSubject, Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { IMeeting, IUserFriend, Meeting } from 'src/shared/models';
-import { AUTH_SERVICE, BUSY_SERVICE, IAuthService, IBusyService, IMeetingService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE, ZoomService } from 'src/app/services';
+import { AUTH_SERVICE, BUSY_SERVICE, DATA_SERVICE, IAuthService, IBusyService, IDataService, IMeetingService, IToastService, IUserService, MEETING_SERVICE, TOAST_SERVICE, USER_SERVICE, ZoomService } from 'src/app/services';
 import { ModalController, NavController } from '@ionic/angular';
 import { ViewPage } from '../../meetings-tab/view/view.page';
 import _ from 'lodash';
@@ -35,17 +35,17 @@ export class HomePage {
     @Inject(BUSY_SERVICE) public busyService: IBusyService,
     @Inject(AUTH_SERVICE) public authService: IAuthService,
     @Inject(USER_SERVICE) public userService: IUserService,
-    @Inject(MEETING_SERVICE) public meetingService: IMeetingService) {
+    @Inject(MEETING_SERVICE) public meetingService: IMeetingService,
+    @Inject(DATA_SERVICE) public dataService: IDataService) {
     // debugger;
   }
 
   ngOnInit() {
-    this.authService.logout$.subscribe(logout => {
+    this.dataService.logout$.subscribe(logout => {
       if (logout) {
         this.unsubscribe();
       }
     });
-
     this.subscribe();
   }
 
@@ -93,8 +93,8 @@ export class HomePage {
     }
   }
 
-  async logout() {
-    await this.authService.logout();
+  async signOut() {
+    await this.authService.signOut();
   }
 
   options = {

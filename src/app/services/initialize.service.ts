@@ -38,9 +38,8 @@ export class InitializeService implements IInitializeService {
   ) { }
 
   async initializeServices(auth: boolean, hybrid?: boolean) {
-
+    console.log(`initializeServices(auth: ${auth}, hybrid: ${hybrid}): initialized: ${this.initialized}, auth_initialized: ${this.auth_initialized}`);
     if (auth && !this.auth_initialized) {
-      console.log('initializeServices(auth)');
       // settings require auth to be retrieved from firestore
       await this.settingsService.initialize(true);
 
@@ -68,17 +67,14 @@ export class InitializeService implements IInitializeService {
       this.auth_initialized = true;
     }
     else if (!this.initialized) {
-      console.log('initializeServices()');
       this.settingsService.initialize(auth);
       await this.busyService.initialize();
 
       this.translate.setDefaultLang('en-US');
       this.translate.use(navigator.language);
 
-      await this.authService.initialize();
-      await this.groupsService.initialize();
-      await this.groupService.initialize();
-      await this.meetingService.initialize();
+      // await this.groupsService.initialize();
+      // await this.groupService.initialize();
 
       this.initialized = true;
     }

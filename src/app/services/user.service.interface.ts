@@ -2,8 +2,8 @@ import { ReplaySubject } from 'rxjs';
 import { Meeting, User } from '../../shared/models';
 
 export interface IUserService {
-    
-    isNewUser: boolean;
+
+    isNewUser: boolean
 
     _user: User;
     user$: ReplaySubject<User>;
@@ -13,9 +13,6 @@ export interface IUserService {
 
     getUser(id: string): Promise<User>;
     saveUserAsync(user: User);
-
-    createChatUser(user: any): Promise<any>;
-    loginChatUser(chatUser: any);
 
     setName(firstName: string, lastInitial: string);
     makeHomeGroup(id: string);

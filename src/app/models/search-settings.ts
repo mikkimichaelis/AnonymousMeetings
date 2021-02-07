@@ -1,4 +1,5 @@
 export interface ISearchSettings {
+  showHelp: boolean,
   zipcode: string,
   gps: boolean,
   lat: number,

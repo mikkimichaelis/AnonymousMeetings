@@ -3,17 +3,15 @@ import firebase from 'firebase/app';
 import { ReplaySubject, Subject } from 'rxjs';
 
 export interface IAuthService {
-    
+    firebaseUi: firebaseui.auth.AuthUI;
+
     auth: firebase.auth.Auth;
     authUser: firebase.User;
-    authUser$: ReplaySubject<firebase.User>;
-    logout$: Subject<boolean>;
     
     isAuthenticated: boolean;
 
-    initialize();
     createAnonymous();
-    logout();
+    signOut(): Promise<any>;
     getUiConfig(platform: Platform): any;
 }
     

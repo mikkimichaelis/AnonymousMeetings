@@ -2,10 +2,12 @@ import { Inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Storage } from '@ionic/storage';
 
-import { FIRESTORE_SERVICE } from './injection-tokens';
+import { FIRESTORE_SERVICE, TOAST_SERVICE } from './injection-tokens';
 import { IFirestoreService } from './firestore.service.interface';
 import { ISettingsService } from './settings.service.interface';
 import { IUserSettings } from '../models';
+import _ from 'lodash';
+import { IToastService } from './toast.service.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +27,19 @@ export class SettingsService implements ISettingsService {
     this.save();
   }
 
-  constructor(private storage: Storage, @Inject(FIRESTORE_SERVICE) private fss: IFirestoreService) { }
+  constructor(
+    private storage: Storage, 
+    @Inject(FIRESTORE_SERVICE) private fss: IFirestoreService,
+    @Inject(TOAST_SERVICE) private toastService: IToastService) { }
 
   async initialize(auth: boolean) {
     if (auth) {
-      // TODO make these calls concurrent
       try {
         this.googleCloud = (await this.fss.col('config').doc('googleCloud').get().toPromise()).data();
         this.logRocket = (await this.fss.col('config').doc('logRocket').get().toPromise()).data();
       } catch (e) {
-        console.log(e);
+        console.error(e);
+        this.toastService.present(`Network Communication Error`);
       }
     } else {
       this.settings = <any>Object.assign({}, environment.defaultSettings)
@@ -44,11 +49,9 @@ export class SettingsService implements ISettingsService {
 
   async load() {
     try {
-      // TODO browser persist
       const settings = await this.storage.get('settings');
       if (settings) {
-        // TODO or use lodash?
-        Object.assign(this.settings, settings);
+        _.merge(this.settings, settings);
       }
     } catch (error) {
       console.error(error);

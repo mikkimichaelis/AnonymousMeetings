@@ -7,6 +7,7 @@ export const ANGULAR_FIRE_FUNCTIONS = new InjectionToken<string>('AngularFireFun
 export const TRANSLATE_SERVICE = new InjectionToken<string>('TranslateService');
 
 export const AUTH_SERVICE = new InjectionToken<string>('AuthService');
+export const DATA_SERVICE = new InjectionToken<string>('DataService');
 export const GROUP_SERVICE = new InjectionToken<string>('GroupService');
 export const GROUPS_SERVICE = new InjectionToken<string>('GroupsService');
 export const USER_SERVICE = new InjectionToken<string>('UserService');

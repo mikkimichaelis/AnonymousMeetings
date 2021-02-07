@@ -1,20 +1,20 @@
 import { environment } from 'src/environments/environment';
 import { Inject, Injectable } from '@angular/core';
-import { iif, ObjectUnsubscribedError, Observable, of, ReplaySubject, Subscription, throwError } from 'rxjs';
+import { iif, ObjectUnsubscribedError, Observable, of, ReplaySubject, Subscription, throwError, timer } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
 import { IMeeting, IUser, Meeting } from '../../shared/models';
 import { User } from '../../shared/models';
 
-import { IUserService, ITranslateService, IFirestoreService } from './';
-import { TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS, SETTINGS_SERVICE, AUTH_SERVICE } from './injection-tokens';
+import { IUserService, ITranslateService, IFirestoreService, IDataService } from './';
+import { TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS, SETTINGS_SERVICE, AUTH_SERVICE, DATA_SERVICE } from './injection-tokens';
 import { IAngularFirestore } from './angular-firestore.interface';
 
 import { IAngularFireFunctions } from './angular-fire-functions.interface';
 import { ISettingsService } from './settings.service.interface';
 import { IAuthService } from './auth.service.interface';
-import { concatMap, delay, map, retry, retryWhen } from 'rxjs/operators';
+import { concatMap, delay, delayWhen, map, retry, retryWhen, tap } from 'rxjs/operators';
 import _ from 'lodash';
 
 @Injectable({
@@ -22,76 +22,84 @@ import _ from 'lodash';
 })
 export class UserService implements IUserService {
 
-  isNewUser = false;
-
+  isNewUser: boolean = false;
   _user: User;
   user$: ReplaySubject<User> = new ReplaySubject<User>(1);
 
   _homeMeeting: Meeting;
   homeMeeting$: ReplaySubject<Meeting> = new ReplaySubject<Meeting>(1);
 
+  private _userSubscription: Subscription;
+  private _homeMeetingSubscription: Subscription;
 
-  private userDocPath: string;
-
-  private authStateSubscription: Subscription;
   constructor(
     @Inject(FIRESTORE_SERVICE) private fss: IFirestoreService,
     @Inject(ANGULAR_FIRESTORE) private afs: IAngularFirestore,  // TODO switch to fss
     @Inject(ANGULAR_FIRE_FUNCTIONS) private aff: IAngularFireFunctions,
+    @Inject(DATA_SERVICE) private DataService: IDataService,
     @Inject(TRANSLATE_SERVICE) private translate: ITranslateService,
     @Inject(SETTINGS_SERVICE) private settingsService: ISettingsService) {
   }
 
   public async getUser(id: string): Promise<User> {
-    //return new Promise(async (resolve, reject) => {
-      //try {
-        // https://stackoverflow.com/questions/44911251/how-to-create-an-rxjs-retrywhen-with-delay-and-limit-on-tries
-        const retryPipeline =
-          // Still using retryWhen to handle errors
-          retryWhen(errors => errors.pipe(
-            // Use concat map to keep the errors in order and make sure they
-            // aren't executed in parallel
-            concatMap((e, i) => 
-              // Executes a conditional Observable depending on the result
-              // of the first argument
-              iif(
-                () => i > environment.getUserRetry,
-                // If the condition is true we throw the error (the last error)
-                throwError(e),
-                // Otherwise we pipe this back into our stream and delay the retry
-                of(e).pipe(delay(environment.getUserDelay))
-              )
+    // https://stackoverflow.com/questions/44911251/how-to-create-an-rxjs-retrywhen-with-delay-and-limit-on-tries
+    const retryPipeline =
+      // Still using retryWhen to handle errors
+      retryWhen(errors => errors.pipe(
+        // Use concat map to keep the errors in order and make sure they
+        // aren't executed in parallel
+        concatMap((e, i) =>
+          // Executes a conditional Observable depending on the result
+          // of the first argument
+          iif(
+            () => i > environment.getUserRetry,
+            // If the condition is true we throw the error (the last error)
+            throwError(e),
+            // Otherwise we pipe this back into our stream and delay the retry
+            of(e).pipe(map(delay(environment.getUserDelay))
             )
-          ));
-
-        return await this.fss.col(`users`).doc<IUser>(id).get().pipe(retryPipeline).pipe(map((user: any) => {
-          if (user.exists) {
-            this._user = new User(user.data());
-            this.userValueChanges();
-            this.user$.next(this._user);
-            console.log(`User loaded`);
-            return this._user;
-          } else {
-            throw new Error(`Unable to find User ${id}`);
-          }
-        })).toPromise();
-        
-      // } catch (e) {
-      //   console.error(e);
-      //   resolve(null);
-      // }
-    //})
+          ))));
+    return await this.fss.doc<IUser>(`users/${id}`).get().pipe(retryPipeline).pipe(
+      map((user: any) => {
+        if (user.exists) {
+          this._user = new User(user.data());
+          console.log(`...Loaded User...`);
+          // this.userSubscribe(this._user.id);
+          this.user$.next(this._user);
+          return this._user;
+        } else {
+          // User record not yet created by onAuthCreate in the Mighty Google Cloud
+          throw new Error(`Where's Waldo? ${id}`);
+        }
+      }),
+      retryWhen(errors => {
+        return errors
+          .pipe(
+            delayWhen(() => timer(2000)),
+            tap(() => console.log('retrying...'))
+          );
+      })
+      ).toPromise();
   }
 
-  private _userSubscription: Subscription;
-  userValueChanges() {
-    if (!_.isEmpty(this._userSubscription)) this._userSubscription.unsubscribe();
+  userUnsubscribe() {
+    if (this._userSubscription && !this._userSubscription.closed) {
+      console.log(`this._userSubscription.unsubscribe()`);
+      this._userSubscription.unsubscribe();
+      this._userSubscription = null;
+    }
+  }
 
-    this._userSubscription = this.afs.doc<IUser>(`users/${this._user.id}`).valueChanges().subscribe({
+  userSubscribe(uid: string) {
+    this.userUnsubscribe();
+
+    console.log(`userSubscribe()`);
+    this._userSubscription = this.afs.doc<IUser>(`users/${uid}`).valueChanges().subscribe({
       next: async (user) => {
         this._user = new User(user);
+        console.log(`...Received User...`);
         this.user$.next(this._user);
-        this.homeMeetingValueChanges();
+        this.homeMeetingSubscribe(this._user.homeMeeting);
       },
       error: async (error) => {
         console.error(error);
@@ -99,12 +107,20 @@ export class UserService implements IUserService {
     });
   }
 
-  private _homeMeetingSubscription: Subscription;
-  homeMeetingValueChanges() {
-    if (!_.isEmpty(this._homeMeetingSubscription)) this._homeMeetingSubscription.unsubscribe();
+  homeMeetingUnsubscribe() {
+    if (this._homeMeetingSubscription && !this._homeMeetingSubscription.closed) {
+      console.log(`this._homeMeetingSubscription.unsubscribe()`);
+      this._homeMeetingSubscription.unsubscribe();
+      this._homeMeetingSubscription = null;
+    }
+  }
 
-    if (!_.isEmpty(this._user.homeMeeting)) {
-      this._homeMeetingSubscription = this.afs.doc<IUser>(`meetings/${this._user.homeMeeting}`).valueChanges().subscribe({
+  homeMeetingSubscribe(homeMeeting: string) {
+    this.homeMeetingUnsubscribe();
+
+    if (!_.isEmpty(homeMeeting)) {
+      console.log(`homeMeetingSubscribe()`);
+      this._homeMeetingSubscription = this.afs.doc<IUser>(`meetings/${homeMeeting}`).valueChanges().subscribe({
         next: async (meeting: any) => {
           this._homeMeeting = new Meeting(meeting);
           this.homeMeeting$.next(this._homeMeeting);
@@ -119,43 +135,18 @@ export class UserService implements IUserService {
   }
 
   unsubscribe() {
-    if (this._userSubscription && !this._userSubscription.closed) {
-      this._userSubscription.unsubscribe();
-      this._userSubscription = null;
-    }
-
-    if (this._homeMeetingSubscription && !this._homeMeetingSubscription.closed) {
-      this._homeMeetingSubscription.unsubscribe();
-      this._homeMeetingSubscription = null;
-    }
+    this.userUnsubscribe();
+    this.homeMeetingUnsubscribe();
   }
 
   async saveUserAsync(user: User) {
-    if (user) {
-      try {
-        await this.afs.doc<IUser>(`users/${this._user.id}`).update(user.toObject());
-      } catch (e) {
-        console.error(e);
-      }
+    console.log(`saveUserAsync()`);
+    try {
+      await this.afs.doc<IUser>(`users/${this._user.id}`).update(user.toObject());
+    } catch (e) {
+      console.error(e);
     }
   }
-
-  hasFeature(features: string[]) {
-    // TODO
-    return true;
-  }
-
-  translateName() {
-    // translate new ANONYMOUS user names into local language
-    // if (this.user.firstName === 'ANONYMOUS') {
-    //   this.user.firstName = <string>await this.translate.get('ANONYMOUS').toPromise();
-    //   let alphabet = <string>await this.translate.get('ALPHABET').toPromise();
-    //   this.user.lastInitial = alphabet[Math.floor(Math.random() * alphabet.length)];
-    //   this.user.name = `${this.user.firstName} ${this.user.lastInitial}.`;
-    //   await this.saveUserAsync(this.user);
-    // }
-  }
-
 
   private async makeCallableAsync<T>(func: string, data?: any): Promise<T> {
     let callable: any = this.aff.httpsCallable(func);
@@ -170,38 +161,21 @@ export class UserService implements IUserService {
   }
 
   async setName(firstName: string, lastInitial: string) {
+    console.log(`setName()`);
     await this.makeCallableAsync('setName', { firstName: firstName, lastInitial: lastInitial });
   }
 
   async makeHomeGroup(id: string) {
+    console.log(`makeHomeGroup()`);
     await this.makeCallableAsync('makeHomeGroup', { id: id });
   }
 
   async makeFavGroup(id: string, make: boolean) {
+
     if (make) {
       await this.makeCallableAsync('addFavorite', { gid: id });
     } else {
       await this.makeCallableAsync('removeFavorite', { gid: id });
-    }
-  }
-
-  async createChatUser(user: User): Promise<any> {
-    const chatUser = await this.makeCallableAsync('createChatUser');
-    return <any>chatUser;
-  }
-
-  async loginChatUser(chatUser: any) {
-    // TODO disabled for testing login code
-    const loggedIn = false; //const loggedIn = await CometChat.getLoggedinUser();
-
-    if (!loggedIn && chatUser) {
-      // await CometChat.login(chatUser.authToken).then(
-      //   chatUser => {
-      //     console.log('chatUser logged in');
-      //   }, async error => {
-      //     console.error(error);
-      //   }
-      // )
     }
   }
 }

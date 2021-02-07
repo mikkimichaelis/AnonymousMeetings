@@ -41,7 +41,7 @@ import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { GroupService, GroupsService, UserService, AuthService, BusyService, SettingsService, SharedDataService, ZoomService,
   GROUP_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
   AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
-  ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService, MEETING_SERVICE, MeetingService } from './services';
+  ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService, MEETING_SERVICE, MeetingService, DataService, DATA_SERVICE } from './services';
 
 import { CoreModule } from './pages/core/core.module';
 import { HomeTabPageModule } from './pages/home-tab/home-tab.module';
@@ -101,8 +101,8 @@ import { CommonModule } from './pages/common/common.module';
     { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebaseConfig.useEmulators ? ['localhost', 5001] : undefined },
     { provide: FIRESTORE_SERVICE, useExisting: FirestoreService},
     { provide: ANGULAR_FIRESTORE, useExisting: AngularFirestore},
-    { provide: ANGULAR_FIRE_AUTH, useExisting: AngularFireAuth },
     { provide: ANGULAR_FIRE_FUNCTIONS, useExisting: AngularFireFunctions },
+    { provide: DATA_SERVICE, useExisting: DataService},
     { provide: TRANSLATE_SERVICE, useExisting: TranslateService},
     { provide: AUTH_SERVICE, useExisting: AuthService },
     { provide: MEETING_SERVICE, useExisting: MeetingService },

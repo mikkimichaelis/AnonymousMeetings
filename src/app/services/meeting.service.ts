@@ -6,13 +6,13 @@ import _ from 'lodash';
 import { DateTime } from 'luxon';
 import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { IUserService } from '.';
+import { IDataService, IUserService } from '.';
 
 import { Group, IGroup, IMeeting, ISchedule, Meeting } from '../../shared/models';
 import { ISearchSettings } from '../models';
 import { IAngularFireFunctions } from './angular-fire-functions.interface';
 import { FirestoreService } from './firestore.service';
-import { ANGULAR_FIRE_FUNCTIONS, FIRESTORE_SERVICE, USER_SERVICE } from './injection-tokens';
+import { ANGULAR_FIRE_FUNCTIONS, DATA_SERVICE, FIRESTORE_SERVICE, USER_SERVICE } from './injection-tokens';
 import { IMeetingService } from './meeting.service.interface';
 
 @Injectable({
@@ -30,19 +30,16 @@ export class MeetingService implements IMeetingService {
     private afs: AngularFirestore,
     @Inject(FIRESTORE_SERVICE) private fss: FirestoreService,
     @Inject(ANGULAR_FIRE_FUNCTIONS) private aff: IAngularFireFunctions,
+    @Inject(DATA_SERVICE) private DataService: IDataService,
     @Inject(USER_SERVICE) private userService: IUserService,
   ) {
 
   }
 
-  initialize() {
-    this.ownedMeetings$ = new ReplaySubject<Meeting[]>(1);
-  }
-
   async resetAdminMeetings() { }
 
   ownedMeetingsUnsubscribe() {
-    if (!_.isEmpty(this._ownedMeetingsSubscription)) {
+    if (!_.isEmpty(this._ownedMeetingsSubscription) && !this._ownedMeetingsSubscription.closed) {
       this._ownedMeetingsSubscription.unsubscribe();
       this._ownedMeetingsSubscription = null;
     }
@@ -191,29 +188,16 @@ export class MeetingService implements IMeetingService {
         });
   }
 
-  async getMeetingAsync(id: string): Promise<Meeting[]> {
-    if (this.meetingQuery && !this.meetingQuery.closed) {
-      this.meetingQuery.unsubscribe();
-    }
-
-    return new Promise((resolve, reject) => {
-      this.meetingQuery = this.fss.col$(`meetings`, ref => ref.where('id', '==', id))
-        .subscribe((imeetings: IMeeting[]) => {
-          const meetings = [];
-          for (let i = 0; i < imeetings.length; i++) {
-            meetings.push(new Meeting(imeetings[i]));
-          }
-          resolve(meetings);
-        });
-    });
+  async getMeetingAsync(id: string): Promise<Meeting> {
+    return this.fss.doc$(`meetings/${id}`)
+      .pipe(map((imeeting: IMeeting) => {
+        return new Meeting(imeeting);
+      })).toPromise<Meeting>();
   }
 
-  async searchMeetingsAsync(search: ISearchSettings) {
-    // console.log(`getMeetingsAsync( ${JSON.stringify(search)} )`);
-
-    let query = this.fss.col$('meetings', ref => {
-
-      let rv = ref.where('active', '==', true).where('verified', '==', true);
+  async getMeetingsAsync(search: ISearchSettings): Promise<Meeting[]> {
+    return this.fss.col$('meetings', ref => {
+      let query = ref.where('active', '==', true).where('verified', '==', true).where('authorized', '==', true);
       if (search.bySpecificTime) {
         // console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
         let start = DateTime.fromObject({
@@ -225,21 +209,6 @@ export class MeetingService implements IMeetingService {
           zone: DateTime.local().zone
         }).toUTC().toMillis();
 
-        ////////////////////////////////////////////////////////////////////
-        // console.log(`search.bySpecific.start: ${search.bySpecific.start}`);
-        // console.log(`DateTime.fromISO(search.bySpecific.start): ${DateTime.fromISO(search.bySpecific.start)}`);
-        // console.log(`DateTime.fromISO(search.bySpecific.start).hour: ${DateTime.fromISO(search.bySpecific.start).hour}`);
-        // console.log(`DateTime.fromISO(search.bySpecific.start).toUTC().hour: ${DateTime.fromISO(search.bySpecific.start).toUTC().hour}`);
-
-        // console.log({
-        //   name: 'start',
-        //   year: 1970,
-        //   month: 1,
-        //   day: 2,
-        //   hour: DateTime.fromISO(search.bySpecific.start).hour,
-        //   minute: DateTime.fromISO(search.bySpecific.start).minute,
-        //   zone: DateTime.local().zone.name
-        // })
         let end = DateTime.fromObject({
           year: 1970,
           month: 1,
@@ -249,50 +218,29 @@ export class MeetingService implements IMeetingService {
           zone: DateTime.local().zone.name
         }).toUTC().toMillis();
 
-        // console.log({
-        //   name: 'end',
-        //   year: 1970,
-        //   month: 1,
-        //   day: 2,
-        //   hour: DateTime.fromISO(search.bySpecific.end).hour,
-        //   minute: DateTime.fromISO(search.bySpecific.end).minute,
-        //   zone: DateTime.local().zone.name
-        // })
-        // console.log(`${start} <= (start) <= ${end}`)
-        // console.log(`rv.where('start', '>=', ${start}).where('start', '<=', ${end}`)
-
-        rv = rv.where('start', '>=', start).where('start', '<=', end)
+        query = query.where('start', '>=', start).where('start', '<=', end)
       }
-      // TODO
-      // if (search.byRelativeTime) {
-      //   let start = 0;
-      //   let end = 0;
-      //   rv = rv.where('start', '>=', start)
-      //     .where('end', '<=', end)
-      // }
       if (!search.byAnyDay) {
         const dow = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][(new Date()).getDay()]
-        rv = rv.where('recurrence.weekly_days', 'array-contains', search.byDay == 'today' ? dow : search.byDay)
+        query = query.where('recurrence.weekly_days', 'array-contains', search.byDay == 'today' ? dow : search.byDay)
       }
-      return rv;
-    })
-      .subscribe({
-        next: async (imeetings: any) => {
-          // TODO too much logging remove
-          //console.log(imeetings);
-          const rv = [];
-          for (let i = 0; i < imeetings.length; i++) {
-            rv.push(new Meeting(imeetings[i]));
-          }
+      return query;
+    }).pipe(map((imeetings: IMeeting[]) => {
+      const meetings = [];
+      for (let i = 0; i < imeetings.length; i++) {
+        meetings.push(new Meeting(imeetings[i]));
+      }
+      this.DataService.searchMeetings$.next(meetings);
+      return meetings;
+    })).toPromise<Meeting[]>();
 
-          this.searchMeetings$.next(rv);
-        },
-        error: async (error) => {
-          console.error(error);
-        },
-      });
-
-
+    // TODO
+    // if (search.byRelativeTime) {
+    //   let start = 0;
+    //   let end = 0;
+    //   rv = rv.where('start', '>=', start)
+    //     .where('end', '<=', end)
+    // }
 
     // if (!search.byAnyDay) {
     // const dayVerbose = search.byDay !== `${await this.transSvc.get('TODAY').toPromise()}` ? search.byDay

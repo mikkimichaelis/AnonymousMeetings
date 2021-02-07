@@ -4,6 +4,9 @@ export * from './translate.service.interface';
 export * from './auth.service.interface';
 export * from './auth.service';
 
+export * from './data.service.interface';
+export * from './data.service';
+
 export * from './firestore.service.interface';
 export * from './firestore.service';
 

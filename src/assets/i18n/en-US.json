@@ -8,6 +8,7 @@
   "SATURDAY": "Saturday",
   "TITLE": {
     "ALPHABET": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    "APP_NAME": "Whit's App",
     "ANONYMOUS": "Anonymous",
     "ANONYMOUS.MEETINGS": "WhitsApp",
     "ABOUT": "About WhitsApp",
@@ -60,7 +61,7 @@
   "SAVE": "Save",
   "LOCATION": "Search Location",
   "GPS": "GPS",
-  "INITIALIZING": "Initializing",
+  "INITIALIZING": "Loading...",
   "CURRENT.GPS": "Current GPS",
   "POSTCODE": "Zip Code",
   "SEARCHRADIUS": "Search Radius",
