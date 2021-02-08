@@ -8,7 +8,7 @@ import { IMeeting, IUser, Meeting } from '../../shared/models';
 import { User } from '../../shared/models';
 
 import { IUserService, ITranslateService, IFirestoreService, IDataService } from './';
-import { TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS, SETTINGS_SERVICE, AUTH_SERVICE, DATA_SERVICE } from './injection-tokens';
+import { TRANSLATE_SERVICE, FIRESTORE_SERVICE, ANGULAR_FIRE_FUNCTIONS, SETTINGS_SERVICE, AUTH_SERVICE, DATA_SERVICE } from './injection-tokens';
 import { IAngularFirestore } from './angular-firestore.interface';
 
 import { IAngularFireFunctions } from './angular-fire-functions.interface';
@@ -34,7 +34,6 @@ export class UserService implements IUserService {
 
   constructor(
     @Inject(FIRESTORE_SERVICE) private fss: IFirestoreService,
-    @Inject(ANGULAR_FIRESTORE) private afs: IAngularFirestore,  // TODO switch to fss
     @Inject(ANGULAR_FIRE_FUNCTIONS) private aff: IAngularFireFunctions,
     @Inject(DATA_SERVICE) private DataService: IDataService,
     @Inject(TRANSLATE_SERVICE) private translate: ITranslateService,
@@ -94,7 +93,7 @@ export class UserService implements IUserService {
     this.userUnsubscribe();
 
     console.log(`userSubscribe()`);
-    this._userSubscription = this.afs.doc<IUser>(`users/${uid}`).valueChanges().subscribe({
+    this._userSubscription = this.fss.doc$<IUser>(`users/${uid}`).subscribe({
       next: async (user) => {
         this._user = new User(user);
         console.log(`...Received User...`);
@@ -120,7 +119,7 @@ export class UserService implements IUserService {
 
     if (!_.isEmpty(homeMeeting)) {
       console.log(`homeMeetingSubscribe()`);
-      this._homeMeetingSubscription = this.afs.doc<IUser>(`meetings/${homeMeeting}`).valueChanges().subscribe({
+      this._homeMeetingSubscription = this.fss.doc$<IUser>(`meetings/${homeMeeting}`).subscribe({
         next: async (meeting: any) => {
           this._homeMeeting = new Meeting(meeting);
           this.homeMeeting$.next(this._homeMeeting);
@@ -142,7 +141,7 @@ export class UserService implements IUserService {
   async saveUserAsync(user: User) {
     console.log(`saveUserAsync()`);
     try {
-      await this.afs.doc<IUser>(`users/${this._user.id}`).update(user.toObject());
+      await this.fss.doc<IUser>(`users/${this._user.id}`).update(user.toObject());
     } catch (e) {
       console.error(e);
     }

@@ -1,6 +1,5 @@
 import { InjectionToken } from '@angular/core';
 
-export const ANGULAR_FIRESTORE = new InjectionToken<string>('AngularFirestore');
 export const ANGULAR_FIRE_AUTH = new InjectionToken<string>('AngularFireAuth');
 export const FIRESTORE_SERVICE = new InjectionToken<string>('FirestoreService');
 export const ANGULAR_FIRE_FUNCTIONS = new InjectionToken<string>('AngularFireFunctions');

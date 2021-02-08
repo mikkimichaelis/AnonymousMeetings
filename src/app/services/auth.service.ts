@@ -20,14 +20,14 @@ export class AuthService implements IAuthService {
   firebaseUi: firebaseui.auth.AuthUI;
   authUser: firebase.User = null;
 
-  private authStateSubscription: Subscription;
-
   get isAuthenticated(): boolean {
     return this.authUser !== null ? true : false;
   }
 
+  private authStateSubscription: Subscription;
+
   constructor(
-    private firebaseAuth:AngularFireAuth,
+    private firebaseAuth: AngularFireAuth,
     @Inject(USER_SERVICE) public userService: IUserService,
     @Inject(DATA_SERVICE) public dataService: IDataService) {
     this.auth = firebase.auth();
@@ -73,24 +73,14 @@ export class AuthService implements IAuthService {
     }
   }
 
-  public async createAnonymous(): Promise<boolean> {
-    return new Promise(async (resolve, reject) => {
-      await this.firebaseAuth.signInAnonymously()
-        .then(authUser => {
-          resolve(true);
-        })
-        .catch(error => {
-          console.error(error);
-          resolve(false);
-        });
-    })
-  }
-
   public getUiConfig(platform: Platform): any {
     const that = this;
     const config: any = {
       callbacks: {
         signInSuccessWithAuthResult: async function (authResult, redirectUrl) {
+          console.log(`firebaseUi.signInSuccessWithAuthResult()`);
+          console.log(JSON.stringify(authResult));
+          console.log(`redirectUrl: ${redirectUrl}`);
           var user = authResult.user;
           var credential = authResult.credential;
           var isNewUser = authResult.additionalUserInfo.isNewUser;
@@ -101,6 +91,7 @@ export class AuthService implements IAuthService {
           return false;
         },
         signInFailure: async (error: firebaseui.auth.AuthUIError) => {
+          console.log(`firebaseUi.signInFailure(): ${error}`);
           if (error.code !== 'firebaseui/anonymous-upgrade-merge-conflict') {
             return Promise.resolve();
           }
@@ -111,7 +102,8 @@ export class AuthService implements IAuthService {
         uiShown: function () {
           // The widget is rendered.
           // Hide the loader.
-          document.getElementById('loader').style.display = 'none';
+          // document.getElementById('firebaseui-auth-container').style.display = 'none';
+          console.log('firebaseUi.uiShown()');
         }
       },
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,

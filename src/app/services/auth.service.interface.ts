@@ -10,7 +10,6 @@ export interface IAuthService {
     
     isAuthenticated: boolean;
 
-    createAnonymous();
     signOut(): Promise<any>;
     getUiConfig(platform: Platform): any;
 }

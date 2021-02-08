@@ -13,8 +13,8 @@
 </ion-header>
 
 <ion-content>
-  <meeting-listing *ngIf="(this.userService.homeMeeting$ | async) != null"
-    [meeting]="(this.userService.homeMeeting$ | async)" [watch]="true"></meeting-listing>
+  <meeting-listing *ngIf="this.userService.homeMeeting$ | async as homeMeeting"
+    [meeting]="homeMeeting" [watch]="true"></meeting-listing>
 
   <ion-item
     *ngIf="(meetingService.favoriteMeetings$ | async) ? (meetingService.favoriteMeetings$ | async).length > 0 : false">

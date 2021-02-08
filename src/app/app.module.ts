@@ -40,7 +40,7 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 import { TranslateUniversalLoader } from './utils/translateuniversalloader';
 import { GroupService, GroupsService, UserService, AuthService, BusyService, SettingsService, SharedDataService, ZoomService,
   GROUP_SERVICE, SETTINGS_SERVICE, BUSY_SERVICE, USER_SERVICE, GROUPS_SERVICE, 
-  AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, ANGULAR_FIRESTORE, FIRESTORE_SERVICE, 
+  AUTH_SERVICE, ANGULAR_FIRE_AUTH, TRANSLATE_SERVICE, FIRESTORE_SERVICE, 
   ANGULAR_FIRE_FUNCTIONS, TOAST_SERVICE, ToastService, MEETING_SERVICE, MeetingService, DataService, DATA_SERVICE } from './services';
 
 import { CoreModule } from './pages/core/core.module';
@@ -100,7 +100,6 @@ import { CommonModule } from './pages/common/common.module';
 
     { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.firebaseConfig.useEmulators ? ['localhost', 5001] : undefined },
     { provide: FIRESTORE_SERVICE, useExisting: FirestoreService},
-    { provide: ANGULAR_FIRESTORE, useExisting: AngularFirestore},
     { provide: ANGULAR_FIRE_FUNCTIONS, useExisting: AngularFireFunctions },
     { provide: DATA_SERVICE, useExisting: DataService},
     { provide: TRANSLATE_SERVICE, useExisting: TranslateService},
